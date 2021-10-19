@@ -1,7 +1,7 @@
 msdss-base-database
 ==============
 
-Data management for the Modular Spatial Decision Support Systems (MSDSS) framework.
+Base database for the Modular Spatial Decision Support Systems (MSDSS) framework.
 
 * `PyPi <https://pypi.org/project/msdss-base-database>`_
 * `Github <https://www.github.com/rrwen/msdss-base-database>`_
