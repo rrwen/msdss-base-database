@@ -53,7 +53,9 @@ extensions = [
     'sphinx.ext.mathjax'
 ]
 intersphinx_mapping = {
-    'python': ('https://docs.python.org/3/', None)
+    'pandas': ('https://pandas.pydata.org/pandas-docs/stable/', None),
+    'python': ('https://docs.python.org/3/', None),
+    'sqlalchemy': ('https://docs.sqlalchemy.org/en/14/', None)
 }
 napoleon_custom_sections = ['Author', 'Authors']
 napoleon_include_private_with_doc = True

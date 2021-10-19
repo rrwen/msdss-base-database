@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>msdss_base_database.core &mdash; msdss_base_database 0.0.0 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/jupyter-sphinx.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/thebelab.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/thebelab-helper.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> msdss_base_database
+          </a>
+              <div class="version">
+                0.0.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">msdss-base-database</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../index.html#install">Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../index.html#quick-start">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../index.html#how-it-works">How it Works</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../index.html#api-reference">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../index.html#contact">Contact</a><ul class="simple">
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">msdss_base_database</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+      <li>msdss_base_database.core</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for msdss_base_database.core</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">pandas</span>
+<span class="kn">import</span> <span class="nn">sqlalchemy</span>
+
+<div class="viewcode-block" id="Database"><a class="viewcode-back" href="../../index.html#msdss_base_database.core.Database">[docs]</a><span class="k">class</span> <span class="nc">Database</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class for MSDSS database management.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    driver : str</span>
+<span class="sd">        The driver name of the database connection, which are commonly ``postgresql``, ``sqlite``, ``mysql``, ``oracle`` or ``mssql``.  (see `SQLAlchemy supported databases &lt;https://docs.sqlalchemy.org/en/14/core/engines.html#supported-databases&gt;`_).</span>
+<span class="sd">    user : str</span>
+<span class="sd">        User name for the connection.</span>
+<span class="sd">    password : str</span>
+<span class="sd">        Password for the user.</span>
+<span class="sd">    host : str</span>
+<span class="sd">        Host address of the connection.</span>
+<span class="sd">    port : str</span>
+<span class="sd">        Port number of the connection.</span>
+<span class="sd">    database : str</span>
+<span class="sd">        Database name of the connection.</span>
+<span class="sd">    *args, **kwargs</span>
+<span class="sd">        Additional arguments passed to :func:`sqlalchemy:sqlalchemy.create_engine`.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    _connection : :class:`sqlalchemy.engine.base.Engine`</span>
+<span class="sd">        The database engine object from `sqlalchemy &lt;https://www.sqlalchemy.org/&gt;`_.</span>
+<span class="sd">    _inspector: :class:`sqlalchemy.engine.reflection.Inspector`</span>
+<span class="sd">        The database inspector object from `sqlalchemy &lt;https://www.sqlalchemy.org/&gt;`_.</span>
+<span class="sd">    _metadata : :class:`sqlalchemy.schema.MetaData`</span>
+<span class="sd">        The metadata object from `sqlalchemy &lt;https://www.sqlalchemy.org/&gt;`_.</span>
+
+<span class="sd">    Author</span>
+<span class="sd">    ------</span>
+<span class="sd">    Richard Wen &lt;rrwen.dev@gmail.com&gt;</span>
+
+<span class="sd">    Example</span>
+<span class="sd">    -------</span>
+<span class="sd">    .. jupyter-execute::</span>
+<span class="sd">        :hide-output:</span>
+
+<span class="sd">        from msdss_base_database.core import Database</span>
+
+<span class="sd">        # Initiate a connection with the default test user and database</span>
+<span class="sd">        db = Database(</span>
+<span class="sd">            driver=&quot;postgresql&quot;,</span>
+<span class="sd">            user=&quot;msdss&quot;,</span>
+<span class="sd">            password=&quot;msdss123&quot;,</span>
+<span class="sd">            host=&quot;localhost&quot;,</span>
+<span class="sd">            port=&quot;5432&quot;,</span>
+<span class="sd">            database=&quot;msdss&quot;</span>
+<span class="sd">        )</span>
+
+<span class="sd">        # Create sample table</span>
+<span class="sd">        data = {</span>
+<span class="sd">            &#39;id&#39;: [1, 2, 3],</span>
+<span class="sd">            &#39;column_one&#39;: [&#39;a&#39;, &#39;b&#39;, &#39;c&#39;],</span>
+<span class="sd">            &#39;column_two&#39;: [2, 4, 6]</span>
+<span class="sd">        }</span>
+<span class="sd">        db.create_table(&#39;test_table&#39;, data, replace=True)</span>
+
+<span class="sd">        # Read the table to a pandas dataframe</span>
+<span class="sd">        df = db.select(&#39;test_table&#39;)</span>
+
+<span class="sd">        # Insert values into the table</span>
+<span class="sd">        new = {</span>
+<span class="sd">            &#39;id&#39;: [5, 6, 7],</span>
+<span class="sd">            &#39;column_one&#39;: [&#39;e&#39;, &#39;f&#39;, &#39;g&#39;],</span>
+<span class="sd">            &#39;column_two&#39;: [10, 12, 14]</span>
+<span class="sd">        }</span>
+<span class="sd">        db.insert(&#39;test_table&#39;, new)</span>
+
+<span class="sd">        # Delete rows from the table</span>
+<span class="sd">        db.delete(</span>
+<span class="sd">            &#39;test_table&#39;,</span>
+<span class="sd">            where=(&#39;id&#39;, &#39;=&#39;, 5)</span>
+<span class="sd">        )</span>
+
+<span class="sd">        # Update values in table</span>
+<span class="sd">        db.update(</span>
+<span class="sd">            &#39;test_table&#39;,</span>
+<span class="sd">            where=(&#39;id&#39;, &#39;&gt;&#39;, 3),</span>
+<span class="sd">            values={&#39;column_one&#39;: &#39;AA&#39;})</span>
+
+<span class="sd">        # Check if the table exists and drop if it does</span>
+<span class="sd">        if db.has_table(&quot;test_table&quot;):</span>
+<span class="sd">            db.drop_table(&quot;test_table&quot;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">driver</span><span class="o">=</span><span class="s1">&#39;postgresql&#39;</span><span class="p">,</span>
+        <span class="n">user</span><span class="o">=</span><span class="s1">&#39;msdss&#39;</span><span class="p">,</span>
+        <span class="n">password</span><span class="o">=</span><span class="s1">&#39;msdss123&#39;</span><span class="p">,</span>
+        <span class="n">host</span><span class="o">=</span><span class="s1">&#39;localhost&#39;</span><span class="p">,</span>
+        <span class="n">port</span><span class="o">=</span><span class="s1">&#39;5432&#39;</span><span class="p">,</span>
+        <span class="n">database</span><span class="o">=</span><span class="s1">&#39;msdss&#39;</span><span class="p">,</span>
+        <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        
+        <span class="c1"># (Database_connect_str) Build connection str from parameters</span>
+        <span class="n">connection_str</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">sqlalchemy</span><span class="o">.</span><span class="n">engine</span><span class="o">.</span><span class="n">URL</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">drivername</span><span class="o">=</span><span class="n">driver</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="n">user</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">password</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="n">host</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="n">port</span><span class="p">,</span> <span class="n">database</span><span class="o">=</span><span class="n">database</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">))</span>
+
+        <span class="c1"># (Database_attr) Create attributes for database obj</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_connection</span> <span class="o">=</span> <span class="n">sqlalchemy</span><span class="o">.</span><span class="n">create_engine</span><span class="p">(</span><span class="n">connection_str</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_inspector</span> <span class="o">=</span> <span class="n">sqlalchemy</span><span class="o">.</span><span class="n">inspect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_connection</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_metadata</span> <span class="o">=</span> <span class="n">sqlalchemy</span><span class="o">.</span><span class="n">MetaData</span><span class="p">(</span><span class="n">bind</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_connection</span><span class="p">)</span>
+    
+<div class="viewcode-block" id="Database._build_query"><a class="viewcode-back" href="../../index.html#msdss_base_database.core.Database._build_query">[docs]</a>    <span class="k">def</span> <span class="nf">_build_query</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">table</span><span class="p">,</span>
+        <span class="n">select</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">where</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">group_by</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">aggregate</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">aggregate_func</span><span class="o">=</span><span class="s1">&#39;count&#39;</span><span class="p">,</span>
+        <span class="n">order_by</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">order_by_sort</span><span class="o">=</span><span class="s1">&#39;asc&#39;</span><span class="p">,</span>
+        <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">where_boolean</span><span class="o">=</span><span class="s1">&#39;AND&#39;</span><span class="p">,</span>
+        <span class="n">update</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">delete</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">values</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get a SQL select statement using sqlalchemy functions.</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        table : str</span>
+<span class="sd">            Name of the database table.</span>
+<span class="sd">        select : str or list(str or list:class:`sqlalchemy:sqlalchemy.schema.Column`) or None</span>
+<span class="sd">            List of column names or a single column name to filter or select from the table. If ``None`` then all columns will be selected.</span>
+<span class="sd">        where : list of list or list of tuple or None</span>
+<span class="sd">            list of where statements the form of ``[&#39;column_name&#39;, &#39;operator&#39;, value]`` to further filter individual values or rows.</span>
+<span class="sd">            </span>
+<span class="sd">            * Operators are one of: ``=``, ``&gt;``, ``&gt;=``, ``&gt;``, ``&lt;``, ``&lt;=``, ``!=&#39;&#39;, ``LIKE``</span>
+<span class="sd">            * Values can be any single value such as ``int`` or ``str``</span>
+<span class="sd">            * Examples: ``[&#39;column_two&#39;, &#39;&gt;&#39;, 2]``, ``[&#39;column_one&#39;, &#39;LIKE&#39;, &#39;a&#39;]``, ``[[&#39;column_two&#39;, &#39;&gt;&#39;, 2], [&#39;column_one&#39;, &#39;LIKE&#39;, &#39;a&#39;]]``</span>
+<span class="sd">        </span>
+<span class="sd">        group_by : str or list(str) or None</span>
+<span class="sd">            Single or list of column names to group by. This should be used with ``aggregate`` and ``aggregate_func``.</span>
+<span class="sd">        aggregate : str or list(str) or None</span>
+<span class="sd">            Single or list of column names to aggregate using the ``aggregate_func``. This should be used with ``group_by`` and ``aggregate_func``.</span>
+<span class="sd">        aggregate_func : str or list(str)</span>
+<span class="sd">            Function name (such as &#39;count&#39; or &#39;sum&#39;) from :class:`sqlalchemy:sqlalchemy.sql.functions.Function` for aggregating records from each ``aggregate`` column.</span>
+<span class="sd">            If a list of str, then it must have the same number of elements as ``aggregate`` or else only the shortest length list will be used.</span>
+<span class="sd">        order_by : str or list(str) or None</span>
+<span class="sd">            Single or list of column names to order or sort by.</span>
+<span class="sd">        order_by_sort : str or list(str)</span>
+<span class="sd">            Sort the records in increasing or decreasing order by each column in ``order_by``, where the value can be one of &#39;asc&#39; for ascending or &#39;desc&#39; for descending&#39;.</span>
+<span class="sd">            If a list of str, then it must have the same number of elements as ``order_by`` or else only the shortest length list will be used.</span>
+<span class="sd">        limit : int or None</span>
+<span class="sd">            Integer number to limit the number of rows returned.</span>
+<span class="sd">        where_boolean : str</span>
+<span class="sd">            One of ``AND`` or ``OR`` to combine ``where`` statements with. Defaults to ``AND`` if not one of ``AND`` or ``OR``.</span>
+<span class="sd">        update : bool</span>
+<span class="sd">            Whether to update rows from the table matching the query or not. Overrides the ``select`` parameter.</span>
+<span class="sd">        delete : bool</span>
+<span class="sd">            Whether to delete rows from the table matching the query or not. Overrides the ``select`` and ``update`` parameters.</span>
+<span class="sd">        values : dict</span>
+<span class="sd">            A dictionary of values to use for update if the ``update`` parameter is ``True`` and not overridden.</span>
+<span class="sd">        *args, **kwargs</span>
+<span class="sd">            Additional arguments to accept any extra parameters passed through.</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        :class:`sqlalchemy:sqlalchemy.sql.expression.Select`</span>
+<span class="sd">            sqlalchemy object that represents a table in the database.</span>
+
+<span class="sd">        Author</span>
+<span class="sd">        ------</span>
+<span class="sd">        Richard Wen &lt;rrwen.dev@gmail.com&gt;</span>
+
+<span class="sd">        Example</span>
+<span class="sd">        -------</span>
+<span class="sd">        .. jupyter-execute::</span>
+
+<span class="sd">            from msdss_base_database.core import Database</span>
+<span class="sd">            </span>
+<span class="sd">            # Setup database</span>
+<span class="sd">            db = Database()</span>
+<span class="sd">            </span>
+<span class="sd">            # Create sample table</span>
+<span class="sd">            data = {</span>
+<span class="sd">                &#39;id&#39;: [1, 2, 3],</span>
+<span class="sd">                &#39;column_one&#39;: [&#39;a&#39;, &#39;b&#39;, &#39;c&#39;],</span>
+<span class="sd">                &#39;column_two&#39;: [2, 4, 6]</span>
+<span class="sd">            }</span>
+<span class="sd">            db.create_table(&#39;test_table&#39;, data, replace=True)</span>
+<span class="sd">            </span>
+<span class="sd">            # Select columns and limit to 6 rows</span>
+<span class="sd">            sql = db._build_query(</span>
+<span class="sd">                &#39;test_table&#39;,</span>
+<span class="sd">                select = [&#39;column_one&#39;, &#39;column_two&#39;],</span>
+<span class="sd">                limit=6</span>
+<span class="sd">            )</span>
+
+<span class="sd">            # Select columns with where statement</span>
+<span class="sd">            sql = db._build_query(</span>
+<span class="sd">                &#39;test_table&#39;,</span>
+<span class="sd">                select=&#39;column_one&#39;,</span>
+<span class="sd">                where=[(&#39;column_two&#39;, &#39;&lt;&#39;, 3), (&#39;column_one&#39;, &#39;=&#39;, &#39;b&#39;)],</span>
+<span class="sd">                where_boolean=&#39;AND&#39;</span>
+<span class="sd">            )</span>
+
+<span class="sd">            # Select columns and order each column</span>
+<span class="sd">            sql = db._build_query(</span>
+<span class="sd">                &#39;test_table&#39;,</span>
+<span class="sd">                select=[&#39;column_one&#39;, &#39;column_two&#39;],</span>
+<span class="sd">                order_by=[&#39;column_one&#39;, &#39;column_two&#39;],</span>
+<span class="sd">                order_by_sort=[&#39;asc&#39;, &#39;desc&#39;]</span>
+<span class="sd">            )</span>
+<span class="sd">            </span>
+<span class="sd">            # Select columns, group, and aggregate data</span>
+<span class="sd">            sql = db._build_query(</span>
+<span class="sd">                &#39;test_table&#39;,</span>
+<span class="sd">                select=&#39;column_one&#39;,</span>
+<span class="sd">                group_by=&#39;column_one&#39;,</span>
+<span class="sd">                aggregate=[&#39;column_two&#39;, &#39;column_one&#39;],</span>
+<span class="sd">                aggregate_func=[&#39;sum&#39;, &#39;count&#39;]</span>
+<span class="sd">            )</span>
+
+<span class="sd">            # Update rows</span>
+<span class="sd">            sql = db._build_query(</span>
+<span class="sd">                &#39;test_table&#39;,</span>
+<span class="sd">                where=[(&#39;id&#39;, &#39;=&#39;, 1)],</span>
+<span class="sd">                values=dict(column_one=&#39;A&#39;),</span>
+<span class="sd">                update=True</span>
+<span class="sd">            )</span>
+
+<span class="sd">            # Delete rows</span>
+<span class="sd">            sql = db._build_query(</span>
+<span class="sd">                &#39;test_table&#39;,</span>
+<span class="sd">                where=[(&#39;column_two&#39;, &#39;&lt;&#39;, 2), (&#39;column_one&#39;, &#39;=&#39;, &#39;a&#39;)],</span>
+<span class="sd">                where_boolean=&#39;OR&#39;,</span>
+<span class="sd">                delete=True</span>
+<span class="sd">            )</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="c1"># (Database_build_query_var_list) Format single variables into lists</span>
+        <span class="n">select</span> <span class="o">=</span> <span class="p">[</span><span class="n">select</span><span class="p">]</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">select</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="n">select</span>
+        <span class="n">group_by</span> <span class="o">=</span> <span class="p">[</span><span class="n">group_by</span><span class="p">]</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">group_by</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="n">group_by</span>
+        <span class="n">aggregate</span> <span class="o">=</span> <span class="p">[</span><span class="n">aggregate</span><span class="p">]</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">aggregate</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="n">aggregate</span>
+        <span class="n">order_by</span> <span class="o">=</span> <span class="p">[</span><span class="n">order_by</span><span class="p">]</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">order_by</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="n">order_by</span>
+                
+        <span class="c1"># (Database_build_query_table) Get the table object</span>
+        <span class="n">target</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_table</span><span class="p">(</span><span class="n">table</span><span class="p">)</span>
+        
+        <span class="c1"># (Database_build_query_select) Gather columns to select</span>
+        <span class="n">select_columns</span> <span class="o">=</span>  <span class="p">[</span><span class="n">target</span><span class="p">]</span> <span class="k">if</span> <span class="n">select</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">[</span><span class="n">target</span><span class="o">.</span><span class="n">c</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">select</span><span class="p">]</span>
+        
+        <span class="c1"># (Database_build_query_aggregate) Gather aggregation columns to select</span>
+        <span class="k">if</span> <span class="n">aggregate</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">aggregate_columns</span> <span class="o">=</span> <span class="p">[</span><span class="n">target</span><span class="o">.</span><span class="n">c</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">aggregate</span><span class="p">]</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">aggregate_func</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                <span class="n">aggregate_labels</span> <span class="o">=</span> <span class="p">[</span><span class="n">a</span> <span class="o">+</span> <span class="s1">&#39;_&#39;</span> <span class="o">+</span> <span class="n">f</span> <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">f</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">aggregate</span><span class="p">,</span> <span class="n">aggregate_func</span><span class="p">)]</span>
+                <span class="n">aggregate_columns</span> <span class="o">=</span> <span class="p">[</span><span class="nb">getattr</span><span class="p">(</span><span class="n">sqlalchemy</span><span class="o">.</span><span class="n">func</span><span class="p">,</span> <span class="n">f</span><span class="o">.</span><span class="n">lower</span><span class="p">())(</span><span class="n">c</span><span class="p">)</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">l</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">aggregate_columns</span><span class="p">,</span> <span class="n">aggregate_func</span><span class="p">,</span> <span class="n">aggregate_labels</span><span class="p">)]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">aggregate_labels</span> <span class="o">=</span> <span class="p">[</span><span class="n">a</span> <span class="o">+</span> <span class="s1">&#39;_&#39;</span> <span class="o">+</span> <span class="n">aggregate_func</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">aggregate</span><span class="p">]</span>
+                <span class="n">aggregate_columns</span> <span class="o">=</span> <span class="p">[</span><span class="nb">getattr</span><span class="p">(</span><span class="n">sqlalchemy</span><span class="o">.</span><span class="n">func</span><span class="p">,</span> <span class="n">aggregate_func</span><span class="p">)(</span><span class="n">c</span><span class="p">)</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span><span class="p">,</span> <span class="n">l</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">aggregate_columns</span><span class="p">,</span> <span class="n">aggregate_labels</span><span class="p">)]</span>
+            <span class="n">select_columns</span> <span class="o">=</span> <span class="n">select_columns</span> <span class="o">+</span> <span class="n">aggregate_columns</span>
+            
+        <span class="c1"># (Database_build_query_operation) Add select, update, or delete statement</span>
+        <span class="k">if</span> <span class="n">delete</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">target</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="n">update</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">target</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">sqlalchemy</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">select_columns</span><span class="p">)</span>
+        
+        <span class="c1"># (Database_build_query_where) Add where statement</span>
+        <span class="k">if</span> <span class="n">where</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+
+            <span class="c1"># (Database_build_query_where_format) Get where boolean operator and ensure two-dimensional list</span>
+            <span class="n">where</span> <span class="o">=</span> <span class="p">[</span><span class="n">where</span><span class="p">]</span> <span class="k">if</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">where</span><span class="p">)</span> <span class="k">else</span> <span class="n">where</span>
+            <span class="n">where_boolean</span> <span class="o">=</span> <span class="n">sqlalchemy</span><span class="o">.</span><span class="n">or_</span> <span class="k">if</span> <span class="n">where_boolean</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;or&#39;</span> <span class="k">else</span> <span class="n">sqlalchemy</span><span class="o">.</span><span class="n">and_</span>
+            
+            <span class="c1"># (Database_build_query_where_convert) Convert list to where clauses</span>
+            <span class="n">where_clauses</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">clause_list</span> <span class="ow">in</span> <span class="n">where</span><span class="p">:</span>
+
+                <span class="c1"># (Database_build_query_where_convert_vars) Get clause parts from list</span>
+                <span class="n">clause_col</span> <span class="o">=</span> <span class="n">clause_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">clause_op</span> <span class="o">=</span> <span class="n">clause_list</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">clause_val</span> <span class="o">=</span> <span class="n">clause_list</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+
+                <span class="c1"># (Database_build_query_where_convert_op) Convert to clause based on operator</span>
+                <span class="k">if</span> <span class="n">clause_op</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;=&#39;</span><span class="p">,</span> <span class="s1">&#39;==&#39;</span><span class="p">):</span>
+                    <span class="n">clause</span> <span class="o">=</span> <span class="n">target</span><span class="o">.</span><span class="n">c</span><span class="p">[</span><span class="n">clause_col</span><span class="p">]</span> <span class="o">==</span> <span class="n">clause_val</span>
+                <span class="k">elif</span> <span class="n">clause_op</span> <span class="o">==</span> <span class="s1">&#39;&gt;&#39;</span><span class="p">:</span>
+                    <span class="n">clause</span> <span class="o">=</span> <span class="n">target</span><span class="o">.</span><span class="n">c</span><span class="p">[</span><span class="n">clause_col</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">clause_val</span>
+                <span class="k">elif</span> <span class="n">clause_op</span> <span class="o">==</span> <span class="s1">&#39;&gt;=&#39;</span><span class="p">:</span>
+                    <span class="n">clause</span> <span class="o">=</span> <span class="n">target</span><span class="o">.</span><span class="n">c</span><span class="p">[</span><span class="n">clause_col</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">clause_val</span>
+                <span class="k">elif</span> <span class="n">clause_op</span> <span class="o">==</span> <span class="s1">&#39;&lt;&#39;</span><span class="p">:</span>
+                    <span class="n">clause</span> <span class="o">=</span> <span class="n">target</span><span class="o">.</span><span class="n">c</span><span class="p">[</span><span class="n">clause_col</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">clause_val</span>
+                <span class="k">elif</span> <span class="n">clause_op</span> <span class="o">==</span> <span class="s1">&#39;&lt;=&#39;</span><span class="p">:</span>
+                    <span class="n">clause</span> <span class="o">=</span> <span class="n">target</span><span class="o">.</span><span class="n">c</span><span class="p">[</span><span class="n">clause_col</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">clause_val</span>
+                <span class="k">elif</span> <span class="n">clause_op</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;like&#39;</span><span class="p">:</span>
+                    <span class="n">clause</span> <span class="o">=</span> <span class="n">target</span><span class="o">.</span><span class="n">c</span><span class="p">[</span><span class="n">clause_col</span><span class="p">]</span><span class="o">.</span><span class="n">like</span><span class="p">(</span><span class="n">clause_val</span><span class="p">)</span>
+                <span class="n">where_clauses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">clause</span><span class="p">)</span>
+
+            <span class="c1"># (Database_build_query_where_add) Add where clauses to select query</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">where_boolean</span><span class="p">(</span><span class="o">*</span><span class="n">where_clauses</span><span class="p">))</span>
+            
+        <span class="c1"># (Database_build_query_group) Add group by statement</span>
+        <span class="k">if</span> <span class="n">group_by</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">group_by_columns</span> <span class="o">=</span> <span class="p">[</span><span class="n">target</span><span class="o">.</span><span class="n">c</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">group_by</span><span class="p">]</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">group_by</span><span class="p">(</span><span class="o">*</span><span class="n">group_by_columns</span><span class="p">)</span>
+            
+        <span class="c1"># (Database_build_query_order) Add order by statement</span>
+        <span class="k">if</span> <span class="n">order_by</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">order_by_columns</span> <span class="o">=</span> <span class="p">[</span><span class="n">target</span><span class="o">.</span><span class="n">c</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">order_by</span><span class="p">]</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">order_by_sort</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                <span class="n">order_by_columns</span> <span class="o">=</span> <span class="p">[</span><span class="nb">getattr</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">s</span><span class="o">.</span><span class="n">lower</span><span class="p">())()</span> <span class="k">for</span> <span class="n">c</span><span class="p">,</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">order_by_columns</span><span class="p">,</span> <span class="n">order_by_sort</span><span class="p">)]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">order_by_columns</span> <span class="o">=</span> <span class="p">[</span><span class="nb">getattr</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">order_by_sort</span><span class="p">)()</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">order_by_columns</span><span class="p">]</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="o">*</span><span class="n">order_by_columns</span><span class="p">)</span>
+            
+        <span class="c1"># (Database_build_query_limit) Add limit statement</span>
+        <span class="k">if</span> <span class="n">limit</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">limit</span><span class="p">(</span><span class="n">limit</span><span class="p">)</span>
+
+        <span class="c1"># (Database_build_query_values) Add values statement</span>
+        <span class="k">if</span> <span class="n">values</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">update</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">values</span><span class="p">(</span><span class="o">**</span><span class="n">values</span><span class="p">)</span>
+            
+        <span class="c1"># (Database_build_query_return) Return the sqlachemy query</span>
+        <span class="k">return</span> <span class="n">out</span></div>
+
+<div class="viewcode-block" id="Database._execute_query"><a class="viewcode-back" href="../../index.html#msdss_base_database.core.Database._execute_query">[docs]</a>    <span class="k">def</span> <span class="nf">_execute_query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sql</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Executes a query statement.</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        sql : str</span>
+<span class="sd">            SQL str representing the query statement to execute.</span>
+<span class="sd">        *args, **kwargs</span>
+<span class="sd">            Additional parameters passed to :func:`sqlalchemy:sqlalchemy.engine.Connection.execute`.</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        :class:`sqlalchemy:sqlalchemy.engine.CursorResult`</span>
+<span class="sd">            Cursor result from query.</span>
+
+<span class="sd">        Author</span>
+<span class="sd">        ------</span>
+<span class="sd">        Richard Wen &lt;rrwen.dev@gmail.com&gt;</span>
+
+<span class="sd">        Example</span>
+<span class="sd">        -------</span>
+<span class="sd">        .. jupyter-execute::</span>
+
+<span class="sd">            from msdss_base_database.core import Database</span>
+<span class="sd">            db = Database()</span>
+<span class="sd">            </span>
+<span class="sd">            # Create sample table</span>
+<span class="sd">            data = {</span>
+<span class="sd">                &#39;id&#39;: [1, 2, 3],</span>
+<span class="sd">                &#39;column_one&#39;: [&#39;a&#39;, &#39;b&#39;, &#39;c&#39;],</span>
+<span class="sd">                &#39;column_two&#39;: [2, 4, 6]</span>
+<span class="sd">            }</span>
+<span class="sd">            db.create_table(&#39;test_table&#39;, data, replace=True)</span>
+<span class="sd">            </span>
+<span class="sd">            # Get data from query</span>
+<span class="sd">            cursor = db._execute_query(&#39;SELECT * FROM test_table LIMIT 5;&#39;)</span>
+<span class="sd">            cursor = db._execute_query(&#39;SELECT column_one, column_two FROM test_table WHERE column_two &gt; 3;&#39;)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_connection</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span> <span class="k">as</span> <span class="n">connection</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">connection</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">out</span></div>
+
+<div class="viewcode-block" id="Database._get_table"><a class="viewcode-back" href="../../index.html#msdss_base_database.core.Database._get_table">[docs]</a>    <span class="k">def</span> <span class="nf">_get_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get a table object from the database.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        table : str</span>
+<span class="sd">            Name of the table to remove.</span>
+<span class="sd">        *args, **kwargs</span>
+<span class="sd">            Additional arguments passed to :class:`sqlalchemy.schema.Table`.</span>
+
+<span class="sd">        Return</span>
+<span class="sd">        ------</span>
+<span class="sd">        :class:`sqlalchemy.schema.Table`</span>
+<span class="sd">            A ``Table`` object from ``sqlalchemy``.</span>
+
+<span class="sd">        Author</span>
+<span class="sd">        ------</span>
+<span class="sd">        Richard Wen &lt;rrwen.dev@gmail.com&gt;</span>
+
+<span class="sd">        Example</span>
+<span class="sd">        -------</span>
+<span class="sd">        .. jupyter-execute::</span>
+<span class="sd">            :hide-output:</span>
+
+<span class="sd">            from msdss_base_database.core import Database</span>
+<span class="sd">            db = Database()</span>
+
+<span class="sd">            # Create sample table</span>
+<span class="sd">            data = {</span>
+<span class="sd">                &#39;id&#39;: [1, 2, 3],</span>
+<span class="sd">                &#39;column_one&#39;: [&#39;a&#39;, &#39;b&#39;, &#39;c&#39;],</span>
+<span class="sd">                &#39;column_two&#39;: [2, 4, 6]</span>
+<span class="sd">            }</span>
+<span class="sd">            db.create_table(&#39;test_table&#39;, data, replace=True)</span>
+
+<span class="sd">            # Get the table object</span>
+<span class="sd">            tb = db._get_table(&#39;test_table&#39;)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="n">sqlalchemy</span><span class="o">.</span><span class="n">Table</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_metadata</span><span class="p">,</span> <span class="n">autoload_with</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_connection</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">out</span></div>
+
+<div class="viewcode-block" id="Database._write_data"><a class="viewcode-back" href="../../index.html#msdss_base_database.core.Database._write_data">[docs]</a>    <span class="k">def</span> <span class="nf">_write_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">schema</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">if_exists</span><span class="o">=</span><span class="s1">&#39;append&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Write data to the database.</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        table : str</span>
+<span class="sd">            Name of the table to write to.</span>
+<span class="sd">        data : dict or list or :class:`pandas:pandas.DataFrame`</span>
+<span class="sd">            Dataframe with the data to write to the database. If ``dict`` or ``list`` see :class:`pandas:pandas.DataFrame`.</span>
+<span class="sd">        schema : str</span>
+<span class="sd">            Name of the schema to for the table.</span>
+<span class="sd">        if_exists : &#39;fail&#39; or &#39;replace&#39; or &#39;append&#39;</span>
+<span class="sd">            String indicating whether to throw an error (fail), replace the data, or append the data to the table if it already exists.</span>
+<span class="sd">        index : bool</span>
+<span class="sd">            Set to True to include the row indices as a column and False to omit them.</span>
+<span class="sd">        *args, **kwargs</span>
+<span class="sd">            Additional arguments passed to :class:`pandas:pandas.DataFrame` if parameter ``data`` is ``dict`` or ``list``.</span>
+<span class="sd">        </span>
+<span class="sd">        Author</span>
+<span class="sd">        ------</span>
+<span class="sd">        Richard Wen &lt;rrwen.dev@gmail.com&gt;</span>
+<span class="sd">        </span>
+<span class="sd">        Example</span>
+<span class="sd">        -------</span>
+<span class="sd">        .. jupyter-execute::</span>
+
+<span class="sd">            from msdss_base_database import Database</span>
+<span class="sd">            </span>
+<span class="sd">            # Setup database</span>
+<span class="sd">            db = Database()</span>
+<span class="sd">            </span>
+<span class="sd">            # Write data to table</span>
+<span class="sd">            data = {</span>
+<span class="sd">                &#39;id&#39;: [1, 2, 3],</span>
+<span class="sd">                &#39;column_one&#39;: [&#39;a&#39;, &#39;b&#39;, &#39;c&#39;],</span>
+<span class="sd">                &#39;column_two&#39;: [2, 4, 6]</span>
+<span class="sd">            }</span>
+<span class="sd">            db._write_data(&#39;test_table&#39;, data, if_exists = &#39;replace&#39;)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="k">else</span> <span class="n">data</span>
+        <span class="n">data</span><span class="o">.</span><span class="n">to_sql</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="n">con</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_connection</span><span class="p">,</span> <span class="n">schema</span> <span class="o">=</span> <span class="n">schema</span><span class="p">,</span> <span class="n">if_exists</span> <span class="o">=</span> <span class="n">if_exists</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="n">index</span><span class="p">)</span></div>
+    
+<div class="viewcode-block" id="Database.create_table"><a class="viewcode-back" href="../../index.html#msdss_base_database.core.Database.create_table">[docs]</a>    <span class="k">def</span> <span class="nf">create_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="p">{},</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create a table in the database using some data.</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        table : str</span>
+<span class="sd">            Name of the table to create.</span>
+<span class="sd">        data : dict or list or :class:`pandas:pandas.DataFrame`</span>
+<span class="sd">            Dataframe with the data to create the table from. If ``dict`` or ``list`` see :class:`pandas:pandas.DataFrame` for the format.</span>
+<span class="sd">        replace : False</span>
+<span class="sd">            Whether to replace the table if it exists or not.</span>
+<span class="sd">        *args, **kwargs</span>
+<span class="sd">            Additional arguments passed to :class:`msdss_base_database.core.Database._write` except that parameter ``if_exists`` is set to ``fail`` or ``replace`` only.</span>
+<span class="sd">        </span>
+<span class="sd">        Author</span>
+<span class="sd">        ------</span>
+<span class="sd">        Richard Wen &lt;rrwen.dev@gmail.com&gt;</span>
+<span class="sd">        </span>
+<span class="sd">        Example</span>
+<span class="sd">        -------</span>
+<span class="sd">        .. jupyter-execute::</span>
+
+<span class="sd">            from msdss_base_database import Database</span>
+<span class="sd">            </span>
+<span class="sd">            # Setup database</span>
+<span class="sd">            db = Database()</span>
+
+<span class="sd">            # Drop table if exists</span>
+<span class="sd">            if db.has_table(&#39;test_table&#39;):</span>
+<span class="sd">                db.drop_table(&#39;test_table&#39;)</span>
+<span class="sd">            </span>
+<span class="sd">            # Create the table</span>
+<span class="sd">            data = {</span>
+<span class="sd">                &#39;id&#39;: [1, 2, 3],</span>
+<span class="sd">                &#39;column_one&#39;: [&#39;a&#39;, &#39;b&#39;, &#39;c&#39;],</span>
+<span class="sd">                &#39;column_two&#39;: [2, 4, 6]</span>
+<span class="sd">            }</span>
+<span class="sd">            db.create_table(&#39;test_table&#39;, data)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">if_exists</span> <span class="o">=</span> <span class="s1">&#39;replace&#39;</span> <span class="k">if</span> <span class="n">replace</span> <span class="k">else</span> <span class="s1">&#39;fail&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_write_data</span><span class="p">(</span><span class="n">table</span><span class="o">=</span><span class="n">table</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">if_exists</span><span class="o">=</span><span class="n">if_exists</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Database.delete"><a class="viewcode-back" href="../../index.html#msdss_base_database.core.Database.delete">[docs]</a>    <span class="k">def</span> <span class="nf">delete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">where</span><span class="p">,</span> <span class="n">where_boolean</span><span class="o">=</span><span class="s1">&#39;AND&#39;</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Remove rows from a table in the database.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        table : str</span>
+<span class="sd">            Name of the table to remove rows from.</span>
+<span class="sd">        where : list of list or list of tuple or None</span>
+<span class="sd">            list of where statements the form of ``[&#39;column_name&#39;, &#39;operator&#39;, value]`` to further filter individual values or rows. </span>
+<span class="sd">            See parameter ``where`` in :meth:`msdss_base_database.core.Database._build_query`.</span>
+<span class="sd">        where_boolean : str</span>
+<span class="sd">            One of ``AND`` or ``OR`` to combine ``where`` statements with. Defaults to ``AND`` if not one of ``AND`` or ``OR``.</span>
+<span class="sd">        *args, **kwargs</span>
+<span class="sd">            Additional arguments passed to :meth:`msdss_base_database.core.Database._execute_query`.</span>
+
+<span class="sd">        Author</span>
+<span class="sd">        ------</span>
+<span class="sd">        Richard Wen &lt;rrwen.dev@gmail.com&gt;</span>
+
+<span class="sd">        Example</span>
+<span class="sd">        -------</span>
+<span class="sd">        .. jupyter-execute::</span>
+<span class="sd">            :hide-output:</span>
+
+<span class="sd">            from msdss_base_database.core import Database</span>
+<span class="sd">            db = Database()</span>
+
+<span class="sd">            # Create sample table</span>
+<span class="sd">            data = {</span>
+<span class="sd">                &#39;id&#39;: [1, 2, 3],</span>
+<span class="sd">                &#39;column_one&#39;: [&#39;a&#39;, &#39;b&#39;, &#39;c&#39;],</span>
+<span class="sd">                &#39;column_two&#39;: [2, 4, 6]</span>
+<span class="sd">            }</span>
+<span class="sd">            db.create_table(&#39;test_table&#39;, data, replace=True)</span>
+
+<span class="sd">            # Delete a row with matching id</span>
+<span class="sd">            db.delete(</span>
+<span class="sd">                &#39;test_table&#39;,</span>
+<span class="sd">                where=(&#39;id&#39;, &#39;=&#39;, 1)</span>
+<span class="sd">            )</span>
+
+<span class="sd">            # Delete a row with matching query</span>
+<span class="sd">            db.delete(</span>
+<span class="sd">                &#39;test_table&#39;,</span>
+<span class="sd">                where=[(&#39;id&#39;, &#39;&lt;&#39;, 3), (&#39;column_one&#39;, &#39;=&#39;, &#39;c&#39;)],</span>
+<span class="sd">                where_boolean=&#39;OR&#39;</span>
+<span class="sd">            )</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">sql</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_query</span><span class="p">(</span><span class="n">table</span><span class="o">=</span><span class="n">table</span><span class="p">,</span> <span class="n">where</span><span class="o">=</span><span class="n">where</span><span class="p">,</span> <span class="n">where_boolean</span><span class="o">=</span><span class="n">where_boolean</span><span class="p">,</span> <span class="n">delete</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">cursor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_execute_query</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Database.drop_table"><a class="viewcode-back" href="../../index.html#msdss_base_database.core.Database.drop_table">[docs]</a>    <span class="k">def</span> <span class="nf">drop_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Remove a table from the database.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        table : str</span>
+<span class="sd">            Name of the table to remove.</span>
+<span class="sd">        *args, **kwargs</span>
+<span class="sd">            Additional arguments passed to :meth:`sqlalchemy.schema.Table.drop`.</span>
+
+<span class="sd">        Author</span>
+<span class="sd">        ------</span>
+<span class="sd">        Richard Wen &lt;rrwen.dev@gmail.com&gt;</span>
+
+<span class="sd">        Example</span>
+<span class="sd">        -------</span>
+<span class="sd">        .. jupyter-execute::</span>
+<span class="sd">            :hide-output:</span>
+
+<span class="sd">            from msdss_base_database.core import Database</span>
+<span class="sd">            db = Database()</span>
+
+<span class="sd">            # Create sample table</span>
+<span class="sd">            data = {</span>
+<span class="sd">                &#39;id&#39;: [1, 2, 3],</span>
+<span class="sd">                &#39;column_one&#39;: [&#39;a&#39;, &#39;b&#39;, &#39;c&#39;],</span>
+<span class="sd">                &#39;column_two&#39;: [2, 4, 6]</span>
+<span class="sd">            }</span>
+<span class="sd">            db.create_table(&#39;test_table&#39;, data, replace=True)</span>
+
+<span class="sd">            # Drop the table</span>
+<span class="sd">            db.drop_table(&#39;test_table&#39;)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">tb</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_table</span><span class="p">(</span><span class="n">table</span><span class="p">)</span>
+        <span class="n">tb</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Database.has_table"><a class="viewcode-back" href="../../index.html#msdss_base_database.core.Database.has_table">[docs]</a>    <span class="k">def</span> <span class="nf">has_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check if a table exists.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        table : str</span>
+<span class="sd">            Name of the table to check.</span>
+<span class="sd">        *args, **kwargs</span>
+<span class="sd">            Additional arguments passed to :meth:`sqlalchemy.engine.reflection.Inspector.has_table`.</span>
+
+<span class="sd">        Return</span>
+<span class="sd">        ------</span>
+<span class="sd">        bool</span>
+<span class="sd">            Returns ``True`` if the table exists and ``False`` otherwise.</span>
+
+<span class="sd">        Author</span>
+<span class="sd">        ------</span>
+<span class="sd">        Richard Wen &lt;rrwen.dev@gmail.com&gt;</span>
+
+<span class="sd">        Example</span>
+<span class="sd">        -------</span>
+<span class="sd">        .. jupyter-execute::</span>
+<span class="sd">            :hide-output:</span>
+
+<span class="sd">            from msdss_base_database.core import Database</span>
+<span class="sd">            db = Database()</span>
+
+<span class="sd">            # Drop the table if it exists</span>
+<span class="sd">            if db.has_table(&#39;test_table&#39;):</span>
+<span class="sd">                db.drop_table(&#39;test_table&#39;)</span>
+<span class="sd">            db.has_table(&#39;test_table&#39;) # False</span>
+<span class="sd">            </span>
+<span class="sd">            # Create sample table</span>
+<span class="sd">            data = {</span>
+<span class="sd">                &#39;id&#39;: [1, 2, 3],</span>
+<span class="sd">                &#39;column_one&#39;: [&#39;a&#39;, &#39;b&#39;, &#39;c&#39;],</span>
+<span class="sd">                &#39;column_two&#39;: [2, 4, 6]</span>
+<span class="sd">            }</span>
+<span class="sd">            db.create_table(&#39;test_table&#39;, data, replace=True)</span>
+
+<span class="sd">            # Check if table exists again</span>
+<span class="sd">            db.has_table(&#39;test_table&#39;) # True</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_inspector</span><span class="o">.</span><span class="n">has_table</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">out</span></div>
+
+<div class="viewcode-block" id="Database.insert"><a class="viewcode-back" href="../../index.html#msdss_base_database.core.Database.insert">[docs]</a>    <span class="k">def</span> <span class="nf">insert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Insert additional data to the database.</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        table : str</span>
+<span class="sd">            Name of the table to insert additional data to.</span>
+<span class="sd">        where : list of list or list of tuple or None</span>
+<span class="sd">            list of where statements the form of ``[&#39;column_name&#39;, &#39;operator&#39;, value]`` to further filter individual values or rows. </span>
+<span class="sd">            See parameter ``where`` in :meth:`msdss_base_database.core.Database._build_query`.</span>
+<span class="sd">        where_boolean : str</span>
+<span class="sd">            One of ``AND`` or ``OR`` to combine ``where`` statements with. Defaults to ``AND`` if not one of ``AND`` or ``OR``.</span>
+<span class="sd">        *args, **kwargs</span>
+<span class="sd">            Additional arguments passed to :meth:`msdss_base_database.core.Database._write`. Except that ``if_exists`` is always set to ``append``.</span>
+<span class="sd">        </span>
+<span class="sd">        Author</span>
+<span class="sd">        ------</span>
+<span class="sd">        Richard Wen &lt;rrwen.dev@gmail.com&gt;</span>
+<span class="sd">        </span>
+<span class="sd">        Example</span>
+<span class="sd">        -------</span>
+<span class="sd">        .. jupyter-execute::</span>
+
+<span class="sd">            from msdss_base_database import Database</span>
+<span class="sd">            </span>
+<span class="sd">            # Setup database</span>
+<span class="sd">            db = Database()</span>
+<span class="sd">            </span>
+<span class="sd">            # Write data to table</span>
+<span class="sd">            data = {</span>
+<span class="sd">                &#39;id&#39;: [1, 2, 3],</span>
+<span class="sd">                &#39;column_one&#39;: [&#39;a&#39;, &#39;b&#39;, &#39;c&#39;],</span>
+<span class="sd">                &#39;column_two&#39;: [2, 4, 6]</span>
+<span class="sd">            }</span>
+<span class="sd">            db.create_table(&#39;test_table&#39;, data, replace=True)</span>
+
+<span class="sd">            # Insert new value to table</span>
+<span class="sd">            new = {&#39;id&#39;: [4]}</span>
+<span class="sd">            db.insert(&#39;test_table&#39;, new)</span>
+
+<span class="sd">            # Insert more new values to table</span>
+<span class="sd">            more_new = {</span>
+<span class="sd">                &#39;id&#39;: [5, 6, 7],</span>
+<span class="sd">                &#39;column_one&#39;: [&#39;e&#39;, &#39;f&#39;, &#39;g&#39;],</span>
+<span class="sd">                &#39;column_two&#39;: [10, 12, 14]</span>
+<span class="sd">            }</span>
+<span class="sd">            db.insert(&#39;test_table&#39;, more_new)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_write_data</span><span class="p">(</span><span class="n">table</span><span class="o">=</span><span class="n">table</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">if_exists</span><span class="o">=</span><span class="s1">&#39;append&#39;</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+    
+<div class="viewcode-block" id="Database.select"><a class="viewcode-back" href="../../index.html#msdss_base_database.core.Database.select">[docs]</a>    <span class="k">def</span> <span class="nf">select</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">table</span><span class="p">,</span>
+        <span class="n">select</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">where</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">group_by</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">aggregate</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">aggregate_func</span> <span class="o">=</span> <span class="s1">&#39;count&#39;</span><span class="p">,</span>
+        <span class="n">order_by</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">order_by_sort</span> <span class="o">=</span> <span class="s1">&#39;asc&#39;</span><span class="p">,</span>
+        <span class="n">limit</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">where_boolean</span> <span class="o">=</span> <span class="s1">&#39;AND&#39;</span><span class="p">,</span>
+        <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Query data from a table in the database.</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        table : str</span>
+<span class="sd">            Name of the database table to query from.</span>
+<span class="sd">        select : str or list(str or list:class:`sqlalchemy:sqlalchemy.schema.Column`) or None</span>
+<span class="sd">            List of column names or a single column name to filter or select from the table. If ``None`` then all columns will be selected.</span>
+<span class="sd">        where : list of list or list of tuple or None</span>
+<span class="sd">            list of where statements the form of ``[&#39;column_name&#39;, &#39;operator&#39;, value]`` to further filter individual values or rows.</span>
+<span class="sd">            </span>
+<span class="sd">            * Operators are one of: ``=``, ``&gt;``, ``&gt;=``, ``&gt;``, ``&lt;``, ``&lt;=``, ``!=&#39;&#39;, ``LIKE``</span>
+<span class="sd">            * Values can be any single value such as ``int`` or ``str``</span>
+<span class="sd">            * Examples: ``[&#39;column_two&#39;, &#39;&gt;&#39;, 2]``, ``[&#39;column_one&#39;, &#39;LIKE&#39;, &#39;a&#39;]``, ``[[&#39;column_two&#39;, &#39;&gt;&#39;, 2], [&#39;column_one&#39;, &#39;LIKE&#39;, &#39;a&#39;]]``</span>
+<span class="sd">        </span>
+<span class="sd">        group_by : str or list(str) or None</span>
+<span class="sd">            Single or list of column names to group by. This should be used with ``aggregate`` and ``aggregate_func``.</span>
+<span class="sd">        aggregate : str or list(str) or None</span>
+<span class="sd">            Single or list of column names to aggregate using the ``aggregate_func``. This should be used with ``group_by`` and ``aggregate_func``.</span>
+<span class="sd">        aggregate_func : str or list(str)</span>
+<span class="sd">            Function name (such as &#39;count&#39; or &#39;sum&#39;) from :class:`sqlalchemy:sqlalchemy.sql.functions.Function` for aggregating records from each ``aggregate`` column.</span>
+<span class="sd">            If a list of str, then it must have the same number of elements as ``aggregate`` or else only the shortest length list will be used.</span>
+<span class="sd">        order_by : str or list(str) or None</span>
+<span class="sd">            Single or list of column names to order or sort by.</span>
+<span class="sd">        order_by_sort : str or list(str)</span>
+<span class="sd">            Sort the records in increasing or decreasing order by each column in ``order_by``, where the value can be one of &#39;asc&#39; for ascending or &#39;desc&#39; for descending&#39;.</span>
+<span class="sd">            If a list of str, then it must have the same number of elements as ``order_by`` or else only the shortest length list will be used.</span>
+<span class="sd">        limit : int or None</span>
+<span class="sd">            Integer number to limit the number of rows returned.</span>
+<span class="sd">        where_boolean : str</span>
+<span class="sd">            One of ``AND`` or ``OR`` to combine ``where`` statements with. Defaults to ``AND`` if not one of ``AND`` or ``OR``.</span>
+<span class="sd">        *args, **kwargs</span>
+<span class="sd">            Additional parameters passed to :meth:`pandas:pandas.read_sql`.</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        :class:`pandas:pandas.DataFrame`</span>
+<span class="sd">            pandas dataframe containing the queried data.</span>
+
+<span class="sd">        Author</span>
+<span class="sd">        ------</span>
+<span class="sd">        Richard Wen &lt;rrwen.dev@gmail.com&gt;</span>
+
+<span class="sd">        Example</span>
+<span class="sd">        -------</span>
+<span class="sd">        .. jupyter-execute::</span>
+
+<span class="sd">            from msdss_base_database.core import Database</span>
+<span class="sd">            </span>
+<span class="sd">            # Setup database</span>
+<span class="sd">            db = Database()</span>
+<span class="sd">            </span>
+<span class="sd">            # Create Sample Data</span>
+<span class="sd">            data = {</span>
+<span class="sd">                &#39;id&#39;: [1, 2, 3],</span>
+<span class="sd">                &#39;column_one&#39;: [&#39;a&#39;, &#39;b&#39;, &#39;c&#39;],</span>
+<span class="sd">                &#39;column_two&#39;: [2, 4, 6]</span>
+<span class="sd">            }</span>
+<span class="sd">            db.create_table(&#39;test_table&#39;, data, replace=True)</span>
+<span class="sd">            </span>
+<span class="sd">            # Read data from table using select and limit</span>
+<span class="sd">            data = db.select(</span>
+<span class="sd">                &#39;test_table&#39;,</span>
+<span class="sd">                select = [&#39;column_one&#39;, &#39;column_two&#39;],</span>
+<span class="sd">                limit = 5</span>
+<span class="sd">            )</span>
+
+<span class="sd">            # Use where statements</span>
+<span class="sd">            data = db.select(</span>
+<span class="sd">                &#39;test_table&#39;,</span>
+<span class="sd">                select = &#39;column_one&#39;,</span>
+<span class="sd">                where = [(&#39;column_two&#39;, &#39;&lt;&#39;, &#39;15&#39;), (&#39;column_one&#39;, &#39;=&#39;, &#39;b&#39;)],</span>
+<span class="sd">                where_boolean = &#39;AND&#39;</span>
+<span class="sd">            )</span>
+
+<span class="sd">            # Order results</span>
+<span class="sd">            data = db.select(</span>
+<span class="sd">                &#39;test_table&#39;,</span>
+<span class="sd">                select = [&#39;column_one&#39;, &#39;column_two&#39;],</span>
+<span class="sd">                order_by = [&#39;column_one&#39;, &#39;column_two&#39;],</span>
+<span class="sd">                order_by_sort = [&#39;asc&#39;, &#39;desc&#39;]</span>
+<span class="sd">            )</span>
+
+<span class="sd">            # Aggregate read</span>
+<span class="sd">            data = db.select(</span>
+<span class="sd">                &#39;test_table&#39;,</span>
+<span class="sd">                select = &#39;column_one&#39;,</span>
+<span class="sd">                group_by = &#39;column_one&#39;,</span>
+<span class="sd">                aggregate = &#39;column_two&#39;,</span>
+<span class="sd">                aggregate_func = [&#39;count&#39;, &#39;sum&#39;]</span>
+<span class="sd">            )</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">sql</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_query</span><span class="p">(</span>
+            <span class="n">table</span><span class="p">,</span>
+            <span class="n">select</span><span class="o">=</span><span class="n">select</span><span class="p">,</span>
+            <span class="n">where</span><span class="o">=</span><span class="n">where</span><span class="p">,</span>
+            <span class="n">group_by</span><span class="o">=</span><span class="n">group_by</span><span class="p">,</span>
+            <span class="n">aggregate</span><span class="o">=</span><span class="n">aggregate</span><span class="p">,</span>
+            <span class="n">aggregate_func</span><span class="o">=</span><span class="n">aggregate_func</span><span class="p">,</span>
+            <span class="n">order_by</span><span class="o">=</span><span class="n">order_by</span><span class="p">,</span>
+            <span class="n">order_by_sort</span><span class="o">=</span><span class="n">order_by_sort</span><span class="p">,</span>
+            <span class="n">limit</span><span class="o">=</span><span class="n">limit</span><span class="p">,</span>
+            <span class="n">where_boolean</span><span class="o">=</span><span class="n">where_boolean</span>
+        <span class="p">)</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span><span class="n">sql</span> <span class="o">=</span> <span class="n">sql</span><span class="p">,</span> <span class="n">con</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_connection</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">out</span></div>
+
+<div class="viewcode-block" id="Database.update"><a class="viewcode-back" href="../../index.html#msdss_base_database.core.Database.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">where</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Update a table from the database.</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        table : str</span>
+<span class="sd">            Name of the table to update.</span>
+<span class="sd">        where :</span>
+<span class="sd">        values : dict</span>
+<span class="sd">            Dictionary representing values to update if they match the ``where`` parameter requirements.</span>
+<span class="sd">        *args, **kwargs</span>
+<span class="sd">            Additional arguments passed to :meth:`msdss_base_database.core.Database._execute_query`.</span>
+<span class="sd">        </span>
+<span class="sd">        Author</span>
+<span class="sd">        ------</span>
+<span class="sd">        Richard Wen &lt;rrwen.dev@gmail.com&gt;</span>
+<span class="sd">        </span>
+<span class="sd">        Example</span>
+<span class="sd">        -------</span>
+<span class="sd">        .. jupyter-execute::</span>
+
+<span class="sd">            from msdss_base_database import Database</span>
+<span class="sd">            </span>
+<span class="sd">            # Setup database</span>
+<span class="sd">            db = Database()</span>
+<span class="sd">            </span>
+<span class="sd">            # Write data to table</span>
+<span class="sd">            data = {</span>
+<span class="sd">                &#39;id&#39;: [1, 2, 3],</span>
+<span class="sd">                &#39;column_one&#39;: [&#39;a&#39;, &#39;b&#39;, &#39;c&#39;],</span>
+<span class="sd">                &#39;column_two&#39;: [2, 4, 6]</span>
+<span class="sd">            }</span>
+<span class="sd">            db.create_table(&#39;test_table&#39;, data, replace=True)</span>
+
+<span class="sd">            # Update values in table</span>
+<span class="sd">            db.update(</span>
+<span class="sd">                &#39;test_table&#39;,</span>
+<span class="sd">                where=(&#39;id&#39;, &#39;&gt;&#39;, 1),</span>
+<span class="sd">                values={&#39;column_one&#39;: &#39;AA&#39;})</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">sql</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_query</span><span class="p">(</span><span class="n">table</span><span class="o">=</span><span class="n">table</span><span class="p">,</span> <span class="n">where</span><span class="o">=</span><span class="n">where</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="n">values</span><span class="p">,</span> <span class="n">update</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">cursor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_execute_query</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Richard Wen.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

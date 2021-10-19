@@ -139,6 +139,37 @@ In Windows:
 bin\rebuild_docs
 ```
 
+## Setting up a Test Database
+
+A default [PostgreSQL](https://www.postgresql.org/) database can be setup for testing:
+
+1. Install [PostgreSQL v11+](https://www.postgresql.org/)
+2. Enter the `psql` console with your `<user>` and an existing `<database>`
+3. Create a user named `msdss`  with password `msdss123` using `CREATE USER`
+4. Create a database named `msdss` owned by user `msdss` with `CREATE DATABASE`
+5. You can now use the test user `msdss`, password `msdss123`, and database `msdss` for testing purposes
+
+In a command line terminal, enter the `psql` console with:
+
+```
+psql -U <user> -d <database>
+```
+
+Inside the `psql` console:
+
+```
+CREATE USER msdss WITH PASSWORD 'msdss123';
+CREATE DATABASE msdss WITH OWNER msdss;
+```
+
+Exit the `psql` console with:
+
+```
+\q
+```
+
+**Note**: Do not use this database in production or outside of your local network as it is strictly for development purposes only
+
 ## Publishing to the Python Package Index (PyPi)
 
 When the package is ready, you can publish it to [PyPi](https://pypi.org/) so that it is publicly available and `pip` installable:
