@@ -1,5 +1,5 @@
 msdss-base-database
-==============
+===================
 
 Base database for the Modular Spatial Decision Support Systems (MSDSS) framework.
 
