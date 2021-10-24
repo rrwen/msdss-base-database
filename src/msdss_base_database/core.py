@@ -55,13 +55,25 @@ class Database:
             database="msdss"
         )
 
+        # Check if the table exists and drop if it does
+        if db.has_table("test_table"):
+            db.drop_table("test_table")
+
         # Create sample table
+        columns = [
+            dict(name='id', type_='Integer', primary_key=True),
+            ('column_one', 'String'),
+            ('column_two', 'Integer')
+        ]
+        db.create_table('test_table', columns)
+
+        # Write sample data
         data = {
             'id': [1, 2, 3],
             'column_one': ['a', 'b', 'c'],
             'column_two': [2, 4, 6]
         }
-        db.create_table('test_table', data, replace=True)
+        db.insert('test_table', data)
 
         # Read the table to a pandas dataframe
         df = db.select('test_table')
@@ -85,10 +97,6 @@ class Database:
             'test_table',
             where=('id', '>', 3),
             values={'column_one': 'AA'})
-
-        # Check if the table exists and drop if it does
-        if db.has_table("test_table"):
-            db.drop_table("test_table")
     """
     def __init__(
         self,
@@ -202,14 +210,18 @@ class Database:
             
             # Setup database
             db = Database()
+
+            # Check if the table exists and drop if it does
+            if db.has_table("test_table"):
+                db.drop_table("test_table")
             
             # Create sample table
-            data = {
-                'id': [1, 2, 3],
-                'column_one': ['a', 'b', 'c'],
-                'column_two': [2, 4, 6]
-            }
-            db.create_table('test_table', data, replace=True)
+            columns = [
+                dict(name='id', type_='Integer', primary_key=True),
+                ('column_one', 'String'),
+                ('column_two', 'Integer')
+            ]
+            db.create_table('test_table', columns)
             
             # Select columns and limit to 6 rows
             sql = db._build_query(
@@ -376,14 +388,26 @@ class Database:
 
             from msdss_base_database.core import Database
             db = Database()
+
+            # Check if the table exists and drop if it does
+            if db.has_table("test_table"):
+                db.drop_table("test_table")
             
             # Create sample table
+            columns = [
+                dict(name='id', type_='Integer', primary_key=True),
+                ('column_one', 'String'),
+                ('column_two', 'Integer')
+            ]
+            db.create_table('test_table', columns)
+
+            # Write sample data
             data = {
                 'id': [1, 2, 3],
                 'column_one': ['a', 'b', 'c'],
                 'column_two': [2, 4, 6]
             }
-            db.create_table('test_table', data, replace=True)
+            db.insert('test_table', data)
             
             # Get data from query
             cursor = db._execute_query('SELECT * FROM test_table LIMIT 5;')
@@ -421,18 +445,82 @@ class Database:
             from msdss_base_database.core import Database
             db = Database()
 
+            # Check if the table exists and drop if it does
+            if db.has_table("test_table"):
+                db.drop_table("test_table")
+
             # Create sample table
-            data = {
-                'id': [1, 2, 3],
-                'column_one': ['a', 'b', 'c'],
-                'column_two': [2, 4, 6]
-            }
-            db.create_table('test_table', data, replace=True)
+            columns = [
+                dict(name='id', type_='Integer', primary_key=True),
+                ('column_one', 'String'),
+                ('column_two', 'Integer')
+            ]
+            db.create_table('test_table', columns)
 
             # Get the table object
             tb = db._get_table('test_table')
         """
         out = sqlalchemy.Table(table, self._metadata, autoload_with=self._connection, *args, **kwargs)
+        return out
+
+    def _list_to_columns(self, clist):
+        """
+        Converts a list of dict or list to ``sqlalchemy`` columns.
+
+        Parameters
+        ----------
+        clist : list(dict) or list(list)
+            List of dict (kwargs) or lists (positional args) that are passed to :class:`sqlalchemy.schema.Column`. Data types can also be specified as str.
+            
+            * Example list(dict): ``[dict(name='id', type_='Integer', autoincrement=True, primary_key=True), dict(name='col', type='String')]``
+            * Example list(list): ``[('id', 'Integer'), ('col', 'String')]``
+        *args, **kwargs
+            Additional arguments passed to :class:`sqlalchemy.schema.Table`.
+
+        Return
+        ------
+        list(:class:`sqlalchemy.schema.Column`)
+            A list of ``Column`` objects from ``sqlalchemy``.
+
+        Author
+        ------
+        Richard Wen <rrwen.dev@gmail.com>
+
+        Example
+        -------
+        .. jupyter-execute::
+            :hide-output:
+
+            from msdss_base_database.core import Database
+            db = Database()
+
+            # Create column definitions
+            clist = [
+                dict(name='id', type_='Integer', primary_key=True),
+                dict(name='column_one', type_='String'),
+                dict(name='column_two', type_='Integer')
+            ]
+
+            # Convert to sqlalchemy column objects
+            columns = db._list_to_columns(clist)
+        """
+
+        # (Database_list_to_columns_convert) Convert data types from str
+        clist = [list(c) if isinstance(c, tuple) else c for c in clist] # conv tuples to list
+        for i, c in clist:
+
+            # (Database_list_to_columns_convert_type) Get data type depending on list or dict
+            if isinstance(c, dict):
+                ctype = c['type_']
+            elif isinstance(c, list):
+                ctype = c[1]
+            
+            # (Databse_list_columns_convert_str) Convert to column if str
+            if isinstance(ctype, str):
+                clist[i] = getattr(sqlalchemy, ctype)
+
+        # (Database_list_to_columns_return) Return the list of sqlalchemy columns
+        out = [sqlalchemy.Column(*c) if isinstance(c, list) else sqlalchemy.Column(**c) for c in clist]
         return out
 
     def _write_data(self, table, data, schema=None, if_exists='append', index=False, *args, **kwargs):
@@ -466,6 +554,10 @@ class Database:
             
             # Setup database
             db = Database()
+
+            # Check if the table exists and drop if it does
+            if db.has_table("test_table"):
+                db.drop_table("test_table")
             
             # Write data to table
             data = {
@@ -478,18 +570,20 @@ class Database:
         data = pandas.DataFrame(data, *args, **kwargs) if not isinstance(data, pandas.DataFrame) else data
         data.to_sql(table, con = self._connection, schema = schema, if_exists = if_exists, index = index)
     
-    def create_table(self, table, data={}, replace=False, *args, **kwargs):
+    def create_table(self, table, columns, *args, **kwargs):
         """
-        Create a table in the database using some data.
+        Create a table in the database.
         
         Parameters
         ----------
         table : str
             Name of the table to create.
-        data : dict or list or :class:`pandas:pandas.DataFrame`
-            Dataframe with the data to create the table from. If ``dict`` or ``list`` see :class:`pandas:pandas.DataFrame` for the format.
-        replace : False
-            Whether to replace the table if it exists or not.
+        columns : list(dict) or list(list)
+            List of dict (kwargs) or lists (positional args) that are passed to :class:`sqlalchemy.schema.Column`. Data types can also be specified as str.
+            
+            * Example list(dict): ``[dict(name='id', type_='Integer', autoincrement=True, primary_key=True), dict(name='col', type='String')]``
+            * Example list(list): ``[('id', 'Integer'), ('col', 'String')]``
+
         *args, **kwargs
             Additional arguments passed to :class:`msdss_base_database.core.Database._write` except that parameter ``if_exists`` is set to ``fail`` or ``replace`` only.
         
@@ -509,17 +603,20 @@ class Database:
             # Drop table if exists
             if db.has_table('test_table'):
                 db.drop_table('test_table')
+
+            # Create column definitions
+            columns = [
+                dict(name='id', type_='Integer', primary_key=True),
+                dict(name='column_one', type_='String'),
+                dict(name='column_two', type_='Integer')
+            ]
             
             # Create the table
-            data = {
-                'id': [1, 2, 3],
-                'column_one': ['a', 'b', 'c'],
-                'column_two': [2, 4, 6]
-            }
-            db.create_table('test_table', data)
+            db.create_table('test_table', columns)
         """
-        if_exists = 'replace' if replace else 'fail'
-        self._write_data(table=table, data=data, if_exists=if_exists, *args, **kwargs)
+        columns = self._list_to_columns(columns)
+        tb = sqlalchemy.Table(table, self._metadata, *columns)
+        tb.create(self._connection)
 
     def delete(self, table, where, where_boolean='AND', *args, **kwargs):
         """
@@ -549,13 +646,25 @@ class Database:
             from msdss_base_database.core import Database
             db = Database()
 
+            # Check if the table exists and drop if it does
+            if db.has_table("test_table"):
+                db.drop_table("test_table")
+
             # Create sample table
+            columns = [
+                dict(name='id', type_='Integer', primary_key=True),
+                ('column_one', 'String'),
+                ('column_two', 'Integer')
+            ]
+            db.create_table('test_table', columns)
+
+            # Write sample data
             data = {
                 'id': [1, 2, 3],
                 'column_one': ['a', 'b', 'c'],
                 'column_two': [2, 4, 6]
             }
-            db.create_table('test_table', data, replace=True)
+            db.insert('test_table', data)
 
             # Delete a row with matching id
             db.delete(
@@ -596,13 +705,17 @@ class Database:
             from msdss_base_database.core import Database
             db = Database()
 
+            # Check if the table exists and drop if it does
+            if db.has_table("test_table"):
+                db.drop_table("test_table")
+
             # Create sample table
-            data = {
-                'id': [1, 2, 3],
-                'column_one': ['a', 'b', 'c'],
-                'column_two': [2, 4, 6]
-            }
-            db.create_table('test_table', data, replace=True)
+            columns = [
+                dict(name='id', type_='Integer', primary_key=True),
+                ('column_one', 'String'),
+                ('column_two', 'Integer')
+            ]
+            db.create_table('test_table', columns)
 
             # Drop the table
             db.drop_table('test_table')
@@ -644,12 +757,12 @@ class Database:
             db.has_table('test_table') # False
             
             # Create sample table
-            data = {
-                'id': [1, 2, 3],
-                'column_one': ['a', 'b', 'c'],
-                'column_two': [2, 4, 6]
-            }
-            db.create_table('test_table', data, replace=True)
+            columns = [
+                dict(name='id', type_='Integer', primary_key=True),
+                ('column_one', 'String'),
+                ('column_two', 'Integer')
+            ]
+            db.create_table('test_table', columns)
 
             # Check if table exists again
             db.has_table('test_table') # True
@@ -685,6 +798,18 @@ class Database:
             
             # Setup database
             db = Database()
+
+            # Check if the table exists and drop if it does
+            if db.has_table("test_table"):
+                db.drop_table("test_table")
+
+            # Create sample table
+            columns = [
+                dict(name='id', type_='Integer', primary_key=True),
+                ('column_one', 'String'),
+                ('column_two', 'Integer')
+            ]
+            db.create_table('test_table', columns)
             
             # Write data to table
             data = {
@@ -692,11 +817,7 @@ class Database:
                 'column_one': ['a', 'b', 'c'],
                 'column_two': [2, 4, 6]
             }
-            db.create_table('test_table', data, replace=True)
-
-            # Insert new value to table
-            new = {'id': [4]}
-            db.insert('test_table', new)
+            db.insert('test_table', data)
 
             # Insert more new values to table
             more_new = {
@@ -773,14 +894,26 @@ class Database:
             
             # Setup database
             db = Database()
+
+            # Check if the table exists and drop if it does
+            if db.has_table("test_table"):
+                db.drop_table("test_table")
             
-            # Create Sample Data
+            # Create sample table
+            columns = [
+                dict(name='id', type_='Integer', primary_key=True),
+                ('column_one', 'String'),
+                ('column_two', 'Integer')
+            ]
+            db.create_table('test_table', columns)
+
+            # Write sample data
             data = {
                 'id': [1, 2, 3],
                 'column_one': ['a', 'b', 'c'],
                 'column_two': [2, 4, 6]
             }
-            db.create_table('test_table', data, replace=True)
+            db.insert('test_table', data)
             
             # Read data from table using select and limit
             data = db.select(
@@ -855,14 +988,26 @@ class Database:
             
             # Setup database
             db = Database()
+
+            # Check if the table exists and drop if it does
+            if db.has_table("test_table"):
+                db.drop_table("test_table")
             
-            # Write data to table
+            # Create sample table
+            columns = [
+                dict(name='id', type_='Integer', primary_key=True),
+                ('column_one', 'String'),
+                ('column_two', 'Integer')
+            ]
+            db.create_table('test_table', columns)
+
+            # Write sample data
             data = {
                 'id': [1, 2, 3],
                 'column_one': ['a', 'b', 'c'],
                 'column_two': [2, 4, 6]
             }
-            db.create_table('test_table', data, replace=True)
+            db.insert('test_table', data)
 
             # Update values in table
             db.update(

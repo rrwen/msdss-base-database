@@ -34,6 +34,7 @@ After installing the package, set up environment variables using ``msdss-dotenv`
 
 .. code::
    
+   msdss-dotenv init
    msdss-dotenv set MSDSS_DATABASE_DRIVER postgresql
    msdss-dotenv set MSDSS_DATABASE_USER msdss
    msdss-dotenv set MSDSS_DATABASE_PASSWORD msdss123
@@ -51,13 +52,25 @@ In Python, use the package via :class:`msdss_base_database.core.Database` method
    # Initiate a connection, assuming env vars set
    db = Database()
 
+   # Check if the table exists and drop if it does
+   if db.has_table("test_table"):
+         db.drop_table("test_table")
+
    # Create sample table
+   columns = [
+      dict(name='id', type_='Integer', primary_key=True),
+      ('column_one', 'String'),
+      ('column_two', 'Integer')
+   ]
+   db.create_table('test_table', columns)
+
+   # Write sample data
    data = {
-      'id': [1, 2, 3],
-      'column_one': ['a', 'b', 'c'],
-      'column_two': [2, 4, 6]
+         'id': [1, 2, 3],
+         'column_one': ['a', 'b', 'c'],
+         'column_two': [2, 4, 6]
    }
-   db.create_table('test_table', data, replace=True)
+   db.insert('test_table', data)
 
    # Read the table to a pandas dataframe
    df = db.select('test_table')
@@ -81,10 +94,6 @@ In Python, use the package via :class:`msdss_base_database.core.Database` method
       'test_table',
       where=('id', '>', 3),
       values={'column_one': 'AA'})
-
-   # Check if the table exists and drop if it does
-   if db.has_table("test_table"):
-      db.drop_table("test_table")
 
 How it Works
 ============
