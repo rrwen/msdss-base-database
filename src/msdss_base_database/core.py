@@ -507,17 +507,18 @@ class Database:
 
         # (Database_list_to_columns_convert) Convert data types from str
         clist = [list(c) if isinstance(c, tuple) else c for c in clist] # conv tuples to list
-        for i, c in clist:
+        for i, c in enumerate(clist):
 
             # (Database_list_to_columns_convert_type) Get data type depending on list or dict
             if isinstance(c, dict):
-                ctype = c['type_']
+                cidx = 'type_'
             elif isinstance(c, list):
-                ctype = c[1]
+                cidx = 1
+            ctype = c[cidx]
             
             # (Databse_list_columns_convert_str) Convert to column if str
             if isinstance(ctype, str):
-                clist[i] = getattr(sqlalchemy, ctype)
+                clist[i][cidx] = getattr(sqlalchemy, ctype)
 
         # (Database_list_to_columns_return) Return the list of sqlalchemy columns
         out = [sqlalchemy.Column(*c) if isinstance(c, list) else sqlalchemy.Column(**c) for c in clist]
@@ -615,7 +616,7 @@ class Database:
             db.create_table('test_table', columns)
         """
         columns = self._list_to_columns(columns)
-        tb = sqlalchemy.Table(table, self._metadata, *columns)
+        tb = sqlalchemy.Table(table, self._metadata, *columns, extend_existing=True)
         tb.create(self._connection)
 
     def delete(self, table, where, where_boolean='AND', *args, **kwargs):

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>msdss_base_database.core &mdash; msdss_base_database 0.0.0 documentation</title>
+  <title>msdss_base_database.core &mdash; msdss_base_database 0.0.2 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
@@ -33,7 +33,7 @@
             <a href="../../index.html" class="icon icon-home"> msdss_base_database
           </a>
               <div class="version">
-                0.0.0
+                0.0.2
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -136,13 +136,25 @@
 <span class="sd">            database=&quot;msdss&quot;</span>
 <span class="sd">        )</span>
 
+<span class="sd">        # Check if the table exists and drop if it does</span>
+<span class="sd">        if db.has_table(&quot;test_table&quot;):</span>
+<span class="sd">            db.drop_table(&quot;test_table&quot;)</span>
+
 <span class="sd">        # Create sample table</span>
+<span class="sd">        columns = [</span>
+<span class="sd">            dict(name=&#39;id&#39;, type_=&#39;Integer&#39;, primary_key=True),</span>
+<span class="sd">            (&#39;column_one&#39;, &#39;String&#39;),</span>
+<span class="sd">            (&#39;column_two&#39;, &#39;Integer&#39;)</span>
+<span class="sd">        ]</span>
+<span class="sd">        db.create_table(&#39;test_table&#39;, columns)</span>
+
+<span class="sd">        # Write sample data</span>
 <span class="sd">        data = {</span>
 <span class="sd">            &#39;id&#39;: [1, 2, 3],</span>
 <span class="sd">            &#39;column_one&#39;: [&#39;a&#39;, &#39;b&#39;, &#39;c&#39;],</span>
 <span class="sd">            &#39;column_two&#39;: [2, 4, 6]</span>
 <span class="sd">        }</span>
-<span class="sd">        db.create_table(&#39;test_table&#39;, data, replace=True)</span>
+<span class="sd">        db.insert(&#39;test_table&#39;, data)</span>
 
 <span class="sd">        # Read the table to a pandas dataframe</span>
 <span class="sd">        df = db.select(&#39;test_table&#39;)</span>
@@ -166,10 +178,6 @@
 <span class="sd">            &#39;test_table&#39;,</span>
 <span class="sd">            where=(&#39;id&#39;, &#39;&gt;&#39;, 3),</span>
 <span class="sd">            values={&#39;column_one&#39;: &#39;AA&#39;})</span>
-
-<span class="sd">        # Check if the table exists and drop if it does</span>
-<span class="sd">        if db.has_table(&quot;test_table&quot;):</span>
-<span class="sd">            db.drop_table(&quot;test_table&quot;)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -283,14 +291,18 @@
 <span class="sd">            </span>
 <span class="sd">            # Setup database</span>
 <span class="sd">            db = Database()</span>
+
+<span class="sd">            # Check if the table exists and drop if it does</span>
+<span class="sd">            if db.has_table(&quot;test_table&quot;):</span>
+<span class="sd">                db.drop_table(&quot;test_table&quot;)</span>
 <span class="sd">            </span>
 <span class="sd">            # Create sample table</span>
-<span class="sd">            data = {</span>
-<span class="sd">                &#39;id&#39;: [1, 2, 3],</span>
-<span class="sd">                &#39;column_one&#39;: [&#39;a&#39;, &#39;b&#39;, &#39;c&#39;],</span>
-<span class="sd">                &#39;column_two&#39;: [2, 4, 6]</span>
-<span class="sd">            }</span>
-<span class="sd">            db.create_table(&#39;test_table&#39;, data, replace=True)</span>
+<span class="sd">            columns = [</span>
+<span class="sd">                dict(name=&#39;id&#39;, type_=&#39;Integer&#39;, primary_key=True),</span>
+<span class="sd">                (&#39;column_one&#39;, &#39;String&#39;),</span>
+<span class="sd">                (&#39;column_two&#39;, &#39;Integer&#39;)</span>
+<span class="sd">            ]</span>
+<span class="sd">            db.create_table(&#39;test_table&#39;, columns)</span>
 <span class="sd">            </span>
 <span class="sd">            # Select columns and limit to 6 rows</span>
 <span class="sd">            sql = db._build_query(</span>
@@ -457,14 +469,26 @@
 
 <span class="sd">            from msdss_base_database.core import Database</span>
 <span class="sd">            db = Database()</span>
+
+<span class="sd">            # Check if the table exists and drop if it does</span>
+<span class="sd">            if db.has_table(&quot;test_table&quot;):</span>
+<span class="sd">                db.drop_table(&quot;test_table&quot;)</span>
 <span class="sd">            </span>
 <span class="sd">            # Create sample table</span>
+<span class="sd">            columns = [</span>
+<span class="sd">                dict(name=&#39;id&#39;, type_=&#39;Integer&#39;, primary_key=True),</span>
+<span class="sd">                (&#39;column_one&#39;, &#39;String&#39;),</span>
+<span class="sd">                (&#39;column_two&#39;, &#39;Integer&#39;)</span>
+<span class="sd">            ]</span>
+<span class="sd">            db.create_table(&#39;test_table&#39;, columns)</span>
+
+<span class="sd">            # Write sample data</span>
 <span class="sd">            data = {</span>
 <span class="sd">                &#39;id&#39;: [1, 2, 3],</span>
 <span class="sd">                &#39;column_one&#39;: [&#39;a&#39;, &#39;b&#39;, &#39;c&#39;],</span>
 <span class="sd">                &#39;column_two&#39;: [2, 4, 6]</span>
 <span class="sd">            }</span>
-<span class="sd">            db.create_table(&#39;test_table&#39;, data, replace=True)</span>
+<span class="sd">            db.insert(&#39;test_table&#39;, data)</span>
 <span class="sd">            </span>
 <span class="sd">            # Get data from query</span>
 <span class="sd">            cursor = db._execute_query(&#39;SELECT * FROM test_table LIMIT 5;&#39;)</span>
@@ -502,18 +526,83 @@
 <span class="sd">            from msdss_base_database.core import Database</span>
 <span class="sd">            db = Database()</span>
 
+<span class="sd">            # Check if the table exists and drop if it does</span>
+<span class="sd">            if db.has_table(&quot;test_table&quot;):</span>
+<span class="sd">                db.drop_table(&quot;test_table&quot;)</span>
+
 <span class="sd">            # Create sample table</span>
-<span class="sd">            data = {</span>
-<span class="sd">                &#39;id&#39;: [1, 2, 3],</span>
-<span class="sd">                &#39;column_one&#39;: [&#39;a&#39;, &#39;b&#39;, &#39;c&#39;],</span>
-<span class="sd">                &#39;column_two&#39;: [2, 4, 6]</span>
-<span class="sd">            }</span>
-<span class="sd">            db.create_table(&#39;test_table&#39;, data, replace=True)</span>
+<span class="sd">            columns = [</span>
+<span class="sd">                dict(name=&#39;id&#39;, type_=&#39;Integer&#39;, primary_key=True),</span>
+<span class="sd">                (&#39;column_one&#39;, &#39;String&#39;),</span>
+<span class="sd">                (&#39;column_two&#39;, &#39;Integer&#39;)</span>
+<span class="sd">            ]</span>
+<span class="sd">            db.create_table(&#39;test_table&#39;, columns)</span>
 
 <span class="sd">            # Get the table object</span>
 <span class="sd">            tb = db._get_table(&#39;test_table&#39;)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">out</span> <span class="o">=</span> <span class="n">sqlalchemy</span><span class="o">.</span><span class="n">Table</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_metadata</span><span class="p">,</span> <span class="n">autoload_with</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_connection</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">out</span></div>
+
+<div class="viewcode-block" id="Database._list_to_columns"><a class="viewcode-back" href="../../index.html#msdss_base_database.core.Database._list_to_columns">[docs]</a>    <span class="k">def</span> <span class="nf">_list_to_columns</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">clist</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Converts a list of dict or list to ``sqlalchemy`` columns.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        clist : list(dict) or list(list)</span>
+<span class="sd">            List of dict (kwargs) or lists (positional args) that are passed to :class:`sqlalchemy.schema.Column`. Data types can also be specified as str.</span>
+<span class="sd">            </span>
+<span class="sd">            * Example list(dict): ``[dict(name=&#39;id&#39;, type_=&#39;Integer&#39;, autoincrement=True, primary_key=True), dict(name=&#39;col&#39;, type=&#39;String&#39;)]``</span>
+<span class="sd">            * Example list(list): ``[(&#39;id&#39;, &#39;Integer&#39;), (&#39;col&#39;, &#39;String&#39;)]``</span>
+<span class="sd">        *args, **kwargs</span>
+<span class="sd">            Additional arguments passed to :class:`sqlalchemy.schema.Table`.</span>
+
+<span class="sd">        Return</span>
+<span class="sd">        ------</span>
+<span class="sd">        list(:class:`sqlalchemy.schema.Column`)</span>
+<span class="sd">            A list of ``Column`` objects from ``sqlalchemy``.</span>
+
+<span class="sd">        Author</span>
+<span class="sd">        ------</span>
+<span class="sd">        Richard Wen &lt;rrwen.dev@gmail.com&gt;</span>
+
+<span class="sd">        Example</span>
+<span class="sd">        -------</span>
+<span class="sd">        .. jupyter-execute::</span>
+<span class="sd">            :hide-output:</span>
+
+<span class="sd">            from msdss_base_database.core import Database</span>
+<span class="sd">            db = Database()</span>
+
+<span class="sd">            # Create column definitions</span>
+<span class="sd">            clist = [</span>
+<span class="sd">                dict(name=&#39;id&#39;, type_=&#39;Integer&#39;, primary_key=True),</span>
+<span class="sd">                dict(name=&#39;column_one&#39;, type_=&#39;String&#39;),</span>
+<span class="sd">                dict(name=&#39;column_two&#39;, type_=&#39;Integer&#39;)</span>
+<span class="sd">            ]</span>
+
+<span class="sd">            # Convert to sqlalchemy column objects</span>
+<span class="sd">            columns = db._list_to_columns(clist)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># (Database_list_to_columns_convert) Convert data types from str</span>
+        <span class="n">clist</span> <span class="o">=</span> <span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)</span> <span class="k">else</span> <span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">clist</span><span class="p">]</span> <span class="c1"># conv tuples to list</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">clist</span><span class="p">):</span>
+
+            <span class="c1"># (Database_list_to_columns_convert_type) Get data type depending on list or dict</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+                <span class="n">cidx</span> <span class="o">=</span> <span class="s1">&#39;type_&#39;</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                <span class="n">cidx</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="n">ctype</span> <span class="o">=</span> <span class="n">c</span><span class="p">[</span><span class="n">cidx</span><span class="p">]</span>
+            
+            <span class="c1"># (Databse_list_columns_convert_str) Convert to column if str</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ctype</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+                <span class="n">clist</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">cidx</span><span class="p">]</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">sqlalchemy</span><span class="p">,</span> <span class="n">ctype</span><span class="p">)</span>
+
+        <span class="c1"># (Database_list_to_columns_return) Return the list of sqlalchemy columns</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="p">[</span><span class="n">sqlalchemy</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="o">*</span><span class="n">c</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="k">else</span> <span class="n">sqlalchemy</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="o">**</span><span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">clist</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">out</span></div>
 
 <div class="viewcode-block" id="Database._write_data"><a class="viewcode-back" href="../../index.html#msdss_base_database.core.Database._write_data">[docs]</a>    <span class="k">def</span> <span class="nf">_write_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">schema</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">if_exists</span><span class="o">=</span><span class="s1">&#39;append&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -547,6 +636,10 @@
 <span class="sd">            </span>
 <span class="sd">            # Setup database</span>
 <span class="sd">            db = Database()</span>
+
+<span class="sd">            # Check if the table exists and drop if it does</span>
+<span class="sd">            if db.has_table(&quot;test_table&quot;):</span>
+<span class="sd">                db.drop_table(&quot;test_table&quot;)</span>
 <span class="sd">            </span>
 <span class="sd">            # Write data to table</span>
 <span class="sd">            data = {</span>
@@ -559,18 +652,20 @@
         <span class="n">data</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="k">else</span> <span class="n">data</span>
         <span class="n">data</span><span class="o">.</span><span class="n">to_sql</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="n">con</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_connection</span><span class="p">,</span> <span class="n">schema</span> <span class="o">=</span> <span class="n">schema</span><span class="p">,</span> <span class="n">if_exists</span> <span class="o">=</span> <span class="n">if_exists</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="n">index</span><span class="p">)</span></div>
     
-<div class="viewcode-block" id="Database.create_table"><a class="viewcode-back" href="../../index.html#msdss_base_database.core.Database.create_table">[docs]</a>    <span class="k">def</span> <span class="nf">create_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="p">{},</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="Database.create_table"><a class="viewcode-back" href="../../index.html#msdss_base_database.core.Database.create_table">[docs]</a>    <span class="k">def</span> <span class="nf">create_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">columns</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Create a table in the database using some data.</span>
+<span class="sd">        Create a table in the database.</span>
 <span class="sd">        </span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        table : str</span>
 <span class="sd">            Name of the table to create.</span>
-<span class="sd">        data : dict or list or :class:`pandas:pandas.DataFrame`</span>
-<span class="sd">            Dataframe with the data to create the table from. If ``dict`` or ``list`` see :class:`pandas:pandas.DataFrame` for the format.</span>
-<span class="sd">        replace : False</span>
-<span class="sd">            Whether to replace the table if it exists or not.</span>
+<span class="sd">        columns : list(dict) or list(list)</span>
+<span class="sd">            List of dict (kwargs) or lists (positional args) that are passed to :class:`sqlalchemy.schema.Column`. Data types can also be specified as str.</span>
+<span class="sd">            </span>
+<span class="sd">            * Example list(dict): ``[dict(name=&#39;id&#39;, type_=&#39;Integer&#39;, autoincrement=True, primary_key=True), dict(name=&#39;col&#39;, type=&#39;String&#39;)]``</span>
+<span class="sd">            * Example list(list): ``[(&#39;id&#39;, &#39;Integer&#39;), (&#39;col&#39;, &#39;String&#39;)]``</span>
+
 <span class="sd">        *args, **kwargs</span>
 <span class="sd">            Additional arguments passed to :class:`msdss_base_database.core.Database._write` except that parameter ``if_exists`` is set to ``fail`` or ``replace`` only.</span>
 <span class="sd">        </span>
@@ -590,17 +685,20 @@
 <span class="sd">            # Drop table if exists</span>
 <span class="sd">            if db.has_table(&#39;test_table&#39;):</span>
 <span class="sd">                db.drop_table(&#39;test_table&#39;)</span>
+
+<span class="sd">            # Create column definitions</span>
+<span class="sd">            columns = [</span>
+<span class="sd">                dict(name=&#39;id&#39;, type_=&#39;Integer&#39;, primary_key=True),</span>
+<span class="sd">                dict(name=&#39;column_one&#39;, type_=&#39;String&#39;),</span>
+<span class="sd">                dict(name=&#39;column_two&#39;, type_=&#39;Integer&#39;)</span>
+<span class="sd">            ]</span>
 <span class="sd">            </span>
 <span class="sd">            # Create the table</span>
-<span class="sd">            data = {</span>
-<span class="sd">                &#39;id&#39;: [1, 2, 3],</span>
-<span class="sd">                &#39;column_one&#39;: [&#39;a&#39;, &#39;b&#39;, &#39;c&#39;],</span>
-<span class="sd">                &#39;column_two&#39;: [2, 4, 6]</span>
-<span class="sd">            }</span>
-<span class="sd">            db.create_table(&#39;test_table&#39;, data)</span>
+<span class="sd">            db.create_table(&#39;test_table&#39;, columns)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">if_exists</span> <span class="o">=</span> <span class="s1">&#39;replace&#39;</span> <span class="k">if</span> <span class="n">replace</span> <span class="k">else</span> <span class="s1">&#39;fail&#39;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_write_data</span><span class="p">(</span><span class="n">table</span><span class="o">=</span><span class="n">table</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">if_exists</span><span class="o">=</span><span class="n">if_exists</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+        <span class="n">columns</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_list_to_columns</span><span class="p">(</span><span class="n">columns</span><span class="p">)</span>
+        <span class="n">tb</span> <span class="o">=</span> <span class="n">sqlalchemy</span><span class="o">.</span><span class="n">Table</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_metadata</span><span class="p">,</span> <span class="o">*</span><span class="n">columns</span><span class="p">,</span> <span class="n">extend_existing</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">tb</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_connection</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Database.delete"><a class="viewcode-back" href="../../index.html#msdss_base_database.core.Database.delete">[docs]</a>    <span class="k">def</span> <span class="nf">delete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">where</span><span class="p">,</span> <span class="n">where_boolean</span><span class="o">=</span><span class="s1">&#39;AND&#39;</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -630,13 +728,25 @@
 <span class="sd">            from msdss_base_database.core import Database</span>
 <span class="sd">            db = Database()</span>
 
+<span class="sd">            # Check if the table exists and drop if it does</span>
+<span class="sd">            if db.has_table(&quot;test_table&quot;):</span>
+<span class="sd">                db.drop_table(&quot;test_table&quot;)</span>
+
 <span class="sd">            # Create sample table</span>
+<span class="sd">            columns = [</span>
+<span class="sd">                dict(name=&#39;id&#39;, type_=&#39;Integer&#39;, primary_key=True),</span>
+<span class="sd">                (&#39;column_one&#39;, &#39;String&#39;),</span>
+<span class="sd">                (&#39;column_two&#39;, &#39;Integer&#39;)</span>
+<span class="sd">            ]</span>
+<span class="sd">            db.create_table(&#39;test_table&#39;, columns)</span>
+
+<span class="sd">            # Write sample data</span>
 <span class="sd">            data = {</span>
 <span class="sd">                &#39;id&#39;: [1, 2, 3],</span>
 <span class="sd">                &#39;column_one&#39;: [&#39;a&#39;, &#39;b&#39;, &#39;c&#39;],</span>
 <span class="sd">                &#39;column_two&#39;: [2, 4, 6]</span>
 <span class="sd">            }</span>
-<span class="sd">            db.create_table(&#39;test_table&#39;, data, replace=True)</span>
+<span class="sd">            db.insert(&#39;test_table&#39;, data)</span>
 
 <span class="sd">            # Delete a row with matching id</span>
 <span class="sd">            db.delete(</span>
@@ -677,13 +787,17 @@
 <span class="sd">            from msdss_base_database.core import Database</span>
 <span class="sd">            db = Database()</span>
 
+<span class="sd">            # Check if the table exists and drop if it does</span>
+<span class="sd">            if db.has_table(&quot;test_table&quot;):</span>
+<span class="sd">                db.drop_table(&quot;test_table&quot;)</span>
+
 <span class="sd">            # Create sample table</span>
-<span class="sd">            data = {</span>
-<span class="sd">                &#39;id&#39;: [1, 2, 3],</span>
-<span class="sd">                &#39;column_one&#39;: [&#39;a&#39;, &#39;b&#39;, &#39;c&#39;],</span>
-<span class="sd">                &#39;column_two&#39;: [2, 4, 6]</span>
-<span class="sd">            }</span>
-<span class="sd">            db.create_table(&#39;test_table&#39;, data, replace=True)</span>
+<span class="sd">            columns = [</span>
+<span class="sd">                dict(name=&#39;id&#39;, type_=&#39;Integer&#39;, primary_key=True),</span>
+<span class="sd">                (&#39;column_one&#39;, &#39;String&#39;),</span>
+<span class="sd">                (&#39;column_two&#39;, &#39;Integer&#39;)</span>
+<span class="sd">            ]</span>
+<span class="sd">            db.create_table(&#39;test_table&#39;, columns)</span>
 
 <span class="sd">            # Drop the table</span>
 <span class="sd">            db.drop_table(&#39;test_table&#39;)</span>
@@ -725,12 +839,12 @@
 <span class="sd">            db.has_table(&#39;test_table&#39;) # False</span>
 <span class="sd">            </span>
 <span class="sd">            # Create sample table</span>
-<span class="sd">            data = {</span>
-<span class="sd">                &#39;id&#39;: [1, 2, 3],</span>
-<span class="sd">                &#39;column_one&#39;: [&#39;a&#39;, &#39;b&#39;, &#39;c&#39;],</span>
-<span class="sd">                &#39;column_two&#39;: [2, 4, 6]</span>
-<span class="sd">            }</span>
-<span class="sd">            db.create_table(&#39;test_table&#39;, data, replace=True)</span>
+<span class="sd">            columns = [</span>
+<span class="sd">                dict(name=&#39;id&#39;, type_=&#39;Integer&#39;, primary_key=True),</span>
+<span class="sd">                (&#39;column_one&#39;, &#39;String&#39;),</span>
+<span class="sd">                (&#39;column_two&#39;, &#39;Integer&#39;)</span>
+<span class="sd">            ]</span>
+<span class="sd">            db.create_table(&#39;test_table&#39;, columns)</span>
 
 <span class="sd">            # Check if table exists again</span>
 <span class="sd">            db.has_table(&#39;test_table&#39;) # True</span>
@@ -766,6 +880,18 @@
 <span class="sd">            </span>
 <span class="sd">            # Setup database</span>
 <span class="sd">            db = Database()</span>
+
+<span class="sd">            # Check if the table exists and drop if it does</span>
+<span class="sd">            if db.has_table(&quot;test_table&quot;):</span>
+<span class="sd">                db.drop_table(&quot;test_table&quot;)</span>
+
+<span class="sd">            # Create sample table</span>
+<span class="sd">            columns = [</span>
+<span class="sd">                dict(name=&#39;id&#39;, type_=&#39;Integer&#39;, primary_key=True),</span>
+<span class="sd">                (&#39;column_one&#39;, &#39;String&#39;),</span>
+<span class="sd">                (&#39;column_two&#39;, &#39;Integer&#39;)</span>
+<span class="sd">            ]</span>
+<span class="sd">            db.create_table(&#39;test_table&#39;, columns)</span>
 <span class="sd">            </span>
 <span class="sd">            # Write data to table</span>
 <span class="sd">            data = {</span>
@@ -773,11 +899,7 @@
 <span class="sd">                &#39;column_one&#39;: [&#39;a&#39;, &#39;b&#39;, &#39;c&#39;],</span>
 <span class="sd">                &#39;column_two&#39;: [2, 4, 6]</span>
 <span class="sd">            }</span>
-<span class="sd">            db.create_table(&#39;test_table&#39;, data, replace=True)</span>
-
-<span class="sd">            # Insert new value to table</span>
-<span class="sd">            new = {&#39;id&#39;: [4]}</span>
-<span class="sd">            db.insert(&#39;test_table&#39;, new)</span>
+<span class="sd">            db.insert(&#39;test_table&#39;, data)</span>
 
 <span class="sd">            # Insert more new values to table</span>
 <span class="sd">            more_new = {</span>
@@ -854,14 +976,26 @@
 <span class="sd">            </span>
 <span class="sd">            # Setup database</span>
 <span class="sd">            db = Database()</span>
+
+<span class="sd">            # Check if the table exists and drop if it does</span>
+<span class="sd">            if db.has_table(&quot;test_table&quot;):</span>
+<span class="sd">                db.drop_table(&quot;test_table&quot;)</span>
 <span class="sd">            </span>
-<span class="sd">            # Create Sample Data</span>
+<span class="sd">            # Create sample table</span>
+<span class="sd">            columns = [</span>
+<span class="sd">                dict(name=&#39;id&#39;, type_=&#39;Integer&#39;, primary_key=True),</span>
+<span class="sd">                (&#39;column_one&#39;, &#39;String&#39;),</span>
+<span class="sd">                (&#39;column_two&#39;, &#39;Integer&#39;)</span>
+<span class="sd">            ]</span>
+<span class="sd">            db.create_table(&#39;test_table&#39;, columns)</span>
+
+<span class="sd">            # Write sample data</span>
 <span class="sd">            data = {</span>
 <span class="sd">                &#39;id&#39;: [1, 2, 3],</span>
 <span class="sd">                &#39;column_one&#39;: [&#39;a&#39;, &#39;b&#39;, &#39;c&#39;],</span>
 <span class="sd">                &#39;column_two&#39;: [2, 4, 6]</span>
 <span class="sd">            }</span>
-<span class="sd">            db.create_table(&#39;test_table&#39;, data, replace=True)</span>
+<span class="sd">            db.insert(&#39;test_table&#39;, data)</span>
 <span class="sd">            </span>
 <span class="sd">            # Read data from table using select and limit</span>
 <span class="sd">            data = db.select(</span>
@@ -936,14 +1070,26 @@
 <span class="sd">            </span>
 <span class="sd">            # Setup database</span>
 <span class="sd">            db = Database()</span>
+
+<span class="sd">            # Check if the table exists and drop if it does</span>
+<span class="sd">            if db.has_table(&quot;test_table&quot;):</span>
+<span class="sd">                db.drop_table(&quot;test_table&quot;)</span>
 <span class="sd">            </span>
-<span class="sd">            # Write data to table</span>
+<span class="sd">            # Create sample table</span>
+<span class="sd">            columns = [</span>
+<span class="sd">                dict(name=&#39;id&#39;, type_=&#39;Integer&#39;, primary_key=True),</span>
+<span class="sd">                (&#39;column_one&#39;, &#39;String&#39;),</span>
+<span class="sd">                (&#39;column_two&#39;, &#39;Integer&#39;)</span>
+<span class="sd">            ]</span>
+<span class="sd">            db.create_table(&#39;test_table&#39;, columns)</span>
+
+<span class="sd">            # Write sample data</span>
 <span class="sd">            data = {</span>
 <span class="sd">                &#39;id&#39;: [1, 2, 3],</span>
 <span class="sd">                &#39;column_one&#39;: [&#39;a&#39;, &#39;b&#39;, &#39;c&#39;],</span>
 <span class="sd">                &#39;column_two&#39;: [2, 4, 6]</span>
 <span class="sd">            }</span>
-<span class="sd">            db.create_table(&#39;test_table&#39;, data, replace=True)</span>
+<span class="sd">            db.insert(&#39;test_table&#39;, data)</span>
 
 <span class="sd">            # Update values in table</span>
 <span class="sd">            db.update(</span>
