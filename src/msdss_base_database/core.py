@@ -1,5 +1,8 @@
+import os
 import pandas
 import sqlalchemy
+
+from msdss_base_dotenv import env_exists, load_env_file
 
 class Database:
     """
@@ -95,7 +98,27 @@ class Database:
         host='localhost',
         port='5432',
         database='msdss',
+        load_env=True,
+        env_file='./.env',
+        key_path=None,
+        driver_key='MSDSS_DATABASE_DRIVER',
+        user_key='MSDSS_DATABASE_USER',
+        password_key='MSDSS_DATABASE_PASSWORD',
+        host_key='MSDSS_DATABASE_HOST',
+        port_key='MSDSS_DATABASE_PORT',
+        database_key='MSDSS_DATABASE_NAME',
         *args, **kwargs):
+
+        # (Database_env) Load env if it exists
+        has_env = env_exists(file_path=env_file, key_path=key_path)
+        if load_env and has_env:
+            load_env_file(file_path=env_file, key_path=key_path)
+            driver = os.getenv(driver_key, driver)
+            user = os.getenv(user_key, user)
+            password = os.getenv(password_key, password)
+            host = os.getenv(host_key, host)
+            port = os.getenv(port_key, port)
+            database = os.getenv(database_key, database)
         
         # (Database_connect_str) Build connection str from parameters
         connection_str = str(sqlalchemy.engine.URL.create(drivername=driver, username=user, password=password, host=host, port=port, database=database, *args, **kwargs))

@@ -12,17 +12,36 @@ Install
 
 1. Install `Anaconda 3 <https://www.anaconda.com/>`_ for Python
 2. Install ``msdss-base-database`` via pip or through a conda environment
+3. The default is to use ``postgresql`` as the database
 
 .. code::
 
    conda create -n msdss-base-database python=3.8
    conda activate msdss-base-database
-   pip install msdss-base-database
+   pip install msdss-base-database[postgresql]
+
+Optionally, you can also install other databases supported by ``sqlalchemy``:
+
+.. code::
+
+   pip install msdss-base-database[mysql]
+   pip install msdss-base-database[sqlite]
 
 Quick Start
 ===========
 
-After installing the package, use in Python via methods:
+After installing the package, set up environment variables using ``msdss-dotenv`` in a command line terminal:
+
+.. code::
+   
+   msdss-dotenv set MSDSS_DATABASE_DRIVER postgresql
+   msdss-dotenv set MSDSS_DATABASE_USER msdss
+   msdss-dotenv set MSDSS_DATABASE_PASSWORD msdss123
+   msdss-dotenv set MSDSS_DATABASE_HOST localhost
+   msdss-dotenv set MSDSS_DATABASE_PORT 5432
+   msdss-dotenv set MSDSS_DATABASE_NAME msdss
+
+In Python, use the package via :class:`msdss_base_database.core.Database` methods:
 
 .. jupyter-execute::
    :hide-output:
