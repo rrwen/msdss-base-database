@@ -122,50 +122,43 @@
 <div class="cell_input code_cell docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">from</span> <span class="nn">msdss_base_database</span> <span class="kn">import</span> <span class="n">Database</span>
 <span class="linenos"> 2</span>
-<span class="linenos"> 3</span><span class="c1"># Initiate a connection with the default test user and database</span>
-<span class="linenos"> 4</span><span class="n">db</span> <span class="o">=</span> <span class="n">Database</span><span class="p">(</span>
-<span class="linenos"> 5</span>   <span class="n">driver</span><span class="o">=</span><span class="s2">&quot;postgresql&quot;</span><span class="p">,</span>
-<span class="linenos"> 6</span>   <span class="n">user</span><span class="o">=</span><span class="s2">&quot;msdss&quot;</span><span class="p">,</span>
-<span class="linenos"> 7</span>   <span class="n">password</span><span class="o">=</span><span class="s2">&quot;msdss123&quot;</span><span class="p">,</span>
-<span class="linenos"> 8</span>   <span class="n">host</span><span class="o">=</span><span class="s2">&quot;localhost&quot;</span><span class="p">,</span>
-<span class="linenos"> 9</span>   <span class="n">port</span><span class="o">=</span><span class="s2">&quot;5432&quot;</span><span class="p">,</span>
-<span class="linenos">10</span>   <span class="n">database</span><span class="o">=</span><span class="s2">&quot;msdss&quot;</span>
-<span class="linenos">11</span><span class="p">)</span>
-<span class="linenos">12</span>
-<span class="linenos">13</span><span class="c1"># Create sample table</span>
-<span class="linenos">14</span><span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
-<span class="linenos">15</span>   <span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
-<span class="linenos">16</span>   <span class="s1">&#39;column_one&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">],</span>
-<span class="linenos">17</span>   <span class="s1">&#39;column_two&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">]</span>
-<span class="linenos">18</span><span class="p">}</span>
-<span class="linenos">19</span><span class="n">db</span><span class="o">.</span><span class="n">create_table</span><span class="p">(</span><span class="s1">&#39;test_table&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="linenos">20</span>
-<span class="linenos">21</span><span class="c1"># Read the table to a pandas dataframe</span>
-<span class="linenos">22</span><span class="n">df</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">&#39;test_table&#39;</span><span class="p">)</span>
-<span class="linenos">23</span>
-<span class="linenos">24</span><span class="c1"># Insert values into the table</span>
-<span class="linenos">25</span><span class="n">new</span> <span class="o">=</span> <span class="p">{</span>
-<span class="linenos">26</span>   <span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">],</span>
-<span class="linenos">27</span>   <span class="s1">&#39;column_one&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;e&#39;</span><span class="p">,</span> <span class="s1">&#39;f&#39;</span><span class="p">,</span> <span class="s1">&#39;g&#39;</span><span class="p">],</span>
-<span class="linenos">28</span>   <span class="s1">&#39;column_two&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">14</span><span class="p">]</span>
-<span class="linenos">29</span><span class="p">}</span>
-<span class="linenos">30</span><span class="n">db</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="s1">&#39;test_table&#39;</span><span class="p">,</span> <span class="n">new</span><span class="p">)</span>
-<span class="linenos">31</span>
-<span class="linenos">32</span><span class="c1"># Delete rows from the table</span>
-<span class="linenos">33</span><span class="n">db</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span>
-<span class="linenos">34</span>   <span class="s1">&#39;test_table&#39;</span><span class="p">,</span>
-<span class="linenos">35</span>   <span class="n">where</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;=&#39;</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
-<span class="linenos">36</span><span class="p">)</span>
-<span class="linenos">37</span>
-<span class="linenos">38</span><span class="c1"># Update values in table</span>
-<span class="linenos">39</span><span class="n">db</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
-<span class="linenos">40</span>   <span class="s1">&#39;test_table&#39;</span><span class="p">,</span>
-<span class="linenos">41</span>   <span class="n">where</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;&gt;&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
-<span class="linenos">42</span>   <span class="n">values</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;column_one&#39;</span><span class="p">:</span> <span class="s1">&#39;AA&#39;</span><span class="p">})</span>
-<span class="linenos">43</span>
-<span class="linenos">44</span><span class="c1"># Check if the table exists and drop if it does</span>
-<span class="linenos">45</span><span class="k">if</span> <span class="n">db</span><span class="o">.</span><span class="n">has_table</span><span class="p">(</span><span class="s2">&quot;test_table&quot;</span><span class="p">):</span>
-<span class="linenos">46</span>   <span class="n">db</span><span class="o">.</span><span class="n">drop_table</span><span class="p">(</span><span class="s2">&quot;test_table&quot;</span><span class="p">)</span>
+<span class="linenos"> 3</span><span class="c1"># Initiate a connection, assuming env vars set</span>
+<span class="linenos"> 4</span><span class="n">db</span> <span class="o">=</span> <span class="n">Database</span><span class="p">()</span>
+<span class="linenos"> 5</span>
+<span class="linenos"> 6</span><span class="c1"># Create sample table</span>
+<span class="linenos"> 7</span><span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+<span class="linenos"> 8</span>   <span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
+<span class="linenos"> 9</span>   <span class="s1">&#39;column_one&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">],</span>
+<span class="linenos">10</span>   <span class="s1">&#39;column_two&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">]</span>
+<span class="linenos">11</span><span class="p">}</span>
+<span class="linenos">12</span><span class="n">db</span><span class="o">.</span><span class="n">create_table</span><span class="p">(</span><span class="s1">&#39;test_table&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="linenos">13</span>
+<span class="linenos">14</span><span class="c1"># Read the table to a pandas dataframe</span>
+<span class="linenos">15</span><span class="n">df</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">&#39;test_table&#39;</span><span class="p">)</span>
+<span class="linenos">16</span>
+<span class="linenos">17</span><span class="c1"># Insert values into the table</span>
+<span class="linenos">18</span><span class="n">new</span> <span class="o">=</span> <span class="p">{</span>
+<span class="linenos">19</span>   <span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">],</span>
+<span class="linenos">20</span>   <span class="s1">&#39;column_one&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;e&#39;</span><span class="p">,</span> <span class="s1">&#39;f&#39;</span><span class="p">,</span> <span class="s1">&#39;g&#39;</span><span class="p">],</span>
+<span class="linenos">21</span>   <span class="s1">&#39;column_two&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">14</span><span class="p">]</span>
+<span class="linenos">22</span><span class="p">}</span>
+<span class="linenos">23</span><span class="n">db</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="s1">&#39;test_table&#39;</span><span class="p">,</span> <span class="n">new</span><span class="p">)</span>
+<span class="linenos">24</span>
+<span class="linenos">25</span><span class="c1"># Delete rows from the table</span>
+<span class="linenos">26</span><span class="n">db</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span>
+<span class="linenos">27</span>   <span class="s1">&#39;test_table&#39;</span><span class="p">,</span>
+<span class="linenos">28</span>   <span class="n">where</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;=&#39;</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="linenos">29</span><span class="p">)</span>
+<span class="linenos">30</span>
+<span class="linenos">31</span><span class="c1"># Update values in table</span>
+<span class="linenos">32</span><span class="n">db</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+<span class="linenos">33</span>   <span class="s1">&#39;test_table&#39;</span><span class="p">,</span>
+<span class="linenos">34</span>   <span class="n">where</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;&gt;&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
+<span class="linenos">35</span>   <span class="n">values</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;column_one&#39;</span><span class="p">:</span> <span class="s1">&#39;AA&#39;</span><span class="p">})</span>
+<span class="linenos">36</span>
+<span class="linenos">37</span><span class="c1"># Check if the table exists and drop if it does</span>
+<span class="linenos">38</span><span class="k">if</span> <span class="n">db</span><span class="o">.</span><span class="n">has_table</span><span class="p">(</span><span class="s2">&quot;test_table&quot;</span><span class="p">):</span>
+<span class="linenos">39</span>   <span class="n">db</span><span class="o">.</span><span class="n">drop_table</span><span class="p">(</span><span class="s2">&quot;test_table&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>

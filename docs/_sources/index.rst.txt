@@ -48,15 +48,8 @@ In Python, use the package via :class:`msdss_base_database.core.Database` method
 
    from msdss_base_database import Database
 
-   # Initiate a connection with the default test user and database
-   db = Database(
-      driver="postgresql",
-      user="msdss",
-      password="msdss123",
-      host="localhost",
-      port="5432",
-      database="msdss"
-   )
+   # Initiate a connection, assuming env vars set
+   db = Database()
 
    # Create sample table
    data = {
