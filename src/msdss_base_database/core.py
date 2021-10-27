@@ -102,13 +102,13 @@ class Database:
         df_update = db.select('test_table')
 
         # Display results
-        print('df:')
+        print('df:\\n')
         print(df)
-        print('\\ndf_insert:')
+        print('\\ndf_insert:\\n')
         print(df_insert)
-        print('\\ndf_delete:')
+        print('\\ndf_delete:\\n')
         print(df_delete)
-        print('\\ndf_update:')
+        print('\\ndf_update:\\n')
         print(df_update)
     """
     def __init__(
@@ -237,14 +237,14 @@ class Database:
             db.create_table('test_table', columns)
             
             # Select columns and limit to 6 rows
-            sql = db._build_query(
+            sql_limit = db._build_query(
                 'test_table',
                 select = ['column_one', 'column_two'],
                 limit=6
             )
 
             # Select columns with where statement
-            sql = db._build_query(
+            sql_where = db._build_query(
                 'test_table',
                 select='column_one',
                 where=[('column_two', '<', 3), ('column_one', '=', 'b')],
@@ -252,7 +252,7 @@ class Database:
             )
 
             # Select columns and order each column
-            sql = db._build_query(
+            sql_order = db._build_query(
                 'test_table',
                 select=['column_one', 'column_two'],
                 order_by=['column_one', 'column_two'],
@@ -260,7 +260,7 @@ class Database:
             )
             
             # Select columns, group, and aggregate data
-            sql = db._build_query(
+            sql_agg = db._build_query(
                 'test_table',
                 select='column_one',
                 group_by='column_one',
@@ -269,7 +269,7 @@ class Database:
             )
 
             # Update rows
-            sql = db._build_query(
+            sql_update = db._build_query(
                 'test_table',
                 where=[('id', '=', 1)],
                 values=dict(column_one='A'),
@@ -277,12 +277,20 @@ class Database:
             )
 
             # Delete rows
-            sql = db._build_query(
+            sql_delete = db._build_query(
                 'test_table',
                 where=[('column_two', '<', 2), ('column_one', '=', 'a')],
                 where_boolean='OR',
                 delete=True
             )
+
+            # Display gen statements
+            print('sql_limit:\\n\\n' + str(sql_limit))
+            print('\\nsql_where:\\n\\n' + str(sql_where))
+            print('\\nsql_order:\\n\\n' + str(sql_order))
+            print('\\nsql_agg:\\n\\n' + str(sql_agg))
+            print('\\nsql_update:\\n\\n' + str(sql_update))
+            print('\\nsql_delete:\\n\\n' + str(sql_delete))
         """
         
         # (Database_build_query_var_list) Format single variables into lists
@@ -453,7 +461,6 @@ class Database:
         Example
         -------
         .. jupyter-execute::
-            :hide-output:
 
             from msdss_base_database.core import Database
             db = Database()
@@ -472,6 +479,7 @@ class Database:
 
             # Get the table object
             tb = db._get_table('test_table')
+            print(str(tb))
         """
         out = sqlalchemy.Table(table, self._metadata, autoload_with=self._connection, *args, **kwargs)
         return out
@@ -502,7 +510,6 @@ class Database:
         Example
         -------
         .. jupyter-execute::
-            :hide-output:
 
             from msdss_base_database.core import Database
             db = Database()
@@ -516,6 +523,7 @@ class Database:
 
             # Convert to sqlalchemy column objects
             columns = db._list_to_columns(clist)
+            print(str(columns))
         """
 
         # (Database_list_to_columns_convert) Convert data types from str
@@ -627,6 +635,10 @@ class Database:
             
             # Create the table
             db.create_table('test_table', columns)
+
+            # View the table
+            df = db.select('test_table')
+            print(df)
         """
         columns = self._list_to_columns(columns)
         tb = sqlalchemy.Table(table, self._metadata, *columns, extend_existing=True)
@@ -655,7 +667,6 @@ class Database:
         Example
         -------
         .. jupyter-execute::
-            :hide-output:
 
             from msdss_base_database.core import Database
             db = Database()
@@ -679,12 +690,14 @@ class Database:
                 'column_two': [2, 4, 6]
             }
             db.insert('test_table', data)
+            df = db.select('test_table')
 
             # Delete a row with matching id
             db.delete(
                 'test_table',
                 where=('id', '=', 1)
             )
+            df_delete_id = db.select('test_table')
 
             # Delete a row with matching query
             db.delete(
@@ -692,6 +705,15 @@ class Database:
                 where=[('id', '<', 3), ('column_one', '=', 'c')],
                 where_boolean='OR'
             )
+            df_delete_where = db.select('test_table')
+
+            # Print results
+            print('df:\\n')
+            print(df)
+            print('\\ndf_delete_id:\\n')
+            print(df_delete_id)
+            print('\\ndf_delete_where:\\n')
+            print(df_delete_where)
         """
         sql = self._build_query(table=table, where=where, where_boolean=where_boolean, delete=True)
         cursor = self._execute_query(sql, *args, **kwargs)
@@ -714,7 +736,6 @@ class Database:
         Example
         -------
         .. jupyter-execute::
-            :hide-output:
 
             from msdss_base_database.core import Database
             db = Database()
@@ -730,9 +751,15 @@ class Database:
                 ('column_two', 'Integer')
             ]
             db.create_table('test_table', columns)
+            before_drop = db.has_table('test_table')
 
             # Drop the table
             db.drop_table('test_table')
+            after_drop = db.has_table('test_table')
+
+            # Print results
+            print('before_drop: ' + str(before_drop))
+            print('after_drop: ' + str(after_drop))
         """
         tb = self._get_table(table)
         tb.drop(*args, **kwargs)
@@ -760,7 +787,6 @@ class Database:
         Example
         -------
         .. jupyter-execute::
-            :hide-output:
 
             from msdss_base_database.core import Database
             db = Database()
@@ -768,7 +794,7 @@ class Database:
             # Drop the table if it exists
             if db.has_table('test_table'):
                 db.drop_table('test_table')
-            db.has_table('test_table') # False
+            before_create = db.has_table('test_table') # False
             
             # Create sample table
             columns = [
@@ -779,7 +805,11 @@ class Database:
             db.create_table('test_table', columns)
 
             # Check if table exists again
-            db.has_table('test_table') # True
+            after_create = db.has_table('test_table') # True
+
+            # Print results
+            print('before_create: ' + str(before_create))
+            print('after_create: ' + str(after_create))
         """
         out = self._inspector.has_table(table, *args, **kwargs)
         return out
@@ -824,6 +854,7 @@ class Database:
                 ('column_two', 'Integer')
             ]
             db.create_table('test_table', columns)
+            df = db.select('test_table')
             
             # Write data to table
             data = {
@@ -832,6 +863,7 @@ class Database:
                 'column_two': [2, 4, 6]
             }
             db.insert('test_table', data)
+            df_insert = db.select('test_table')
 
             # Insert more new values to table
             more_new = {
@@ -840,6 +872,15 @@ class Database:
                 'column_two': [10, 12, 14]
             }
             db.insert('test_table', more_new)
+            df_insert_more = db.select('test_table')
+
+            # Display results
+            print('df:\\n')
+            print(df)
+            print('\\ndf_insert:\\n')
+            print(df_insert)
+            print('\\ndf_insert_more:\\n')
+            print(df_insert_more)
         """
         self._write_data(table=table, data=data, if_exists='append', *args, **kwargs)
     
@@ -928,6 +969,7 @@ class Database:
                 'column_two': [2, 4, 6]
             }
             db.insert('test_table', data)
+            df = db.select('test_table')
             
             # Read data from table using select and limit
             data = db.select(
@@ -935,6 +977,7 @@ class Database:
                 select = ['column_one', 'column_two'],
                 limit = 5
             )
+            df_select = db.select('test_table')
 
             # Use where statements
             data = db.select(
@@ -943,6 +986,7 @@ class Database:
                 where = [('column_two', '<', '15'), ('column_one', '=', 'b')],
                 where_boolean = 'AND'
             )
+            df_where = db.select('test_table')
 
             # Order results
             data = db.select(
@@ -951,6 +995,7 @@ class Database:
                 order_by = ['column_one', 'column_two'],
                 order_by_sort = ['asc', 'desc']
             )
+            df_order = db.select('test_table')
 
             # Aggregate read
             data = db.select(
@@ -960,6 +1005,19 @@ class Database:
                 aggregate = 'column_two',
                 aggregate_func = ['count', 'sum']
             )
+            df_agg = db.select('test_table')
+
+            # Display results
+            print('df:\\n')
+            print(df)
+            print('\\ndf_select:\\n')
+            print(df_select)
+            print('\\ndf_where:\\n')
+            print(df_where)
+            print('\\ndf_order:\\n')
+            print(df_order)
+            print('\\ndf_agg:\\n')
+            print(df_agg)
         """
         sql = self._build_query(
             table,
@@ -1022,12 +1080,20 @@ class Database:
                 'column_two': [2, 4, 6]
             }
             db.insert('test_table', data)
+            df = db.select('test_table')
 
             # Update values in table
             db.update(
                 'test_table',
                 where=('id', '>', 1),
                 values={'column_one': 'AA'})
+            df_update = db.select('test_table')
+            
+            # Print results
+            print('df:\\n')
+            print(df)
+            print('\\ndf_update:\\n')
+            print(df_update)
         """
         sql = self._build_query(table=table, where=where, values=values, update=True)
         cursor = self._execute_query(sql, *args, **kwargs)

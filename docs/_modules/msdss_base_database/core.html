@@ -369,13 +369,13 @@
 <span class="sd">        df_update = db.select('test_table')</span>
 
 <span class="sd">        # Display results</span>
-<span class="sd">        print('df:')</span>
+<span class="sd">        print('df:\\n')</span>
 <span class="sd">        print(df)</span>
-<span class="sd">        print('\\ndf_insert:')</span>
+<span class="sd">        print('\\ndf_insert:\\n')</span>
 <span class="sd">        print(df_insert)</span>
-<span class="sd">        print('\\ndf_delete:')</span>
+<span class="sd">        print('\\ndf_delete:\\n')</span>
 <span class="sd">        print(df_delete)</span>
-<span class="sd">        print('\\ndf_update:')</span>
+<span class="sd">        print('\\ndf_update:\\n')</span>
 <span class="sd">        print(df_update)</span>
 <span class="sd">    """</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
@@ -504,14 +504,14 @@
 <span class="sd">            db.create_table('test_table', columns)</span>
 <span class="sd">            </span>
 <span class="sd">            # Select columns and limit to 6 rows</span>
-<span class="sd">            sql = db._build_query(</span>
+<span class="sd">            sql_limit = db._build_query(</span>
 <span class="sd">                'test_table',</span>
 <span class="sd">                select = ['column_one', 'column_two'],</span>
 <span class="sd">                limit=6</span>
 <span class="sd">            )</span>
 
 <span class="sd">            # Select columns with where statement</span>
-<span class="sd">            sql = db._build_query(</span>
+<span class="sd">            sql_where = db._build_query(</span>
 <span class="sd">                'test_table',</span>
 <span class="sd">                select='column_one',</span>
 <span class="sd">                where=[('column_two', '&lt;', 3), ('column_one', '=', 'b')],</span>
@@ -519,7 +519,7 @@
 <span class="sd">            )</span>
 
 <span class="sd">            # Select columns and order each column</span>
-<span class="sd">            sql = db._build_query(</span>
+<span class="sd">            sql_order = db._build_query(</span>
 <span class="sd">                'test_table',</span>
 <span class="sd">                select=['column_one', 'column_two'],</span>
 <span class="sd">                order_by=['column_one', 'column_two'],</span>
@@ -527,7 +527,7 @@
 <span class="sd">            )</span>
 <span class="sd">            </span>
 <span class="sd">            # Select columns, group, and aggregate data</span>
-<span class="sd">            sql = db._build_query(</span>
+<span class="sd">            sql_agg = db._build_query(</span>
 <span class="sd">                'test_table',</span>
 <span class="sd">                select='column_one',</span>
 <span class="sd">                group_by='column_one',</span>
@@ -536,7 +536,7 @@
 <span class="sd">            )</span>
 
 <span class="sd">            # Update rows</span>
-<span class="sd">            sql = db._build_query(</span>
+<span class="sd">            sql_update = db._build_query(</span>
 <span class="sd">                'test_table',</span>
 <span class="sd">                where=[('id', '=', 1)],</span>
 <span class="sd">                values=dict(column_one='A'),</span>
@@ -544,12 +544,20 @@
 <span class="sd">            )</span>
 
 <span class="sd">            # Delete rows</span>
-<span class="sd">            sql = db._build_query(</span>
+<span class="sd">            sql_delete = db._build_query(</span>
 <span class="sd">                'test_table',</span>
 <span class="sd">                where=[('column_two', '&lt;', 2), ('column_one', '=', 'a')],</span>
 <span class="sd">                where_boolean='OR',</span>
 <span class="sd">                delete=True</span>
 <span class="sd">            )</span>
+
+<span class="sd">            # Display gen statements</span>
+<span class="sd">            print('sql_limit:\\n\\n' + str(sql_limit))</span>
+<span class="sd">            print('\\nsql_where:\\n\\n' + str(sql_where))</span>
+<span class="sd">            print('\\nsql_order:\\n\\n' + str(sql_order))</span>
+<span class="sd">            print('\\nsql_agg:\\n\\n' + str(sql_agg))</span>
+<span class="sd">            print('\\nsql_update:\\n\\n' + str(sql_update))</span>
+<span class="sd">            print('\\nsql_delete:\\n\\n' + str(sql_delete))</span>
 <span class="sd">        """</span>
         
         <span class="c1"># (Database_build_query_var_list) Format single variables into lists</span>
@@ -720,7 +728,6 @@
 <span class="sd">        Example</span>
 <span class="sd">        -------</span>
 <span class="sd">        .. jupyter-execute::</span>
-<span class="sd">            :hide-output:</span>
 
 <span class="sd">            from msdss_base_database.core import Database</span>
 <span class="sd">            db = Database()</span>
@@ -739,6 +746,7 @@
 
 <span class="sd">            # Get the table object</span>
 <span class="sd">            tb = db._get_table('test_table')</span>
+<span class="sd">            print(str(tb))</span>
 <span class="sd">        """</span>
         <span class="n">out</span> <span class="o">=</span> <span class="n">sqlalchemy</span><span class="o">.</span><span class="n">Table</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_metadata</span><span class="p">,</span> <span class="n">autoload_with</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_connection</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">out</span></div>
@@ -769,7 +777,6 @@
 <span class="sd">        Example</span>
 <span class="sd">        -------</span>
 <span class="sd">        .. jupyter-execute::</span>
-<span class="sd">            :hide-output:</span>
 
 <span class="sd">            from msdss_base_database.core import Database</span>
 <span class="sd">            db = Database()</span>
@@ -783,6 +790,7 @@
 
 <span class="sd">            # Convert to sqlalchemy column objects</span>
 <span class="sd">            columns = db._list_to_columns(clist)</span>
+<span class="sd">            print(str(columns))</span>
 <span class="sd">        """</span>
 
         <span class="c1"># (Database_list_to_columns_convert) Convert data types from str</span>
@@ -894,6 +902,10 @@
 <span class="sd">            </span>
 <span class="sd">            # Create the table</span>
 <span class="sd">            db.create_table('test_table', columns)</span>
+
+<span class="sd">            # View the table</span>
+<span class="sd">            df = db.select('test_table')</span>
+<span class="sd">            print(df)</span>
 <span class="sd">        """</span>
         <span class="n">columns</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_list_to_columns</span><span class="p">(</span><span class="n">columns</span><span class="p">)</span>
         <span class="n">tb</span> <span class="o">=</span> <span class="n">sqlalchemy</span><span class="o">.</span><span class="n">Table</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_metadata</span><span class="p">,</span> <span class="o">*</span><span class="n">columns</span><span class="p">,</span> <span class="n">extend_existing</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -922,7 +934,6 @@
 <span class="sd">        Example</span>
 <span class="sd">        -------</span>
 <span class="sd">        .. jupyter-execute::</span>
-<span class="sd">            :hide-output:</span>
 
 <span class="sd">            from msdss_base_database.core import Database</span>
 <span class="sd">            db = Database()</span>
@@ -946,12 +957,14 @@
 <span class="sd">                'column_two': [2, 4, 6]</span>
 <span class="sd">            }</span>
 <span class="sd">            db.insert('test_table', data)</span>
+<span class="sd">            df = db.select('test_table')</span>
 
 <span class="sd">            # Delete a row with matching id</span>
 <span class="sd">            db.delete(</span>
 <span class="sd">                'test_table',</span>
 <span class="sd">                where=('id', '=', 1)</span>
 <span class="sd">            )</span>
+<span class="sd">            df_delete_id = db.select('test_table')</span>
 
 <span class="sd">            # Delete a row with matching query</span>
 <span class="sd">            db.delete(</span>
@@ -959,6 +972,15 @@
 <span class="sd">                where=[('id', '&lt;', 3), ('column_one', '=', 'c')],</span>
 <span class="sd">                where_boolean='OR'</span>
 <span class="sd">            )</span>
+<span class="sd">            df_delete_where = db.select('test_table')</span>
+
+<span class="sd">            # Print results</span>
+<span class="sd">            print('df:\\n')</span>
+<span class="sd">            print(df)</span>
+<span class="sd">            print('\\ndf_delete_id:\\n')</span>
+<span class="sd">            print(df_delete_id)</span>
+<span class="sd">            print('\\ndf_delete_where:\\n')</span>
+<span class="sd">            print(df_delete_where)</span>
 <span class="sd">        """</span>
         <span class="n">sql</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_query</span><span class="p">(</span><span class="n">table</span><span class="o">=</span><span class="n">table</span><span class="p">,</span> <span class="n">where</span><span class="o">=</span><span class="n">where</span><span class="p">,</span> <span class="n">where_boolean</span><span class="o">=</span><span class="n">where_boolean</span><span class="p">,</span> <span class="n">delete</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="n">cursor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_execute_query</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
@@ -981,7 +1003,6 @@
 <span class="sd">        Example</span>
 <span class="sd">        -------</span>
 <span class="sd">        .. jupyter-execute::</span>
-<span class="sd">            :hide-output:</span>
 
 <span class="sd">            from msdss_base_database.core import Database</span>
 <span class="sd">            db = Database()</span>
@@ -997,9 +1018,15 @@
 <span class="sd">                ('column_two', 'Integer')</span>
 <span class="sd">            ]</span>
 <span class="sd">            db.create_table('test_table', columns)</span>
+<span class="sd">            before_drop = db.has_table('test_table')</span>
 
 <span class="sd">            # Drop the table</span>
 <span class="sd">            db.drop_table('test_table')</span>
+<span class="sd">            after_drop = db.has_table('test_table')</span>
+
+<span class="sd">            # Print results</span>
+<span class="sd">            print('before_drop: ' + str(before_drop))</span>
+<span class="sd">            print('after_drop: ' + str(after_drop))</span>
 <span class="sd">        """</span>
         <span class="n">tb</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_table</span><span class="p">(</span><span class="n">table</span><span class="p">)</span>
         <span class="n">tb</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
@@ -1027,7 +1054,6 @@
 <span class="sd">        Example</span>
 <span class="sd">        -------</span>
 <span class="sd">        .. jupyter-execute::</span>
-<span class="sd">            :hide-output:</span>
 
 <span class="sd">            from msdss_base_database.core import Database</span>
 <span class="sd">            db = Database()</span>
@@ -1035,7 +1061,7 @@
 <span class="sd">            # Drop the table if it exists</span>
 <span class="sd">            if db.has_table('test_table'):</span>
 <span class="sd">                db.drop_table('test_table')</span>
-<span class="sd">            db.has_table('test_table') # False</span>
+<span class="sd">            before_create = db.has_table('test_table') # False</span>
 <span class="sd">            </span>
 <span class="sd">            # Create sample table</span>
 <span class="sd">            columns = [</span>
@@ -1046,7 +1072,11 @@
 <span class="sd">            db.create_table('test_table', columns)</span>
 
 <span class="sd">            # Check if table exists again</span>
-<span class="sd">            db.has_table('test_table') # True</span>
+<span class="sd">            after_create = db.has_table('test_table') # True</span>
+
+<span class="sd">            # Print results</span>
+<span class="sd">            print('before_create: ' + str(before_create))</span>
+<span class="sd">            print('after_create: ' + str(after_create))</span>
 <span class="sd">        """</span>
         <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_inspector</span><span class="o">.</span><span class="n">has_table</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">out</span></div>
@@ -1091,6 +1121,7 @@
 <span class="sd">                ('column_two', 'Integer')</span>
 <span class="sd">            ]</span>
 <span class="sd">            db.create_table('test_table', columns)</span>
+<span class="sd">            df = db.select('test_table')</span>
 <span class="sd">            </span>
 <span class="sd">            # Write data to table</span>
 <span class="sd">            data = {</span>
@@ -1099,6 +1130,7 @@
 <span class="sd">                'column_two': [2, 4, 6]</span>
 <span class="sd">            }</span>
 <span class="sd">            db.insert('test_table', data)</span>
+<span class="sd">            df_insert = db.select('test_table')</span>
 
 <span class="sd">            # Insert more new values to table</span>
 <span class="sd">            more_new = {</span>
@@ -1107,6 +1139,15 @@
 <span class="sd">                'column_two': [10, 12, 14]</span>
 <span class="sd">            }</span>
 <span class="sd">            db.insert('test_table', more_new)</span>
+<span class="sd">            df_insert_more = db.select('test_table')</span>
+
+<span class="sd">            # Display results</span>
+<span class="sd">            print('df:\\n')</span>
+<span class="sd">            print(df)</span>
+<span class="sd">            print('\\ndf_insert:\\n')</span>
+<span class="sd">            print(df_insert)</span>
+<span class="sd">            print('\\ndf_insert_more:\\n')</span>
+<span class="sd">            print(df_insert_more)</span>
 <span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_write_data</span><span class="p">(</span><span class="n">table</span><span class="o">=</span><span class="n">table</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">if_exists</span><span class="o">=</span><span class="s1">'append'</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
     
@@ -1195,6 +1236,7 @@
 <span class="sd">                'column_two': [2, 4, 6]</span>
 <span class="sd">            }</span>
 <span class="sd">            db.insert('test_table', data)</span>
+<span class="sd">            df = db.select('test_table')</span>
 <span class="sd">            </span>
 <span class="sd">            # Read data from table using select and limit</span>
 <span class="sd">            data = db.select(</span>
@@ -1202,6 +1244,7 @@
 <span class="sd">                select = ['column_one', 'column_two'],</span>
 <span class="sd">                limit = 5</span>
 <span class="sd">            )</span>
+<span class="sd">            df_select = db.select('test_table')</span>
 
 <span class="sd">            # Use where statements</span>
 <span class="sd">            data = db.select(</span>
@@ -1210,6 +1253,7 @@
 <span class="sd">                where = [('column_two', '&lt;', '15'), ('column_one', '=', 'b')],</span>
 <span class="sd">                where_boolean = 'AND'</span>
 <span class="sd">            )</span>
+<span class="sd">            df_where = db.select('test_table')</span>
 
 <span class="sd">            # Order results</span>
 <span class="sd">            data = db.select(</span>
@@ -1218,6 +1262,7 @@
 <span class="sd">                order_by = ['column_one', 'column_two'],</span>
 <span class="sd">                order_by_sort = ['asc', 'desc']</span>
 <span class="sd">            )</span>
+<span class="sd">            df_order = db.select('test_table')</span>
 
 <span class="sd">            # Aggregate read</span>
 <span class="sd">            data = db.select(</span>
@@ -1227,6 +1272,19 @@
 <span class="sd">                aggregate = 'column_two',</span>
 <span class="sd">                aggregate_func = ['count', 'sum']</span>
 <span class="sd">            )</span>
+<span class="sd">            df_agg = db.select('test_table')</span>
+
+<span class="sd">            # Display results</span>
+<span class="sd">            print('df:\\n')</span>
+<span class="sd">            print(df)</span>
+<span class="sd">            print('\\ndf_select:\\n')</span>
+<span class="sd">            print(df_select)</span>
+<span class="sd">            print('\\ndf_where:\\n')</span>
+<span class="sd">            print(df_where)</span>
+<span class="sd">            print('\\ndf_order:\\n')</span>
+<span class="sd">            print(df_order)</span>
+<span class="sd">            print('\\ndf_agg:\\n')</span>
+<span class="sd">            print(df_agg)</span>
 <span class="sd">        """</span>
         <span class="n">sql</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_query</span><span class="p">(</span>
             <span class="n">table</span><span class="p">,</span>
@@ -1289,12 +1347,20 @@
 <span class="sd">                'column_two': [2, 4, 6]</span>
 <span class="sd">            }</span>
 <span class="sd">            db.insert('test_table', data)</span>
+<span class="sd">            df = db.select('test_table')</span>
 
 <span class="sd">            # Update values in table</span>
 <span class="sd">            db.update(</span>
 <span class="sd">                'test_table',</span>
 <span class="sd">                where=('id', '&gt;', 1),</span>
 <span class="sd">                values={'column_one': 'AA'})</span>
+<span class="sd">            df_update = db.select('test_table')</span>
+<span class="sd">            </span>
+<span class="sd">            # Print results</span>
+<span class="sd">            print('df:\\n')</span>
+<span class="sd">            print(df)</span>
+<span class="sd">            print('\\ndf_update:\\n')</span>
+<span class="sd">            print(df_update)</span>
 <span class="sd">        """</span>
         <span class="n">sql</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_query</span><span class="p">(</span><span class="n">table</span><span class="o">=</span><span class="n">table</span><span class="p">,</span> <span class="n">where</span><span class="o">=</span><span class="n">where</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="n">values</span><span class="p">,</span> <span class="n">update</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="n">cursor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_execute_query</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div></div>

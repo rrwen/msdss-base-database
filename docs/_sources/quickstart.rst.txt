@@ -16,7 +16,6 @@ After installing the package, set up environment variables using ``msdss-dotenv`
 In Python, use the package via :class:`msdss_base_database.core.Database` methods:
 
 .. jupyter-execute::
-   :hide-output:
 
    from msdss_base_database import Database
 
@@ -53,15 +52,28 @@ In Python, use the package via :class:`msdss_base_database.core.Database` method
       'column_two': [10, 12, 14]
    }
    db.insert('test_table', new)
+   df_insert = db.select('test_table')
 
    # Delete rows from the table
    db.delete(
       'test_table',
       where=('id', '=', 5)
    )
+   df_delete = db.select('test_table')
 
    # Update values in table
    db.update(
       'test_table',
       where=('id', '>', 3),
       values={'column_one': 'AA'})
+   df_update = db.select('test_table')
+
+   # Display results
+   print('df:')
+   print(df)
+   print('\ndf_insert:')
+   print(df_insert)
+   print('\ndf_delete:')
+   print(df_delete)
+   print('\ndf_update:')
+   print(df_update)

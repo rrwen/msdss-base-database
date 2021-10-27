@@ -411,25 +411,27 @@
 <span class="linenos">57</span><span class="n">df_update</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">)</span>
 <span class="linenos">58</span>
 <span class="linenos">59</span><span class="c1"># Display results</span>
-<span class="linenos">60</span><span class="nb">print</span><span class="p">(</span><span class="s1">'df:'</span><span class="p">)</span>
+<span class="linenos">60</span><span class="nb">print</span><span class="p">(</span><span class="s1">'df:</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
 <span class="linenos">61</span><span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
-<span class="linenos">62</span><span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">df_insert:'</span><span class="p">)</span>
+<span class="linenos">62</span><span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">df_insert:</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
 <span class="linenos">63</span><span class="nb">print</span><span class="p">(</span><span class="n">df_insert</span><span class="p">)</span>
-<span class="linenos">64</span><span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">df_delete:'</span><span class="p">)</span>
+<span class="linenos">64</span><span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">df_delete:</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
 <span class="linenos">65</span><span class="nb">print</span><span class="p">(</span><span class="n">df_delete</span><span class="p">)</span>
-<span class="linenos">66</span><span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">df_update:'</span><span class="p">)</span>
+<span class="linenos">66</span><span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">df_update:</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
 <span class="linenos">67</span><span class="nb">print</span><span class="p">(</span><span class="n">df_update</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>df:
+
    id column_one  column_two
 0   1          a           2
 1   2          b           4
 2   3          c           6
 
 df_insert:
+
    id column_one  column_two
 0   1          a           2
 1   2          b           4
@@ -439,6 +441,7 @@ df_insert:
 5   7          g          14
 
 df_delete:
+
    id column_one  column_two
 0   1          a           2
 1   2          b           4
@@ -447,6 +450,7 @@ df_delete:
 4   7          g          14
 
 df_update:
+
    id column_one  column_two
 0   1          a           2
 1   2          b           4
@@ -522,14 +526,14 @@ If a list of str, then it must have the same number of elements as <code class="
 <span class="linenos">16</span><span class="n">db</span><span class="o">.</span><span class="n">create_table</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">,</span> <span class="n">columns</span><span class="p">)</span>
 <span class="linenos">17</span>
 <span class="linenos">18</span><span class="c1"># Select columns and limit to 6 rows</span>
-<span class="linenos">19</span><span class="n">sql</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">_build_query</span><span class="p">(</span>
+<span class="linenos">19</span><span class="n">sql_limit</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">_build_query</span><span class="p">(</span>
 <span class="linenos">20</span>    <span class="s1">'test_table'</span><span class="p">,</span>
 <span class="linenos">21</span>    <span class="n">select</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'column_one'</span><span class="p">,</span> <span class="s1">'column_two'</span><span class="p">],</span>
 <span class="linenos">22</span>    <span class="n">limit</span><span class="o">=</span><span class="mi">6</span>
 <span class="linenos">23</span><span class="p">)</span>
 <span class="linenos">24</span>
 <span class="linenos">25</span><span class="c1"># Select columns with where statement</span>
-<span class="linenos">26</span><span class="n">sql</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">_build_query</span><span class="p">(</span>
+<span class="linenos">26</span><span class="n">sql_where</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">_build_query</span><span class="p">(</span>
 <span class="linenos">27</span>    <span class="s1">'test_table'</span><span class="p">,</span>
 <span class="linenos">28</span>    <span class="n">select</span><span class="o">=</span><span class="s1">'column_one'</span><span class="p">,</span>
 <span class="linenos">29</span>    <span class="n">where</span><span class="o">=</span><span class="p">[(</span><span class="s1">'column_two'</span><span class="p">,</span> <span class="s1">'&lt;'</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="s1">'column_one'</span><span class="p">,</span> <span class="s1">'='</span><span class="p">,</span> <span class="s1">'b'</span><span class="p">)],</span>
@@ -537,7 +541,7 @@ If a list of str, then it must have the same number of elements as <code class="
 <span class="linenos">31</span><span class="p">)</span>
 <span class="linenos">32</span>
 <span class="linenos">33</span><span class="c1"># Select columns and order each column</span>
-<span class="linenos">34</span><span class="n">sql</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">_build_query</span><span class="p">(</span>
+<span class="linenos">34</span><span class="n">sql_order</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">_build_query</span><span class="p">(</span>
 <span class="linenos">35</span>    <span class="s1">'test_table'</span><span class="p">,</span>
 <span class="linenos">36</span>    <span class="n">select</span><span class="o">=</span><span class="p">[</span><span class="s1">'column_one'</span><span class="p">,</span> <span class="s1">'column_two'</span><span class="p">],</span>
 <span class="linenos">37</span>    <span class="n">order_by</span><span class="o">=</span><span class="p">[</span><span class="s1">'column_one'</span><span class="p">,</span> <span class="s1">'column_two'</span><span class="p">],</span>
@@ -545,7 +549,7 @@ If a list of str, then it must have the same number of elements as <code class="
 <span class="linenos">39</span><span class="p">)</span>
 <span class="linenos">40</span>
 <span class="linenos">41</span><span class="c1"># Select columns, group, and aggregate data</span>
-<span class="linenos">42</span><span class="n">sql</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">_build_query</span><span class="p">(</span>
+<span class="linenos">42</span><span class="n">sql_agg</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">_build_query</span><span class="p">(</span>
 <span class="linenos">43</span>    <span class="s1">'test_table'</span><span class="p">,</span>
 <span class="linenos">44</span>    <span class="n">select</span><span class="o">=</span><span class="s1">'column_one'</span><span class="p">,</span>
 <span class="linenos">45</span>    <span class="n">group_by</span><span class="o">=</span><span class="s1">'column_one'</span><span class="p">,</span>
@@ -554,7 +558,7 @@ If a list of str, then it must have the same number of elements as <code class="
 <span class="linenos">48</span><span class="p">)</span>
 <span class="linenos">49</span>
 <span class="linenos">50</span><span class="c1"># Update rows</span>
-<span class="linenos">51</span><span class="n">sql</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">_build_query</span><span class="p">(</span>
+<span class="linenos">51</span><span class="n">sql_update</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">_build_query</span><span class="p">(</span>
 <span class="linenos">52</span>    <span class="s1">'test_table'</span><span class="p">,</span>
 <span class="linenos">53</span>    <span class="n">where</span><span class="o">=</span><span class="p">[(</span><span class="s1">'id'</span><span class="p">,</span> <span class="s1">'='</span><span class="p">,</span> <span class="mi">1</span><span class="p">)],</span>
 <span class="linenos">54</span>    <span class="n">values</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">column_one</span><span class="o">=</span><span class="s1">'A'</span><span class="p">),</span>
@@ -562,16 +566,55 @@ If a list of str, then it must have the same number of elements as <code class="
 <span class="linenos">56</span><span class="p">)</span>
 <span class="linenos">57</span>
 <span class="linenos">58</span><span class="c1"># Delete rows</span>
-<span class="linenos">59</span><span class="n">sql</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">_build_query</span><span class="p">(</span>
+<span class="linenos">59</span><span class="n">sql_delete</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">_build_query</span><span class="p">(</span>
 <span class="linenos">60</span>    <span class="s1">'test_table'</span><span class="p">,</span>
 <span class="linenos">61</span>    <span class="n">where</span><span class="o">=</span><span class="p">[(</span><span class="s1">'column_two'</span><span class="p">,</span> <span class="s1">'&lt;'</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="s1">'column_one'</span><span class="p">,</span> <span class="s1">'='</span><span class="p">,</span> <span class="s1">'a'</span><span class="p">)],</span>
 <span class="linenos">62</span>    <span class="n">where_boolean</span><span class="o">=</span><span class="s1">'OR'</span><span class="p">,</span>
 <span class="linenos">63</span>    <span class="n">delete</span><span class="o">=</span><span class="kc">True</span>
 <span class="linenos">64</span><span class="p">)</span>
+<span class="linenos">65</span>
+<span class="linenos">66</span><span class="c1"># Display gen statements</span>
+<span class="linenos">67</span><span class="nb">print</span><span class="p">(</span><span class="s1">'sql_limit:</span><span class="se">\n\n</span><span class="s1">'</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">sql_limit</span><span class="p">))</span>
+<span class="linenos">68</span><span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">sql_where:</span><span class="se">\n\n</span><span class="s1">'</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">sql_where</span><span class="p">))</span>
+<span class="linenos">69</span><span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">sql_order:</span><span class="se">\n\n</span><span class="s1">'</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">sql_order</span><span class="p">))</span>
+<span class="linenos">70</span><span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">sql_agg:</span><span class="se">\n\n</span><span class="s1">'</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">sql_agg</span><span class="p">))</span>
+<span class="linenos">71</span><span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">sql_update:</span><span class="se">\n\n</span><span class="s1">'</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">sql_update</span><span class="p">))</span>
+<span class="linenos">72</span><span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">sql_delete:</span><span class="se">\n\n</span><span class="s1">'</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">sql_delete</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>sql_limit:
+
+SELECT test_table.column_one, test_table.column_two 
+FROM test_table 
+ LIMIT %(param_1)s
+
+sql_where:
+
+SELECT test_table.column_one 
+FROM test_table 
+WHERE test_table.column_two &lt; %(column_two_1)s AND test_table.column_one = %(column_one_1)s
+
+sql_order:
+
+SELECT test_table.column_one, test_table.column_two 
+FROM test_table ORDER BY test_table.column_one ASC, test_table.column_two DESC
+
+sql_agg:
+
+SELECT test_table.column_one, sum(test_table.column_two) AS column_two_sum, count(test_table.column_one) AS column_one_count 
+FROM test_table GROUP BY test_table.column_one
+
+sql_update:
+
+UPDATE test_table SET column_one=%(column_one)s WHERE test_table.id = %(id_1)s
+
+sql_delete:
+
+DELETE FROM test_table WHERE test_table.column_two &lt; %(column_two_1)s OR test_table.column_one = %(column_one_1)s
+</pre></div>
+</div>
 </div>
 </div>
 </dd></dl>
@@ -679,10 +722,14 @@ If a list of str, then it must have the same number of elements as <code class="
 <span class="linenos">15</span>
 <span class="linenos">16</span><span class="c1"># Get the table object</span>
 <span class="linenos">17</span><span class="n">tb</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">_get_table</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">)</span>
+<span class="linenos">18</span><span class="nb">print</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">tb</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>test_table
+</pre></div>
+</div>
 </div>
 </div>
 </dd></dl>
@@ -730,10 +777,14 @@ If a list of str, then it must have the same number of elements as <code class="
 <span class="linenos">10</span>
 <span class="linenos">11</span><span class="c1"># Convert to sqlalchemy column objects</span>
 <span class="linenos">12</span><span class="n">columns</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">_list_to_columns</span><span class="p">(</span><span class="n">clist</span><span class="p">)</span>
+<span class="linenos">13</span><span class="nb">print</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">columns</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[Column('id', Integer(), table=None, primary_key=True, nullable=False), Column('column_one', String(), table=None), Column('column_two', Integer(), table=None)]
+</pre></div>
+</div>
 </div>
 </div>
 </dd></dl>
@@ -830,10 +881,19 @@ If a list of str, then it must have the same number of elements as <code class="
 <span class="linenos">16</span>
 <span class="linenos">17</span><span class="c1"># Create the table</span>
 <span class="linenos">18</span><span class="n">db</span><span class="o">.</span><span class="n">create_table</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">,</span> <span class="n">columns</span><span class="p">)</span>
+<span class="linenos">19</span>
+<span class="linenos">20</span><span class="c1"># View the table</span>
+<span class="linenos">21</span><span class="n">df</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">)</span>
+<span class="linenos">22</span><span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Empty DataFrame
+Columns: [id, column_one, column_two]
+Index: []
+</pre></div>
+</div>
 </div>
 </div>
 </dd></dl>
@@ -883,23 +943,54 @@ See parameter <code class="docutils literal notranslate"><span class="pre">where
 <span class="linenos">20</span>    <span class="s1">'column_two'</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">]</span>
 <span class="linenos">21</span><span class="p">}</span>
 <span class="linenos">22</span><span class="n">db</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
-<span class="linenos">23</span>
-<span class="linenos">24</span><span class="c1"># Delete a row with matching id</span>
-<span class="linenos">25</span><span class="n">db</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span>
-<span class="linenos">26</span>    <span class="s1">'test_table'</span><span class="p">,</span>
-<span class="linenos">27</span>    <span class="n">where</span><span class="o">=</span><span class="p">(</span><span class="s1">'id'</span><span class="p">,</span> <span class="s1">'='</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-<span class="linenos">28</span><span class="p">)</span>
-<span class="linenos">29</span>
-<span class="linenos">30</span><span class="c1"># Delete a row with matching query</span>
-<span class="linenos">31</span><span class="n">db</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span>
-<span class="linenos">32</span>    <span class="s1">'test_table'</span><span class="p">,</span>
-<span class="linenos">33</span>    <span class="n">where</span><span class="o">=</span><span class="p">[(</span><span class="s1">'id'</span><span class="p">,</span> <span class="s1">'&lt;'</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="s1">'column_one'</span><span class="p">,</span> <span class="s1">'='</span><span class="p">,</span> <span class="s1">'c'</span><span class="p">)],</span>
-<span class="linenos">34</span>    <span class="n">where_boolean</span><span class="o">=</span><span class="s1">'OR'</span>
-<span class="linenos">35</span><span class="p">)</span>
+<span class="linenos">23</span><span class="n">df</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">)</span>
+<span class="linenos">24</span>
+<span class="linenos">25</span><span class="c1"># Delete a row with matching id</span>
+<span class="linenos">26</span><span class="n">db</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span>
+<span class="linenos">27</span>    <span class="s1">'test_table'</span><span class="p">,</span>
+<span class="linenos">28</span>    <span class="n">where</span><span class="o">=</span><span class="p">(</span><span class="s1">'id'</span><span class="p">,</span> <span class="s1">'='</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="linenos">29</span><span class="p">)</span>
+<span class="linenos">30</span><span class="n">df_delete_id</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">)</span>
+<span class="linenos">31</span>
+<span class="linenos">32</span><span class="c1"># Delete a row with matching query</span>
+<span class="linenos">33</span><span class="n">db</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span>
+<span class="linenos">34</span>    <span class="s1">'test_table'</span><span class="p">,</span>
+<span class="linenos">35</span>    <span class="n">where</span><span class="o">=</span><span class="p">[(</span><span class="s1">'id'</span><span class="p">,</span> <span class="s1">'&lt;'</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="s1">'column_one'</span><span class="p">,</span> <span class="s1">'='</span><span class="p">,</span> <span class="s1">'c'</span><span class="p">)],</span>
+<span class="linenos">36</span>    <span class="n">where_boolean</span><span class="o">=</span><span class="s1">'OR'</span>
+<span class="linenos">37</span><span class="p">)</span>
+<span class="linenos">38</span><span class="n">df_delete_where</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">)</span>
+<span class="linenos">39</span>
+<span class="linenos">40</span><span class="c1"># Print results</span>
+<span class="linenos">41</span><span class="nb">print</span><span class="p">(</span><span class="s1">'df:</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
+<span class="linenos">42</span><span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="linenos">43</span><span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">df_delete_id:</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
+<span class="linenos">44</span><span class="nb">print</span><span class="p">(</span><span class="n">df_delete_id</span><span class="p">)</span>
+<span class="linenos">45</span><span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">df_delete_where:</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
+<span class="linenos">46</span><span class="nb">print</span><span class="p">(</span><span class="n">df_delete_where</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>df:
+
+   id column_one  column_two
+0   1          a           2
+1   2          b           4
+2   3          c           6
+
+df_delete_id:
+
+   id column_one  column_two
+0   2          b           4
+1   3          c           6
+
+df_delete_where:
+
+Empty DataFrame
+Columns: [id, column_one, column_two]
+Index: []
+</pre></div>
+</div>
 </div>
 </div>
 </dd></dl>
@@ -938,13 +1029,23 @@ See parameter <code class="docutils literal notranslate"><span class="pre">where
 <span class="linenos">12</span>    <span class="p">(</span><span class="s1">'column_two'</span><span class="p">,</span> <span class="s1">'Integer'</span><span class="p">)</span>
 <span class="linenos">13</span><span class="p">]</span>
 <span class="linenos">14</span><span class="n">db</span><span class="o">.</span><span class="n">create_table</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">,</span> <span class="n">columns</span><span class="p">)</span>
-<span class="linenos">15</span>
-<span class="linenos">16</span><span class="c1"># Drop the table</span>
-<span class="linenos">17</span><span class="n">db</span><span class="o">.</span><span class="n">drop_table</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">)</span>
+<span class="linenos">15</span><span class="n">before_drop</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">has_table</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">)</span>
+<span class="linenos">16</span>
+<span class="linenos">17</span><span class="c1"># Drop the table</span>
+<span class="linenos">18</span><span class="n">db</span><span class="o">.</span><span class="n">drop_table</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">)</span>
+<span class="linenos">19</span><span class="n">after_drop</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">has_table</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">)</span>
+<span class="linenos">20</span>
+<span class="linenos">21</span><span class="c1"># Print results</span>
+<span class="linenos">22</span><span class="nb">print</span><span class="p">(</span><span class="s1">'before_drop: '</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">before_drop</span><span class="p">))</span>
+<span class="linenos">23</span><span class="nb">print</span><span class="p">(</span><span class="s1">'after_drop: '</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">after_drop</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>before_drop: True
+after_drop: False
+</pre></div>
+</div>
 </div>
 </div>
 </dd></dl>
@@ -981,7 +1082,7 @@ See parameter <code class="docutils literal notranslate"><span class="pre">where
 <span class="linenos"> 4</span><span class="c1"># Drop the table if it exists</span>
 <span class="linenos"> 5</span><span class="k">if</span> <span class="n">db</span><span class="o">.</span><span class="n">has_table</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">):</span>
 <span class="linenos"> 6</span>    <span class="n">db</span><span class="o">.</span><span class="n">drop_table</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">)</span>
-<span class="linenos"> 7</span><span class="n">db</span><span class="o">.</span><span class="n">has_table</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">)</span> <span class="c1"># False</span>
+<span class="linenos"> 7</span><span class="n">before_create</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">has_table</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">)</span> <span class="c1"># False</span>
 <span class="linenos"> 8</span>
 <span class="linenos"> 9</span><span class="c1"># Create sample table</span>
 <span class="linenos">10</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span>
@@ -992,11 +1093,19 @@ See parameter <code class="docutils literal notranslate"><span class="pre">where
 <span class="linenos">15</span><span class="n">db</span><span class="o">.</span><span class="n">create_table</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">,</span> <span class="n">columns</span><span class="p">)</span>
 <span class="linenos">16</span>
 <span class="linenos">17</span><span class="c1"># Check if table exists again</span>
-<span class="linenos">18</span><span class="n">db</span><span class="o">.</span><span class="n">has_table</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">)</span> <span class="c1"># True</span>
+<span class="linenos">18</span><span class="n">after_create</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">has_table</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">)</span> <span class="c1"># True</span>
+<span class="linenos">19</span>
+<span class="linenos">20</span><span class="c1"># Print results</span>
+<span class="linenos">21</span><span class="nb">print</span><span class="p">(</span><span class="s1">'before_create: '</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">before_create</span><span class="p">))</span>
+<span class="linenos">22</span><span class="nb">print</span><span class="p">(</span><span class="s1">'after_create: '</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">after_create</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>before_create: False
+after_create: True
+</pre></div>
+</div>
 </div>
 </div>
 </dd></dl>
@@ -1040,26 +1149,64 @@ See parameter <code class="docutils literal notranslate"><span class="pre">where
 <span class="linenos">14</span>    <span class="p">(</span><span class="s1">'column_two'</span><span class="p">,</span> <span class="s1">'Integer'</span><span class="p">)</span>
 <span class="linenos">15</span><span class="p">]</span>
 <span class="linenos">16</span><span class="n">db</span><span class="o">.</span><span class="n">create_table</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">,</span> <span class="n">columns</span><span class="p">)</span>
-<span class="linenos">17</span>
-<span class="linenos">18</span><span class="c1"># Write data to table</span>
-<span class="linenos">19</span><span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
-<span class="linenos">20</span>    <span class="s1">'id'</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
-<span class="linenos">21</span>    <span class="s1">'column_one'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'a'</span><span class="p">,</span> <span class="s1">'b'</span><span class="p">,</span> <span class="s1">'c'</span><span class="p">],</span>
-<span class="linenos">22</span>    <span class="s1">'column_two'</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">]</span>
-<span class="linenos">23</span><span class="p">}</span>
-<span class="linenos">24</span><span class="n">db</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
-<span class="linenos">25</span>
-<span class="linenos">26</span><span class="c1"># Insert more new values to table</span>
-<span class="linenos">27</span><span class="n">more_new</span> <span class="o">=</span> <span class="p">{</span>
-<span class="linenos">28</span>    <span class="s1">'id'</span><span class="p">:</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">],</span>
-<span class="linenos">29</span>    <span class="s1">'column_one'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'e'</span><span class="p">,</span> <span class="s1">'f'</span><span class="p">,</span> <span class="s1">'g'</span><span class="p">],</span>
-<span class="linenos">30</span>    <span class="s1">'column_two'</span><span class="p">:</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">14</span><span class="p">]</span>
-<span class="linenos">31</span><span class="p">}</span>
-<span class="linenos">32</span><span class="n">db</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">,</span> <span class="n">more_new</span><span class="p">)</span>
+<span class="linenos">17</span><span class="n">df</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">)</span>
+<span class="linenos">18</span>
+<span class="linenos">19</span><span class="c1"># Write data to table</span>
+<span class="linenos">20</span><span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+<span class="linenos">21</span>    <span class="s1">'id'</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
+<span class="linenos">22</span>    <span class="s1">'column_one'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'a'</span><span class="p">,</span> <span class="s1">'b'</span><span class="p">,</span> <span class="s1">'c'</span><span class="p">],</span>
+<span class="linenos">23</span>    <span class="s1">'column_two'</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">]</span>
+<span class="linenos">24</span><span class="p">}</span>
+<span class="linenos">25</span><span class="n">db</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+<span class="linenos">26</span><span class="n">df_insert</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">)</span>
+<span class="linenos">27</span>
+<span class="linenos">28</span><span class="c1"># Insert more new values to table</span>
+<span class="linenos">29</span><span class="n">more_new</span> <span class="o">=</span> <span class="p">{</span>
+<span class="linenos">30</span>    <span class="s1">'id'</span><span class="p">:</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">],</span>
+<span class="linenos">31</span>    <span class="s1">'column_one'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'e'</span><span class="p">,</span> <span class="s1">'f'</span><span class="p">,</span> <span class="s1">'g'</span><span class="p">],</span>
+<span class="linenos">32</span>    <span class="s1">'column_two'</span><span class="p">:</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">14</span><span class="p">]</span>
+<span class="linenos">33</span><span class="p">}</span>
+<span class="linenos">34</span><span class="n">db</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">,</span> <span class="n">more_new</span><span class="p">)</span>
+<span class="linenos">35</span><span class="n">df_insert_more</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">)</span>
+<span class="linenos">36</span>
+<span class="linenos">37</span><span class="c1"># Display results</span>
+<span class="linenos">38</span><span class="nb">print</span><span class="p">(</span><span class="s1">'df:</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
+<span class="linenos">39</span><span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="linenos">40</span><span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">df_insert:</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
+<span class="linenos">41</span><span class="nb">print</span><span class="p">(</span><span class="n">df_insert</span><span class="p">)</span>
+<span class="linenos">42</span><span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">df_insert_more:</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
+<span class="linenos">43</span><span class="nb">print</span><span class="p">(</span><span class="n">df_insert_more</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>df:
+
+Empty DataFrame
+Columns: [id, column_one, column_two]
+Index: []
+
+df_insert:
+
+   id column_one  column_two
+0   1          a           2
+1   2          b           4
+2   3          c           6
+</pre></div>
+</div>
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>
+
+df_insert_more:
+
+   id column_one  column_two
+0   1          a           2
+1   2          b           4
+2   3          c           6
+3   5          e          10
+4   6          f          12
+5   7          g          14
+</pre></div>
+</div>
 </div>
 </div>
 </dd></dl>
@@ -1131,42 +1278,95 @@ If a list of str, then it must have the same number of elements as <code class="
 <span class="linenos">22</span>    <span class="s1">'column_two'</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">]</span>
 <span class="linenos">23</span><span class="p">}</span>
 <span class="linenos">24</span><span class="n">db</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
-<span class="linenos">25</span>
-<span class="linenos">26</span><span class="c1"># Read data from table using select and limit</span>
-<span class="linenos">27</span><span class="n">data</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">select</span><span class="p">(</span>
-<span class="linenos">28</span>    <span class="s1">'test_table'</span><span class="p">,</span>
-<span class="linenos">29</span>    <span class="n">select</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'column_one'</span><span class="p">,</span> <span class="s1">'column_two'</span><span class="p">],</span>
-<span class="linenos">30</span>    <span class="n">limit</span> <span class="o">=</span> <span class="mi">5</span>
-<span class="linenos">31</span><span class="p">)</span>
-<span class="linenos">32</span>
-<span class="linenos">33</span><span class="c1"># Use where statements</span>
-<span class="linenos">34</span><span class="n">data</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">select</span><span class="p">(</span>
-<span class="linenos">35</span>    <span class="s1">'test_table'</span><span class="p">,</span>
-<span class="linenos">36</span>    <span class="n">select</span> <span class="o">=</span> <span class="s1">'column_one'</span><span class="p">,</span>
-<span class="linenos">37</span>    <span class="n">where</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">'column_two'</span><span class="p">,</span> <span class="s1">'&lt;'</span><span class="p">,</span> <span class="s1">'15'</span><span class="p">),</span> <span class="p">(</span><span class="s1">'column_one'</span><span class="p">,</span> <span class="s1">'='</span><span class="p">,</span> <span class="s1">'b'</span><span class="p">)],</span>
-<span class="linenos">38</span>    <span class="n">where_boolean</span> <span class="o">=</span> <span class="s1">'AND'</span>
-<span class="linenos">39</span><span class="p">)</span>
-<span class="linenos">40</span>
-<span class="linenos">41</span><span class="c1"># Order results</span>
-<span class="linenos">42</span><span class="n">data</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">select</span><span class="p">(</span>
-<span class="linenos">43</span>    <span class="s1">'test_table'</span><span class="p">,</span>
-<span class="linenos">44</span>    <span class="n">select</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'column_one'</span><span class="p">,</span> <span class="s1">'column_two'</span><span class="p">],</span>
-<span class="linenos">45</span>    <span class="n">order_by</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'column_one'</span><span class="p">,</span> <span class="s1">'column_two'</span><span class="p">],</span>
-<span class="linenos">46</span>    <span class="n">order_by_sort</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'asc'</span><span class="p">,</span> <span class="s1">'desc'</span><span class="p">]</span>
-<span class="linenos">47</span><span class="p">)</span>
-<span class="linenos">48</span>
-<span class="linenos">49</span><span class="c1"># Aggregate read</span>
-<span class="linenos">50</span><span class="n">data</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">select</span><span class="p">(</span>
-<span class="linenos">51</span>    <span class="s1">'test_table'</span><span class="p">,</span>
-<span class="linenos">52</span>    <span class="n">select</span> <span class="o">=</span> <span class="s1">'column_one'</span><span class="p">,</span>
-<span class="linenos">53</span>    <span class="n">group_by</span> <span class="o">=</span> <span class="s1">'column_one'</span><span class="p">,</span>
-<span class="linenos">54</span>    <span class="n">aggregate</span> <span class="o">=</span> <span class="s1">'column_two'</span><span class="p">,</span>
-<span class="linenos">55</span>    <span class="n">aggregate_func</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'count'</span><span class="p">,</span> <span class="s1">'sum'</span><span class="p">]</span>
-<span class="linenos">56</span><span class="p">)</span>
+<span class="linenos">25</span><span class="n">df</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">)</span>
+<span class="linenos">26</span>
+<span class="linenos">27</span><span class="c1"># Read data from table using select and limit</span>
+<span class="linenos">28</span><span class="n">data</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">select</span><span class="p">(</span>
+<span class="linenos">29</span>    <span class="s1">'test_table'</span><span class="p">,</span>
+<span class="linenos">30</span>    <span class="n">select</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'column_one'</span><span class="p">,</span> <span class="s1">'column_two'</span><span class="p">],</span>
+<span class="linenos">31</span>    <span class="n">limit</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="linenos">32</span><span class="p">)</span>
+<span class="linenos">33</span><span class="n">df_select</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">)</span>
+<span class="linenos">34</span>
+<span class="linenos">35</span><span class="c1"># Use where statements</span>
+<span class="linenos">36</span><span class="n">data</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">select</span><span class="p">(</span>
+<span class="linenos">37</span>    <span class="s1">'test_table'</span><span class="p">,</span>
+<span class="linenos">38</span>    <span class="n">select</span> <span class="o">=</span> <span class="s1">'column_one'</span><span class="p">,</span>
+<span class="linenos">39</span>    <span class="n">where</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">'column_two'</span><span class="p">,</span> <span class="s1">'&lt;'</span><span class="p">,</span> <span class="s1">'15'</span><span class="p">),</span> <span class="p">(</span><span class="s1">'column_one'</span><span class="p">,</span> <span class="s1">'='</span><span class="p">,</span> <span class="s1">'b'</span><span class="p">)],</span>
+<span class="linenos">40</span>    <span class="n">where_boolean</span> <span class="o">=</span> <span class="s1">'AND'</span>
+<span class="linenos">41</span><span class="p">)</span>
+<span class="linenos">42</span><span class="n">df_where</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">)</span>
+<span class="linenos">43</span>
+<span class="linenos">44</span><span class="c1"># Order results</span>
+<span class="linenos">45</span><span class="n">data</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">select</span><span class="p">(</span>
+<span class="linenos">46</span>    <span class="s1">'test_table'</span><span class="p">,</span>
+<span class="linenos">47</span>    <span class="n">select</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'column_one'</span><span class="p">,</span> <span class="s1">'column_two'</span><span class="p">],</span>
+<span class="linenos">48</span>    <span class="n">order_by</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'column_one'</span><span class="p">,</span> <span class="s1">'column_two'</span><span class="p">],</span>
+<span class="linenos">49</span>    <span class="n">order_by_sort</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'asc'</span><span class="p">,</span> <span class="s1">'desc'</span><span class="p">]</span>
+<span class="linenos">50</span><span class="p">)</span>
+<span class="linenos">51</span><span class="n">df_order</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">)</span>
+<span class="linenos">52</span>
+<span class="linenos">53</span><span class="c1"># Aggregate read</span>
+<span class="linenos">54</span><span class="n">data</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">select</span><span class="p">(</span>
+<span class="linenos">55</span>    <span class="s1">'test_table'</span><span class="p">,</span>
+<span class="linenos">56</span>    <span class="n">select</span> <span class="o">=</span> <span class="s1">'column_one'</span><span class="p">,</span>
+<span class="linenos">57</span>    <span class="n">group_by</span> <span class="o">=</span> <span class="s1">'column_one'</span><span class="p">,</span>
+<span class="linenos">58</span>    <span class="n">aggregate</span> <span class="o">=</span> <span class="s1">'column_two'</span><span class="p">,</span>
+<span class="linenos">59</span>    <span class="n">aggregate_func</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'count'</span><span class="p">,</span> <span class="s1">'sum'</span><span class="p">]</span>
+<span class="linenos">60</span><span class="p">)</span>
+<span class="linenos">61</span><span class="n">df_agg</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">)</span>
+<span class="linenos">62</span>
+<span class="linenos">63</span><span class="c1"># Display results</span>
+<span class="linenos">64</span><span class="nb">print</span><span class="p">(</span><span class="s1">'df:</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
+<span class="linenos">65</span><span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="linenos">66</span><span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">df_select:</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
+<span class="linenos">67</span><span class="nb">print</span><span class="p">(</span><span class="n">df_select</span><span class="p">)</span>
+<span class="linenos">68</span><span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">df_where:</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
+<span class="linenos">69</span><span class="nb">print</span><span class="p">(</span><span class="n">df_where</span><span class="p">)</span>
+<span class="linenos">70</span><span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">df_order:</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
+<span class="linenos">71</span><span class="nb">print</span><span class="p">(</span><span class="n">df_order</span><span class="p">)</span>
+<span class="linenos">72</span><span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">df_agg:</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
+<span class="linenos">73</span><span class="nb">print</span><span class="p">(</span><span class="n">df_agg</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>df:
+
+   id column_one  column_two
+0   1          a           2
+1   2          b           4
+2   3          c           6
+
+df_select:
+
+   id column_one  column_two
+0   1          a           2
+1   2          b           4
+2   3          c           6
+
+df_where:
+
+   id column_one  column_two
+0   1          a           2
+1   2          b           4
+2   3          c           6
+
+df_order:
+
+   id column_one  column_two
+0   1          a           2
+1   2          b           4
+2   3          c           6
+
+df_agg:
+
+   id column_one  column_two
+0   1          a           2
+1   2          b           4
+2   3          c           6
+</pre></div>
+</div>
 </div>
 </div>
 </dd></dl>
@@ -1217,16 +1417,39 @@ If a list of str, then it must have the same number of elements as <code class="
 <span class="linenos">22</span>    <span class="s1">'column_two'</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">]</span>
 <span class="linenos">23</span><span class="p">}</span>
 <span class="linenos">24</span><span class="n">db</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
-<span class="linenos">25</span>
-<span class="linenos">26</span><span class="c1"># Update values in table</span>
-<span class="linenos">27</span><span class="n">db</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
-<span class="linenos">28</span>    <span class="s1">'test_table'</span><span class="p">,</span>
-<span class="linenos">29</span>    <span class="n">where</span><span class="o">=</span><span class="p">(</span><span class="s1">'id'</span><span class="p">,</span> <span class="s1">'&gt;'</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
-<span class="linenos">30</span>    <span class="n">values</span><span class="o">=</span><span class="p">{</span><span class="s1">'column_one'</span><span class="p">:</span> <span class="s1">'AA'</span><span class="p">})</span>
+<span class="linenos">25</span><span class="n">df</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">)</span>
+<span class="linenos">26</span>
+<span class="linenos">27</span><span class="c1"># Update values in table</span>
+<span class="linenos">28</span><span class="n">db</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+<span class="linenos">29</span>    <span class="s1">'test_table'</span><span class="p">,</span>
+<span class="linenos">30</span>    <span class="n">where</span><span class="o">=</span><span class="p">(</span><span class="s1">'id'</span><span class="p">,</span> <span class="s1">'&gt;'</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+<span class="linenos">31</span>    <span class="n">values</span><span class="o">=</span><span class="p">{</span><span class="s1">'column_one'</span><span class="p">:</span> <span class="s1">'AA'</span><span class="p">})</span>
+<span class="linenos">32</span><span class="n">df_update</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">)</span>
+<span class="linenos">33</span>
+<span class="linenos">34</span><span class="c1"># Print results</span>
+<span class="linenos">35</span><span class="nb">print</span><span class="p">(</span><span class="s1">'df:</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
+<span class="linenos">36</span><span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="linenos">37</span><span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">df_update:</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
+<span class="linenos">38</span><span class="nb">print</span><span class="p">(</span><span class="n">df_update</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>df:
+
+   id column_one  column_two
+0   1          a           2
+1   2          b           4
+2   3          c           6
+
+df_update:
+
+   id column_one  column_two
+0   1          a           2
+1   2         AA           4
+2   3         AA           6
+</pre></div>
+</div>
 </div>
 </div>
 </dd></dl>
