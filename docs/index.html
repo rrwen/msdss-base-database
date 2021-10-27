@@ -1,1144 +1,337 @@
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
-<head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>msdss-base-database &mdash; msdss_base_database 0.0.2 documentation</title>
-      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
-      <link rel="stylesheet" href="_static/jupyter-sphinx.css" type="text/css" />
-      <link rel="stylesheet" href="_static/thebelab.css" type="text/css" />
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="lang:clipboard.copy" content="Copy to clipboard">
+  <meta name="lang:clipboard.copied" content="Copied to clipboard">
+  <meta name="lang:search.language" content="en">
+  <meta name="lang:search.pipeline.stopwords" content="True">
+  <meta name="lang:search.pipeline.trimmer" content="True">
+  <meta name="lang:search.result.none" content="No matching documents">
+  <meta name="lang:search.result.one" content="1 matching document">
+  <meta name="lang:search.result.other" content="# matching documents">
+  <meta name="lang:search.tokenizer" content="[\s\-]+">
+
   
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script src="_static/thebelab-helper.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
-    <script src="_static/js/theme.js"></script>
+    <link href="https://fonts.gstatic.com/" rel="preconnect" crossorigin>
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Mono:400,500,700|Roboto:300,400,400i,700&display=fallback" rel="stylesheet">
+
+    <style>
+      body,
+      input {
+        font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif
+      }
+
+      code,
+      kbd,
+      pre {
+        font-family: "Roboto Mono", "Courier New", Courier, monospace
+      }
+    </style>
+  
+
+  <link rel="stylesheet" href="_static/stylesheets/application.css"/>
+  <link rel="stylesheet" href="_static/stylesheets/application-palette.css"/>
+  <link rel="stylesheet" href="_static/stylesheets/application-fixes.css"/>
+  
+  <link rel="stylesheet" href="_static/fonts/material-icons.css"/>
+  
+  <meta name="theme-color" content="#3f51b5">
+  <script src="_static/javascripts/modernizr.js"></script>
+  
+  
+  
+    <title>msdss-base-database &#8212; 0.0.3</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/material.css" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="_static/jupyter-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="_static/thebelab.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/thebelab-helper.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" /> 
-</head>
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Install" href="install.html" />
+  
+   
 
-<body class="wy-body-for-nav"> 
-  <div class="wy-grid-for-nav">
-    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
-      <div class="wy-side-scroll">
-        <div class="wy-side-nav-search" >
-            <a href="#" class="icon icon-home"> msdss_base_database
-          </a>
-              <div class="version">
-                0.0.2
-              </div>
-<div role="search">
-  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
-    <input type="hidden" name="check_keywords" value="yes" />
-    <input type="hidden" name="area" value="default" />
-  </form>
-</div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">msdss-base-database</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#install">Install</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#quick-start">Quick Start</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#how-it-works">How it Works</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#api-reference">API Reference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#contact">Contact</a><ul class="simple">
-</ul>
-</li>
-</ul>
-
+  </head>
+  <body dir=ltr
+        data-md-color-primary=indigo data-md-color-accent=light-blue>
+  
+  <svg class="md-svg">
+    <defs data-children-count="0">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" width="416" height="448" viewBox="0 0 416 448" id="__github"><path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19T128 352t-18.125-8.5-10.75-19T96 304t3.125-20.5 10.75-19T128 256t18.125 8.5 10.75 19T160 304zm160 0q0 10-3.125 20.5t-10.75 19T288 352t-18.125-8.5-10.75-19T256 304t3.125-20.5 10.75-19T288 256t18.125 8.5 10.75 19T320 304zm40 0q0-30-17.25-51T296 232q-10.25 0-48.75 5.25Q229.5 240 208 240t-39.25-2.75Q130.75 232 120 232q-29.5 0-46.75 21T56 304q0 22 8 38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0 37.25-1.75t35-7.375 30.5-15 20.25-25.75T360 304zm56-44q0 51.75-15.25 82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5T212 416q-19.5 0-35.5-.75t-36.875-3.125-38.125-7.5-34.25-12.875T37 371.5t-21.5-28.75Q0 312 0 260q0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25 30.875Q171.5 96 212 96q37 0 70 8 26.25-20.5 46.75-30.25T376 64q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34 99.5z"/></svg>
+      
+    </defs>
+  </svg>
+  
+  <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer">
+  <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search">
+  <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
+  <a href="#index" tabindex="1" class="md-skip"> Skip to content </a>
+  <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex navheader">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href="#" title="0.0.3"
+           class="md-header-nav__button md-logo">
+          
+            <i class="md-icon">cloud_circle</i>
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="__drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
+          <span class="md-header-nav__topic">msdss-base-database</span>
+          <span class="md-header-nav__topic"> msdss-base-database </span>
         </div>
       </div>
-    </nav>
-
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
-          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="#">msdss_base_database</a>
-      </nav>
-
-      <div class="wy-nav-content">
-        <div class="rst-content">
-          <div role="navigation" aria-label="Page navigation">
-  <ul class="wy-breadcrumbs">
-      <li><a href="#" class="icon icon-home"></a> &raquo;</li>
-      <li>msdss-base-database</li>
-      <li class="wy-breadcrumbs-aside">
-            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
-      </li>
-  </ul>
-  <hr/>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
+        
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" action="search.html" method="get" name="search">
+      <input type="text" class="md-search__input" name="q" placeholder="Search"
+             autocapitalize="off" autocomplete="off" spellcheck="false"
+             data-md-component="query" data-md-state="active">
+      <label class="md-icon md-search__icon" for="__search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
+        &#xE5CD;
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta">
+            Type to start searching
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
-          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
-           <div itemprop="articleBody">
-             
+
+      </div>
+      
+        <div class="md-flex__cell md-flex__cell--shrink">
+          <div class="md-header-nav__source">
+            <a href="https://github.com/rrwen/msdss-base-database/" title="Go to repository" class="md-source" data-md-source="github">
+
+    <div class="md-source__icon">
+      <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24" width="28" height="28">
+        <use xlink:href="#__github" width="24" height="24"></use>
+      </svg>
+    </div>
+  
+  <div class="md-source__repository">
+    msdss-base-database
+  </div>
+</a>
+          </div>
+        </div>
+      
+      
+  
+  <script src="_static/javascripts/version_dropdown.js"></script>
+  <script>
+    var json_loc = ""versions.json"",
+        target_loc = "../",
+        text = "Versions";
+    $( document ).ready( add_version_dropdown(json_loc, target_loc, text));
+  </script>
+  
+
+    </div>
+  </nav>
+</header>
+
+  
+  <div class="md-container">
+    
+    
+    
+  <nav class="md-tabs" data-md-component="tabs">
+    <div class="md-tabs__inner md-grid">
+      <ul class="md-tabs__list">
+          <li class="md-tabs__item"><a href="#" class="md-tabs__link">0.0.3</a></li>
+      </ul>
+    </div>
+  </nav>
+    <main class="md-main">
+      <div class="md-main__inner md-grid" data-md-component="container">
+        
+          <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+            <div class="md-sidebar__scrollwrap">
+              <div class="md-sidebar__inner">
+                <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="__drawer">
+    <a href="#" title="0.0.3" class="md-nav__button md-logo">
+      
+        <i class="md-icon">cloud_circle</i>
+      
+    </a>
+    <a href="#"
+       title="0.0.3">msdss-base-database</a>
+  </label>
+    <div class="md-nav__source">
+      <a href="https://github.com/rrwen/msdss-base-database/" title="Go to repository" class="md-source" data-md-source="github">
+
+    <div class="md-source__icon">
+      <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24" width="28" height="28">
+        <use xlink:href="#__github" width="24" height="24"></use>
+      </svg>
+    </div>
+  
+  <div class="md-source__repository">
+    msdss-base-database
+  </div>
+</a>
+    </div>
+  
+  
+
+  
+  <ul class="md-nav__list">
+    <li class="md-nav__item">
+    
+    
+      <a href="install.html" class="md-nav__link">Install</a>
+      
+    
+    </li>
+    <li class="md-nav__item">
+    
+    
+      <a href="quickstart.html" class="md-nav__link">Quick Start</a>
+      
+    
+    </li>
+    <li class="md-nav__item">
+    
+    
+      <a href="howitworks.html" class="md-nav__link">How it Works</a>
+      
+    
+    </li>
+    <li class="md-nav__item">
+    
+    
+      <a href="reference/reference.html" class="md-nav__link">API Reference</a>
+      
+    
+    </li>
+  </ul>
+  
+
+</nav>
+              </div>
+            </div>
+          </div>
+          <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+            <div class="md-sidebar__scrollwrap">
+              <div class="md-sidebar__inner">
+                
+<nav class="md-nav md-nav--secondary">
+    <label class="md-nav__title" for="__toc">Contents</label>
+  <ul class="md-nav__list" data-md-scrollfix="">
+        <li class="md-nav__item"><a href="#index--page-root" class="md-nav__link">msdss-base-database</a><nav class="md-nav">
+              <ul class="md-nav__list">
+        <li class="md-nav__item"><a href="#contact" class="md-nav__link">Contact</a>
+        </li></ul>
+            </nav>
+        </li>
+    
+<li class="md-nav__item"><a class="md-nav__extra_link" href="_sources/index.rst.txt">Show Source</a> </li>
+
+<li id="searchbox" class="md-nav__item"></li>
+
+  </ul>
+</nav>
+              </div>
+            </div>
+          </div>
+        
+        <div class="md-content">
+          <article class="md-content__inner md-typeset" role="main">
+            
   <section id="msdss-base-database">
-<h1>msdss-base-database<a class="headerlink" href="#msdss-base-database" title="Permalink to this headline"></a></h1>
+<h1 id="index--page-root">msdss-base-database<a class="headerlink" href="#index--page-root" title="Permalink to this headline">¶</a></h1>
 <p>Base database for the Modular Spatial Decision Support Systems (MSDSS) framework.</p>
 <ul class="simple">
 <li><p><a class="reference external" href="https://pypi.org/project/msdss-base-database">PyPi</a></p></li>
 <li><p><a class="reference external" href="https://www.github.com/rrwen/msdss-base-database">Github</a></p></li>
 <li><p><a class="reference external" href="https://github.com/rrwen/msdss-base-database/blob/main/LICENSE">License</a></p></li>
 </ul>
-</section>
-<section id="install">
-<h1>Install<a class="headerlink" href="#install" title="Permalink to this headline"></a></h1>
-<ol class="arabic simple">
-<li><p>Install <a class="reference external" href="https://www.anaconda.com/">Anaconda 3</a> for Python</p></li>
-<li><p>Install <code class="docutils literal notranslate"><span class="pre">msdss-base-database</span></code> via pip or through a conda environment</p></li>
-<li><p>The default is to use <code class="docutils literal notranslate"><span class="pre">postgresql</span></code> as the database</p></li>
-</ol>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">create</span> <span class="o">-</span><span class="n">n</span> <span class="n">msdss</span><span class="o">-</span><span class="n">base</span><span class="o">-</span><span class="n">database</span> <span class="n">python</span><span class="o">=</span><span class="mf">3.8</span>
-<span class="n">conda</span> <span class="n">activate</span> <span class="n">msdss</span><span class="o">-</span><span class="n">base</span><span class="o">-</span><span class="n">database</span>
-<span class="n">pip</span> <span class="n">install</span> <span class="n">msdss</span><span class="o">-</span><span class="n">base</span><span class="o">-</span><span class="n">database</span><span class="p">[</span><span class="n">postgresql</span><span class="p">]</span>
-</pre></div>
-</div>
-<p>Optionally, you can also install other databases supported by <code class="docutils literal notranslate"><span class="pre">sqlalchemy</span></code>:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">msdss</span><span class="o">-</span><span class="n">base</span><span class="o">-</span><span class="n">database</span><span class="p">[</span><span class="n">mysql</span><span class="p">]</span>
-<span class="n">pip</span> <span class="n">install</span> <span class="n">msdss</span><span class="o">-</span><span class="n">base</span><span class="o">-</span><span class="n">database</span><span class="p">[</span><span class="n">sqlite</span><span class="p">]</span>
-</pre></div>
-</div>
-</section>
-<section id="quick-start">
-<h1>Quick Start<a class="headerlink" href="#quick-start" title="Permalink to this headline"></a></h1>
-<p>After installing the package, set up environment variables using <code class="docutils literal notranslate"><span class="pre">msdss-dotenv</span></code> in a command line terminal:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">msdss</span><span class="o">-</span><span class="n">dotenv</span> <span class="n">init</span>
-<span class="n">msdss</span><span class="o">-</span><span class="n">dotenv</span> <span class="nb">set</span> <span class="n">MSDSS_DATABASE_DRIVER</span> <span class="n">postgresql</span>
-<span class="n">msdss</span><span class="o">-</span><span class="n">dotenv</span> <span class="nb">set</span> <span class="n">MSDSS_DATABASE_USER</span> <span class="n">msdss</span>
-<span class="n">msdss</span><span class="o">-</span><span class="n">dotenv</span> <span class="nb">set</span> <span class="n">MSDSS_DATABASE_PASSWORD</span> <span class="n">msdss123</span>
-<span class="n">msdss</span><span class="o">-</span><span class="n">dotenv</span> <span class="nb">set</span> <span class="n">MSDSS_DATABASE_HOST</span> <span class="n">localhost</span>
-<span class="n">msdss</span><span class="o">-</span><span class="n">dotenv</span> <span class="nb">set</span> <span class="n">MSDSS_DATABASE_PORT</span> <span class="mi">5432</span>
-<span class="n">msdss</span><span class="o">-</span><span class="n">dotenv</span> <span class="nb">set</span> <span class="n">MSDSS_DATABASE_NAME</span> <span class="n">msdss</span>
-</pre></div>
-</div>
-<p>In Python, use the package via <a class="reference internal" href="#msdss_base_database.core.Database" title="msdss_base_database.core.Database"><code class="xref py py-class docutils literal notranslate"><span class="pre">msdss_base_database.core.Database</span></code></a> methods:</p>
-<div class="jupyter_cell jupyter_container docutils container">
-<div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">from</span> <span class="nn">msdss_base_database</span> <span class="kn">import</span> <span class="n">Database</span>
-<span class="linenos"> 2</span>
-<span class="linenos"> 3</span><span class="c1"># Initiate a connection, assuming env vars set</span>
-<span class="linenos"> 4</span><span class="n">db</span> <span class="o">=</span> <span class="n">Database</span><span class="p">()</span>
-<span class="linenos"> 5</span>
-<span class="linenos"> 6</span><span class="c1"># Check if the table exists and drop if it does</span>
-<span class="linenos"> 7</span><span class="k">if</span> <span class="n">db</span><span class="o">.</span><span class="n">has_table</span><span class="p">(</span><span class="s2">&quot;test_table&quot;</span><span class="p">):</span>
-<span class="linenos"> 8</span>      <span class="n">db</span><span class="o">.</span><span class="n">drop_table</span><span class="p">(</span><span class="s2">&quot;test_table&quot;</span><span class="p">)</span>
-<span class="linenos"> 9</span>
-<span class="linenos">10</span><span class="c1"># Create sample table</span>
-<span class="linenos">11</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span>
-<span class="linenos">12</span>   <span class="nb">dict</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="n">type_</span><span class="o">=</span><span class="s1">&#39;Integer&#39;</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
-<span class="linenos">13</span>   <span class="p">(</span><span class="s1">&#39;column_one&#39;</span><span class="p">,</span> <span class="s1">&#39;String&#39;</span><span class="p">),</span>
-<span class="linenos">14</span>   <span class="p">(</span><span class="s1">&#39;column_two&#39;</span><span class="p">,</span> <span class="s1">&#39;Integer&#39;</span><span class="p">)</span>
-<span class="linenos">15</span><span class="p">]</span>
-<span class="linenos">16</span><span class="n">db</span><span class="o">.</span><span class="n">create_table</span><span class="p">(</span><span class="s1">&#39;test_table&#39;</span><span class="p">,</span> <span class="n">columns</span><span class="p">)</span>
-<span class="linenos">17</span>
-<span class="linenos">18</span><span class="c1"># Write sample data</span>
-<span class="linenos">19</span><span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
-<span class="linenos">20</span>      <span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
-<span class="linenos">21</span>      <span class="s1">&#39;column_one&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">],</span>
-<span class="linenos">22</span>      <span class="s1">&#39;column_two&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">]</span>
-<span class="linenos">23</span><span class="p">}</span>
-<span class="linenos">24</span><span class="n">db</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="s1">&#39;test_table&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
-<span class="linenos">25</span>
-<span class="linenos">26</span><span class="c1"># Read the table to a pandas dataframe</span>
-<span class="linenos">27</span><span class="n">df</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">&#39;test_table&#39;</span><span class="p">)</span>
-<span class="linenos">28</span>
-<span class="linenos">29</span><span class="c1"># Insert values into the table</span>
-<span class="linenos">30</span><span class="n">new</span> <span class="o">=</span> <span class="p">{</span>
-<span class="linenos">31</span>   <span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">],</span>
-<span class="linenos">32</span>   <span class="s1">&#39;column_one&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;e&#39;</span><span class="p">,</span> <span class="s1">&#39;f&#39;</span><span class="p">,</span> <span class="s1">&#39;g&#39;</span><span class="p">],</span>
-<span class="linenos">33</span>   <span class="s1">&#39;column_two&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">14</span><span class="p">]</span>
-<span class="linenos">34</span><span class="p">}</span>
-<span class="linenos">35</span><span class="n">db</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="s1">&#39;test_table&#39;</span><span class="p">,</span> <span class="n">new</span><span class="p">)</span>
-<span class="linenos">36</span>
-<span class="linenos">37</span><span class="c1"># Delete rows from the table</span>
-<span class="linenos">38</span><span class="n">db</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span>
-<span class="linenos">39</span>   <span class="s1">&#39;test_table&#39;</span><span class="p">,</span>
-<span class="linenos">40</span>   <span class="n">where</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;=&#39;</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
-<span class="linenos">41</span><span class="p">)</span>
-<span class="linenos">42</span>
-<span class="linenos">43</span><span class="c1"># Update values in table</span>
-<span class="linenos">44</span><span class="n">db</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
-<span class="linenos">45</span>   <span class="s1">&#39;test_table&#39;</span><span class="p">,</span>
-<span class="linenos">46</span>   <span class="n">where</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;&gt;&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
-<span class="linenos">47</span>   <span class="n">values</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;column_one&#39;</span><span class="p">:</span> <span class="s1">&#39;AA&#39;</span><span class="p">})</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-</div>
-</div>
-</section>
-<section id="how-it-works">
-<h1>How it Works<a class="headerlink" href="#how-it-works" title="Permalink to this headline"></a></h1>
-<p>The <a class="reference internal" href="#msdss_base_database.core.Database" title="msdss_base_database.core.Database"><code class="xref py py-class docutils literal notranslate"><span class="pre">msdss_base_database.core.Database</span></code></a> class wraps around <a class="reference external" href="https://www.sqlalchemy.org/">sqlalchemy</a> for managing databases and <a class="reference external" href="https://pandas.pydata.org/">pandas</a> for convenient data processing.</p>
-<p><code class="docutils literal notranslate"><span class="pre">sqlalchemy</span></code> is used for creating connections, building query statements, and executing queries, while <code class="docutils literal notranslate"><span class="pre">pandas</span></code> is used for bulk reading and writing data from and to databases.</p>
-<div class="graphviz"><img src="_images/graphviz-6cfdb34221da5ee74100b5bde4fcdcee1bc3af5f.png" alt="digraph methods {
-rankdir=TB;
-
-sqlalchemy[label=&quot;SQLAlchemy&quot; URL=&quot;https://www.sqlalchemy.org/&quot; style=filled];
-
-select[label=&quot;.select()&quot; shape=rect style=rounded URL=&quot;https://docs.sqlalchemy.org/en/14/core/metadata.html?highlight=select#sqlalchemy.schema.Table.select&quot;];
-insert[label=&quot;.insert()&quot; shape=rect style=rounded URL=&quot;https://docs.sqlalchemy.org/en/14/core/metadata.html?highlight=insert#sqlalchemy.schema.Table.insert&quot;];
-update[label=&quot;.update()&quot; shape=rect style=rounded URL=&quot;https://docs.sqlalchemy.org/en/14/core/metadata.html?highlight=update#sqlalchemy.schema.Table.update&quot;];
-drop[label=&quot;.drop()&quot; shape=rect style=rounded URL=&quot;https://docs.sqlalchemy.org/en/14/core/metadata.html?highlight=drop#sqlalchemy.schema.Table.drop&quot;];
-delete[label=&quot;.delete()&quot; shape=rect style=rounded URL=&quot;https://docs.sqlalchemy.org/en/14/core/metadata.html?highlight=delete#sqlalchemy.schema.Table.delete&quot;];
-hastable[label=&quot;.has_table()&quot; shape=rect style=rounded URL=&quot;https://docs.sqlalchemy.org/en/14/core/internals.html?highlight=has_table#sqlalchemy.engine.default.DefaultDialect.has_table&quot;];
-execute[label=&quot;.execute()&quot; shape=rect style=rounded URL=&quot;https://docs.sqlalchemy.org/en/14/core/connections.html?highlight=execute#sqlalchemy.engine.Connection.execute&quot;];
-
-engine[label=&quot;.Engine&quot; shape=rect URL=&quot;https://docs.sqlalchemy.org/en/14/core/connections.html?highlight=engine#sqlalchemy.engine.Engine&quot;];
-inspector[label=&quot;.Inspector&quot; shape=rect URL=&quot;https://docs.sqlalchemy.org/en/14/core/reflection.html?highlight=inspector#sqlalchemy.engine.reflection.Inspector&quot;];
-connection[label=&quot;.Connection&quot; shape=rect URL=&quot;https://docs.sqlalchemy.org/en/14/core/connections.html?highlight=connection#sqlalchemy.engine.Connection&quot;];
-table[label=&quot;.Table&quot; shape=rect URL=&quot;https://docs.sqlalchemy.org/en/14/core/metadata.html?highlight=table#sqlalchemy.schema.Table&quot;];
-
-pandas[label=&quot;pandas&quot; URL=&quot;https://pandas.pydata.org/&quot; style=filled];
-
-readsql[label=&quot;.read_sql()&quot; shape=rect style=rounded URL=&quot;https://pandas.pydata.org/docs/reference/api/pandas.read_sql.html&quot;];
-tosql[label=&quot;.to_sql()&quot; shape=rect style=rounded URL=&quot;https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.to_sql.html?highlight=to_sql&quot;];
-
-dataframe[label=&quot;.DataFrame&quot; shape=rect URL=&quot;https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html?highlight=dataframe#pandas.DataFrame&quot;];
-
-subgraph cluster {
-   label=&lt; &lt;B&gt;msdss_base_database.core.Database&lt;/B&gt; &gt;;
-
-   style=rounded;
-   {rank=min; sqlalchemy -&gt; pandas;}
-
-   engine -&gt; sqlalchemy[arrowhead=none];
-   engine -&gt; table -&gt; {select;insert;update;drop;delete} -&gt; connection -&gt; execute;
-   engine -&gt; inspector -&gt; hastable;
-
-   dataframe -&gt; pandas[arrowhead=none];
-   dataframe -&gt; {readsql;tosql};
-}
-}" usemap="#methods" class="graphviz" /></div>
-<map id="methods" name="methods">
-<area shape="poly" id="node1" href="https://www.sqlalchemy.org/" title="SQLAlchemy" alt="" coords="409,81,405,74,393,67,375,62,353,59,328,57,303,59,281,62,263,67,251,74,247,81,251,89,263,95,281,101,303,104,328,105,353,104,375,101,393,95,405,89"/>
-<area shape="poly" id="node13" href="https://pandas.pydata.org/" title="pandas" alt="" coords="530,81,527,74,521,67,510,62,496,59,481,57,466,59,453,62,442,67,435,74,433,81,435,89,442,95,453,101,466,104,481,105,496,104,510,101,521,95,527,89"/>
-<area shape="rect" id="node2" href="https://docs.sqlalchemy.org/en/14/core/metadata.html?highlight=select#sqlalchemy.schema.Table.select" title=".select()" alt="" coords="583,345,665,393"/>
-<area shape="rect" id="node11" href="https://docs.sqlalchemy.org/en/14/core/connections.html?highlight=connection#sqlalchemy.engine.Connection" title=".Connection" alt="" coords="358,441,471,489"/>
-<area shape="rect" id="node3" href="https://docs.sqlalchemy.org/en/14/core/metadata.html?highlight=insert#sqlalchemy.schema.Table.insert" title=".insert()" alt="" coords="161,345,239,393"/>
-<area shape="rect" id="node4" href="https://docs.sqlalchemy.org/en/14/core/metadata.html?highlight=update#sqlalchemy.schema.Table.update" title=".update()" alt="" coords="263,345,353,393"/>
-<area shape="rect" id="node5" href="https://docs.sqlalchemy.org/en/14/core/metadata.html?highlight=drop#sqlalchemy.schema.Table.drop" title=".drop()" alt="" coords="377,345,452,393"/>
-<area shape="rect" id="node6" href="https://docs.sqlalchemy.org/en/14/core/metadata.html?highlight=delete#sqlalchemy.schema.Table.delete" title=".delete()" alt="" coords="476,345,559,393"/>
-<area shape="rect" id="node7" href="https://docs.sqlalchemy.org/en/14/core/internals.html?highlight=has_table#sqlalchemy.engine.default.DefaultDialect.has_table" title=".has_table()" alt="" coords="27,345,136,393"/>
-<area shape="rect" id="node8" href="https://docs.sqlalchemy.org/en/14/core/connections.html?highlight=execute#sqlalchemy.engine.Connection.execute" title=".execute()" alt="" coords="367,537,462,585"/>
-<area shape="rect" id="node9" href="https://docs.sqlalchemy.org/en/14/core/connections.html?highlight=engine#sqlalchemy.engine.Engine" title=".Engine" alt="" coords="289,153,367,201"/>
-<area shape="rect" id="node10" href="https://docs.sqlalchemy.org/en/14/core/reflection.html?highlight=inspector#sqlalchemy.engine.reflection.Inspector" title=".Inspector" alt="" coords="121,249,220,297"/>
-<area shape="rect" id="node12" href="https://docs.sqlalchemy.org/en/14/core/metadata.html?highlight=table#sqlalchemy.schema.Table" title=".Table" alt="" coords="303,249,375,297"/>
-<area shape="rect" id="node14" href="https://pandas.pydata.org/docs/reference/api/pandas.read_sql.html" title=".read_sql()" alt="" coords="419,249,522,297"/>
-<area shape="rect" id="node15" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.to_sql.html?highlight=to_sql" title=".to_sql()" alt="" coords="546,249,633,297"/>
-<area shape="rect" id="node16" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html?highlight=dataframe#pandas.DataFrame" title=".DataFrame" alt="" coords="427,153,535,201"/>
-</map></section>
-<section id="api-reference">
-<h1>API Reference<a class="headerlink" href="#api-reference" title="Permalink to this headline"></a></h1>
-<dl class="py class">
-<dt class="sig sig-object py" id="msdss_base_database.core.Database">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">msdss_base_database.core.</span></span><span class="sig-name descname"><span class="pre">Database</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">driver</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'postgresql'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'msdss'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">password</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'msdss123'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">host</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'localhost'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'5432'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">database</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'msdss'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">load_env</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">env_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'./.env'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">driver_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'MSDSS_DATABASE_DRIVER'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'MSDSS_DATABASE_USER'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">password_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'MSDSS_DATABASE_PASSWORD'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">host_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'MSDSS_DATABASE_HOST'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'MSDSS_DATABASE_PORT'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">database_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'MSDSS_DATABASE_NAME'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/msdss_base_database/core.html#Database"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#msdss_base_database.core.Database" title="Permalink to this definition"></a></dt>
-<dd><p>Class for MSDSS database management.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>driver</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – The driver name of the database connection, which are commonly <code class="docutils literal notranslate"><span class="pre">postgresql</span></code>, <code class="docutils literal notranslate"><span class="pre">sqlite</span></code>, <code class="docutils literal notranslate"><span class="pre">mysql</span></code>, <code class="docutils literal notranslate"><span class="pre">oracle</span></code> or <code class="docutils literal notranslate"><span class="pre">mssql</span></code>.  (see <a class="reference external" href="https://docs.sqlalchemy.org/en/14/core/engines.html#supported-databases">SQLAlchemy supported databases</a>).</p></li>
-<li><p><strong>user</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – User name for the connection.</p></li>
-<li><p><strong>password</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Password for the user.</p></li>
-<li><p><strong>host</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Host address of the connection.</p></li>
-<li><p><strong>port</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Port number of the connection.</p></li>
-<li><p><strong>database</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Database name of the connection.</p></li>
-<li><p><strong>*args</strong> – Additional arguments passed to <a class="reference external" href="https://docs.sqlalchemy.org/en/14/core/engines.html#sqlalchemy.create_engine" title="(in SQLAlchemy v1.4)"><code class="docutils literal notranslate"><span class="pre">sqlalchemy.create_engine()</span></code></a>.</p></li>
-<li><p><strong>**kwargs</strong> – Additional arguments passed to <a class="reference external" href="https://docs.sqlalchemy.org/en/14/core/engines.html#sqlalchemy.create_engine" title="(in SQLAlchemy v1.4)"><code class="docutils literal notranslate"><span class="pre">sqlalchemy.create_engine()</span></code></a>.</p></li>
-</ul>
-</dd>
-</dl>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="msdss_base_database.core.Database._connection">
-<span class="sig-name descname"><span class="pre">_connection</span></span><a class="headerlink" href="#msdss_base_database.core.Database._connection" title="Permalink to this definition"></a></dt>
-<dd><p>The database engine object from <a class="reference external" href="https://www.sqlalchemy.org/">sqlalchemy</a>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.sqlalchemy.org/en/14/core/connections.html#sqlalchemy.engine.Engine" title="(in SQLAlchemy v1.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">sqlalchemy.engine.base.Engine</span></code></a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="msdss_base_database.core.Database._inspector">
-<span class="sig-name descname"><span class="pre">_inspector</span></span><a class="headerlink" href="#msdss_base_database.core.Database._inspector" title="Permalink to this definition"></a></dt>
-<dd><p>The database inspector object from <a class="reference external" href="https://www.sqlalchemy.org/">sqlalchemy</a>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.sqlalchemy.org/en/14/core/reflection.html#sqlalchemy.engine.reflection.Inspector" title="(in SQLAlchemy v1.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">sqlalchemy.engine.reflection.Inspector</span></code></a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="msdss_base_database.core.Database._metadata">
-<span class="sig-name descname"><span class="pre">_metadata</span></span><a class="headerlink" href="#msdss_base_database.core.Database._metadata" title="Permalink to this definition"></a></dt>
-<dd><p>The metadata object from <a class="reference external" href="https://www.sqlalchemy.org/">sqlalchemy</a>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.sqlalchemy.org/en/14/core/metadata.html#sqlalchemy.schema.MetaData" title="(in SQLAlchemy v1.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">sqlalchemy.schema.MetaData</span></code></a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<p class="rubric">Author</p>
-<p>Richard Wen &lt;<a class="reference external" href="mailto:rrwen&#46;dev&#37;&#52;&#48;gmail&#46;com">rrwen<span>&#46;</span>dev<span>&#64;</span>gmail<span>&#46;</span>com</a>&gt;</p>
-<p class="rubric">Example</p>
-<div class="jupyter_cell jupyter_container docutils container">
-<div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">from</span> <span class="nn">msdss_base_database.core</span> <span class="kn">import</span> <span class="n">Database</span>
-<span class="linenos"> 2</span>
-<span class="linenos"> 3</span><span class="c1"># Initiate a connection with the default test user and database</span>
-<span class="linenos"> 4</span><span class="n">db</span> <span class="o">=</span> <span class="n">Database</span><span class="p">(</span>
-<span class="linenos"> 5</span>    <span class="n">driver</span><span class="o">=</span><span class="s2">&quot;postgresql&quot;</span><span class="p">,</span>
-<span class="linenos"> 6</span>    <span class="n">user</span><span class="o">=</span><span class="s2">&quot;msdss&quot;</span><span class="p">,</span>
-<span class="linenos"> 7</span>    <span class="n">password</span><span class="o">=</span><span class="s2">&quot;msdss123&quot;</span><span class="p">,</span>
-<span class="linenos"> 8</span>    <span class="n">host</span><span class="o">=</span><span class="s2">&quot;localhost&quot;</span><span class="p">,</span>
-<span class="linenos"> 9</span>    <span class="n">port</span><span class="o">=</span><span class="s2">&quot;5432&quot;</span><span class="p">,</span>
-<span class="linenos">10</span>    <span class="n">database</span><span class="o">=</span><span class="s2">&quot;msdss&quot;</span>
-<span class="linenos">11</span><span class="p">)</span>
-<span class="linenos">12</span>
-<span class="linenos">13</span><span class="c1"># Check if the table exists and drop if it does</span>
-<span class="linenos">14</span><span class="k">if</span> <span class="n">db</span><span class="o">.</span><span class="n">has_table</span><span class="p">(</span><span class="s2">&quot;test_table&quot;</span><span class="p">):</span>
-<span class="linenos">15</span>    <span class="n">db</span><span class="o">.</span><span class="n">drop_table</span><span class="p">(</span><span class="s2">&quot;test_table&quot;</span><span class="p">)</span>
-<span class="linenos">16</span>
-<span class="linenos">17</span><span class="c1"># Create sample table</span>
-<span class="linenos">18</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span>
-<span class="linenos">19</span>    <span class="nb">dict</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="n">type_</span><span class="o">=</span><span class="s1">&#39;Integer&#39;</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
-<span class="linenos">20</span>    <span class="p">(</span><span class="s1">&#39;column_one&#39;</span><span class="p">,</span> <span class="s1">&#39;String&#39;</span><span class="p">),</span>
-<span class="linenos">21</span>    <span class="p">(</span><span class="s1">&#39;column_two&#39;</span><span class="p">,</span> <span class="s1">&#39;Integer&#39;</span><span class="p">)</span>
-<span class="linenos">22</span><span class="p">]</span>
-<span class="linenos">23</span><span class="n">db</span><span class="o">.</span><span class="n">create_table</span><span class="p">(</span><span class="s1">&#39;test_table&#39;</span><span class="p">,</span> <span class="n">columns</span><span class="p">)</span>
-<span class="linenos">24</span>
-<span class="linenos">25</span><span class="c1"># Write sample data</span>
-<span class="linenos">26</span><span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
-<span class="linenos">27</span>    <span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
-<span class="linenos">28</span>    <span class="s1">&#39;column_one&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">],</span>
-<span class="linenos">29</span>    <span class="s1">&#39;column_two&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">]</span>
-<span class="linenos">30</span><span class="p">}</span>
-<span class="linenos">31</span><span class="n">db</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="s1">&#39;test_table&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
-<span class="linenos">32</span>
-<span class="linenos">33</span><span class="c1"># Read the table to a pandas dataframe</span>
-<span class="linenos">34</span><span class="n">df</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">&#39;test_table&#39;</span><span class="p">)</span>
-<span class="linenos">35</span>
-<span class="linenos">36</span><span class="c1"># Insert values into the table</span>
-<span class="linenos">37</span><span class="n">new</span> <span class="o">=</span> <span class="p">{</span>
-<span class="linenos">38</span>    <span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">],</span>
-<span class="linenos">39</span>    <span class="s1">&#39;column_one&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;e&#39;</span><span class="p">,</span> <span class="s1">&#39;f&#39;</span><span class="p">,</span> <span class="s1">&#39;g&#39;</span><span class="p">],</span>
-<span class="linenos">40</span>    <span class="s1">&#39;column_two&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">14</span><span class="p">]</span>
-<span class="linenos">41</span><span class="p">}</span>
-<span class="linenos">42</span><span class="n">db</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="s1">&#39;test_table&#39;</span><span class="p">,</span> <span class="n">new</span><span class="p">)</span>
-<span class="linenos">43</span>
-<span class="linenos">44</span><span class="c1"># Delete rows from the table</span>
-<span class="linenos">45</span><span class="n">db</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span>
-<span class="linenos">46</span>    <span class="s1">&#39;test_table&#39;</span><span class="p">,</span>
-<span class="linenos">47</span>    <span class="n">where</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;=&#39;</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
-<span class="linenos">48</span><span class="p">)</span>
-<span class="linenos">49</span>
-<span class="linenos">50</span><span class="c1"># Update values in table</span>
-<span class="linenos">51</span><span class="n">db</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
-<span class="linenos">52</span>    <span class="s1">&#39;test_table&#39;</span><span class="p">,</span>
-<span class="linenos">53</span>    <span class="n">where</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;&gt;&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
-<span class="linenos">54</span>    <span class="n">values</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;column_one&#39;</span><span class="p">:</span> <span class="s1">&#39;AA&#39;</span><span class="p">})</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-</div>
-</div>
-<dl class="py method">
-<dt class="sig sig-object py" id="msdss_base_database.core.Database._build_query">
-<span class="sig-name descname"><span class="pre">_build_query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">select</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">where</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group_by</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aggregate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aggregate_func</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'count'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order_by</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order_by_sort</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'asc'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">where_boolean</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'AND'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">update</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delete</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">values</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/msdss_base_database/core.html#Database._build_query"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#msdss_base_database.core.Database._build_query" title="Permalink to this definition"></a></dt>
-<dd><p>Get a SQL select statement using sqlalchemy functions.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>table</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Name of the database table.</p></li>
-<li><p><strong>select</strong> (str or list(str or list:class:<cite>sqlalchemy:sqlalchemy.schema.Column</cite>) or None) – List of column names or a single column name to filter or select from the table. If <code class="docutils literal notranslate"><span class="pre">None</span></code> then all columns will be selected.</p></li>
-<li><p><strong>where</strong> (<em>list of list</em><em> or </em><em>list of tuple</em><em> or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><em>None</em></a>) – <p>list of where statements the form of <code class="docutils literal notranslate"><span class="pre">['column_name',</span> <span class="pre">'operator',</span> <span class="pre">value]</span></code> to further filter individual values or rows.</p>
-<ul>
-<li><p>Operators are one of: <code class="docutils literal notranslate"><span class="pre">=</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;=</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;=</span></code>, <code class="docutils literal notranslate"><span class="pre">!='',</span> <span class="pre">``LIKE</span></code></p></li>
-<li><p>Values can be any single value such as <code class="docutils literal notranslate"><span class="pre">int</span></code> or <code class="docutils literal notranslate"><span class="pre">str</span></code></p></li>
-<li><p>Examples: <code class="docutils literal notranslate"><span class="pre">['column_two',</span> <span class="pre">'&gt;',</span> <span class="pre">2]</span></code>, <code class="docutils literal notranslate"><span class="pre">['column_one',</span> <span class="pre">'LIKE',</span> <span class="pre">'a']</span></code>, <code class="docutils literal notranslate"><span class="pre">[['column_two',</span> <span class="pre">'&gt;',</span> <span class="pre">2],</span> <span class="pre">['column_one',</span> <span class="pre">'LIKE',</span> <span class="pre">'a']]</span></code></p></li>
-</ul>
-</p></li>
-<li><p><strong>group_by</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><em>list</em></a><em>(</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a><em>) or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><em>None</em></a>) – Single or list of column names to group by. This should be used with <code class="docutils literal notranslate"><span class="pre">aggregate</span></code> and <code class="docutils literal notranslate"><span class="pre">aggregate_func</span></code>.</p></li>
-<li><p><strong>aggregate</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><em>list</em></a><em>(</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a><em>) or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><em>None</em></a>) – Single or list of column names to aggregate using the <code class="docutils literal notranslate"><span class="pre">aggregate_func</span></code>. This should be used with <code class="docutils literal notranslate"><span class="pre">group_by</span></code> and <code class="docutils literal notranslate"><span class="pre">aggregate_func</span></code>.</p></li>
-<li><p><strong>aggregate_func</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><em>list</em></a><em>(</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a><em>)</em>) – Function name (such as ‘count’ or ‘sum’) from <a class="reference external" href="https://docs.sqlalchemy.org/en/14/core/functions.html#sqlalchemy.sql.functions.Function" title="(in SQLAlchemy v1.4)"><code class="docutils literal notranslate"><span class="pre">sqlalchemy.sql.functions.Function</span></code></a> for aggregating records from each <code class="docutils literal notranslate"><span class="pre">aggregate</span></code> column.
-If a list of str, then it must have the same number of elements as <code class="docutils literal notranslate"><span class="pre">aggregate</span></code> or else only the shortest length list will be used.</p></li>
-<li><p><strong>order_by</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><em>list</em></a><em>(</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a><em>) or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><em>None</em></a>) – Single or list of column names to order or sort by.</p></li>
-<li><p><strong>order_by_sort</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><em>list</em></a><em>(</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a><em>)</em>) – Sort the records in increasing or decreasing order by each column in <code class="docutils literal notranslate"><span class="pre">order_by</span></code>, where the value can be one of ‘asc’ for ascending or ‘desc’ for descending’.
-If a list of str, then it must have the same number of elements as <code class="docutils literal notranslate"><span class="pre">order_by</span></code> or else only the shortest length list will be used.</p></li>
-<li><p><strong>limit</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><em>None</em></a>) – Integer number to limit the number of rows returned.</p></li>
-<li><p><strong>where_boolean</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – One of <code class="docutils literal notranslate"><span class="pre">AND</span></code> or <code class="docutils literal notranslate"><span class="pre">OR</span></code> to combine <code class="docutils literal notranslate"><span class="pre">where</span></code> statements with. Defaults to <code class="docutils literal notranslate"><span class="pre">AND</span></code> if not one of <code class="docutils literal notranslate"><span class="pre">AND</span></code> or <code class="docutils literal notranslate"><span class="pre">OR</span></code>.</p></li>
-<li><p><strong>update</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – Whether to update rows from the table matching the query or not. Overrides the <code class="docutils literal notranslate"><span class="pre">select</span></code> parameter.</p></li>
-<li><p><strong>delete</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – Whether to delete rows from the table matching the query or not. Overrides the <code class="docutils literal notranslate"><span class="pre">select</span></code> and <code class="docutils literal notranslate"><span class="pre">update</span></code> parameters.</p></li>
-<li><p><strong>values</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><em>dict</em></a>) – A dictionary of values to use for update if the <code class="docutils literal notranslate"><span class="pre">update</span></code> parameter is <code class="docutils literal notranslate"><span class="pre">True</span></code> and not overridden.</p></li>
-<li><p><strong>*args</strong> – Additional arguments to accept any extra parameters passed through.</p></li>
-<li><p><strong>**kwargs</strong> – Additional arguments to accept any extra parameters passed through.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>sqlalchemy object that represents a table in the database.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.sqlalchemy.org/en/14/core/selectable.html#sqlalchemy.sql.expression.Select" title="(in SQLAlchemy v1.4)"><code class="docutils literal notranslate"><span class="pre">sqlalchemy.sql.expression.Select</span></code></a></p>
-</dd>
-</dl>
-<p class="rubric">Author</p>
-<p>Richard Wen &lt;<a class="reference external" href="mailto:rrwen&#46;dev&#37;&#52;&#48;gmail&#46;com">rrwen<span>&#46;</span>dev<span>&#64;</span>gmail<span>&#46;</span>com</a>&gt;</p>
-<p class="rubric">Example</p>
-<div class="jupyter_cell jupyter_container docutils container">
-<div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">from</span> <span class="nn">msdss_base_database.core</span> <span class="kn">import</span> <span class="n">Database</span>
-<span class="linenos"> 2</span>
-<span class="linenos"> 3</span><span class="c1"># Setup database</span>
-<span class="linenos"> 4</span><span class="n">db</span> <span class="o">=</span> <span class="n">Database</span><span class="p">()</span>
-<span class="linenos"> 5</span>
-<span class="linenos"> 6</span><span class="c1"># Check if the table exists and drop if it does</span>
-<span class="linenos"> 7</span><span class="k">if</span> <span class="n">db</span><span class="o">.</span><span class="n">has_table</span><span class="p">(</span><span class="s2">&quot;test_table&quot;</span><span class="p">):</span>
-<span class="linenos"> 8</span>    <span class="n">db</span><span class="o">.</span><span class="n">drop_table</span><span class="p">(</span><span class="s2">&quot;test_table&quot;</span><span class="p">)</span>
-<span class="linenos"> 9</span>
-<span class="linenos">10</span><span class="c1"># Create sample table</span>
-<span class="linenos">11</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span>
-<span class="linenos">12</span>    <span class="nb">dict</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="n">type_</span><span class="o">=</span><span class="s1">&#39;Integer&#39;</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
-<span class="linenos">13</span>    <span class="p">(</span><span class="s1">&#39;column_one&#39;</span><span class="p">,</span> <span class="s1">&#39;String&#39;</span><span class="p">),</span>
-<span class="linenos">14</span>    <span class="p">(</span><span class="s1">&#39;column_two&#39;</span><span class="p">,</span> <span class="s1">&#39;Integer&#39;</span><span class="p">)</span>
-<span class="linenos">15</span><span class="p">]</span>
-<span class="linenos">16</span><span class="n">db</span><span class="o">.</span><span class="n">create_table</span><span class="p">(</span><span class="s1">&#39;test_table&#39;</span><span class="p">,</span> <span class="n">columns</span><span class="p">)</span>
-<span class="linenos">17</span>
-<span class="linenos">18</span><span class="c1"># Select columns and limit to 6 rows</span>
-<span class="linenos">19</span><span class="n">sql</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">_build_query</span><span class="p">(</span>
-<span class="linenos">20</span>    <span class="s1">&#39;test_table&#39;</span><span class="p">,</span>
-<span class="linenos">21</span>    <span class="n">select</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;column_one&#39;</span><span class="p">,</span> <span class="s1">&#39;column_two&#39;</span><span class="p">],</span>
-<span class="linenos">22</span>    <span class="n">limit</span><span class="o">=</span><span class="mi">6</span>
-<span class="linenos">23</span><span class="p">)</span>
-<span class="linenos">24</span>
-<span class="linenos">25</span><span class="c1"># Select columns with where statement</span>
-<span class="linenos">26</span><span class="n">sql</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">_build_query</span><span class="p">(</span>
-<span class="linenos">27</span>    <span class="s1">&#39;test_table&#39;</span><span class="p">,</span>
-<span class="linenos">28</span>    <span class="n">select</span><span class="o">=</span><span class="s1">&#39;column_one&#39;</span><span class="p">,</span>
-<span class="linenos">29</span>    <span class="n">where</span><span class="o">=</span><span class="p">[(</span><span class="s1">&#39;column_two&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;column_one&#39;</span><span class="p">,</span> <span class="s1">&#39;=&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">)],</span>
-<span class="linenos">30</span>    <span class="n">where_boolean</span><span class="o">=</span><span class="s1">&#39;AND&#39;</span>
-<span class="linenos">31</span><span class="p">)</span>
-<span class="linenos">32</span>
-<span class="linenos">33</span><span class="c1"># Select columns and order each column</span>
-<span class="linenos">34</span><span class="n">sql</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">_build_query</span><span class="p">(</span>
-<span class="linenos">35</span>    <span class="s1">&#39;test_table&#39;</span><span class="p">,</span>
-<span class="linenos">36</span>    <span class="n">select</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;column_one&#39;</span><span class="p">,</span> <span class="s1">&#39;column_two&#39;</span><span class="p">],</span>
-<span class="linenos">37</span>    <span class="n">order_by</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;column_one&#39;</span><span class="p">,</span> <span class="s1">&#39;column_two&#39;</span><span class="p">],</span>
-<span class="linenos">38</span>    <span class="n">order_by_sort</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;asc&#39;</span><span class="p">,</span> <span class="s1">&#39;desc&#39;</span><span class="p">]</span>
-<span class="linenos">39</span><span class="p">)</span>
-<span class="linenos">40</span>
-<span class="linenos">41</span><span class="c1"># Select columns, group, and aggregate data</span>
-<span class="linenos">42</span><span class="n">sql</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">_build_query</span><span class="p">(</span>
-<span class="linenos">43</span>    <span class="s1">&#39;test_table&#39;</span><span class="p">,</span>
-<span class="linenos">44</span>    <span class="n">select</span><span class="o">=</span><span class="s1">&#39;column_one&#39;</span><span class="p">,</span>
-<span class="linenos">45</span>    <span class="n">group_by</span><span class="o">=</span><span class="s1">&#39;column_one&#39;</span><span class="p">,</span>
-<span class="linenos">46</span>    <span class="n">aggregate</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;column_two&#39;</span><span class="p">,</span> <span class="s1">&#39;column_one&#39;</span><span class="p">],</span>
-<span class="linenos">47</span>    <span class="n">aggregate_func</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;sum&#39;</span><span class="p">,</span> <span class="s1">&#39;count&#39;</span><span class="p">]</span>
-<span class="linenos">48</span><span class="p">)</span>
-<span class="linenos">49</span>
-<span class="linenos">50</span><span class="c1"># Update rows</span>
-<span class="linenos">51</span><span class="n">sql</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">_build_query</span><span class="p">(</span>
-<span class="linenos">52</span>    <span class="s1">&#39;test_table&#39;</span><span class="p">,</span>
-<span class="linenos">53</span>    <span class="n">where</span><span class="o">=</span><span class="p">[(</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;=&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)],</span>
-<span class="linenos">54</span>    <span class="n">values</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">column_one</span><span class="o">=</span><span class="s1">&#39;A&#39;</span><span class="p">),</span>
-<span class="linenos">55</span>    <span class="n">update</span><span class="o">=</span><span class="kc">True</span>
-<span class="linenos">56</span><span class="p">)</span>
-<span class="linenos">57</span>
-<span class="linenos">58</span><span class="c1"># Delete rows</span>
-<span class="linenos">59</span><span class="n">sql</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">_build_query</span><span class="p">(</span>
-<span class="linenos">60</span>    <span class="s1">&#39;test_table&#39;</span><span class="p">,</span>
-<span class="linenos">61</span>    <span class="n">where</span><span class="o">=</span><span class="p">[(</span><span class="s1">&#39;column_two&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;column_one&#39;</span><span class="p">,</span> <span class="s1">&#39;=&#39;</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">)],</span>
-<span class="linenos">62</span>    <span class="n">where_boolean</span><span class="o">=</span><span class="s1">&#39;OR&#39;</span><span class="p">,</span>
-<span class="linenos">63</span>    <span class="n">delete</span><span class="o">=</span><span class="kc">True</span>
-<span class="linenos">64</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-</div>
-</div>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="msdss_base_database.core.Database._execute_query">
-<span class="sig-name descname"><span class="pre">_execute_query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sql</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/msdss_base_database/core.html#Database._execute_query"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#msdss_base_database.core.Database._execute_query" title="Permalink to this definition"></a></dt>
-<dd><p>Executes a query statement.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>sql</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – SQL str representing the query statement to execute.</p></li>
-<li><p><strong>*args</strong> – Additional parameters passed to <code class="xref py py-func docutils literal notranslate"><span class="pre">sqlalchemy.engine.Connection.execute</span></code>.</p></li>
-<li><p><strong>**kwargs</strong> – Additional parameters passed to <code class="xref py py-func docutils literal notranslate"><span class="pre">sqlalchemy.engine.Connection.execute</span></code>.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Cursor result from query.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.sqlalchemy.org/en/14/core/connections.html#sqlalchemy.engine.CursorResult" title="(in SQLAlchemy v1.4)"><code class="docutils literal notranslate"><span class="pre">sqlalchemy.engine.CursorResult</span></code></a></p>
-</dd>
-</dl>
-<p class="rubric">Author</p>
-<p>Richard Wen &lt;<a class="reference external" href="mailto:rrwen&#46;dev&#37;&#52;&#48;gmail&#46;com">rrwen<span>&#46;</span>dev<span>&#64;</span>gmail<span>&#46;</span>com</a>&gt;</p>
-<p class="rubric">Example</p>
-<div class="jupyter_cell jupyter_container docutils container">
-<div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">from</span> <span class="nn">msdss_base_database.core</span> <span class="kn">import</span> <span class="n">Database</span>
-<span class="linenos"> 2</span><span class="n">db</span> <span class="o">=</span> <span class="n">Database</span><span class="p">()</span>
-<span class="linenos"> 3</span>
-<span class="linenos"> 4</span><span class="c1"># Check if the table exists and drop if it does</span>
-<span class="linenos"> 5</span><span class="k">if</span> <span class="n">db</span><span class="o">.</span><span class="n">has_table</span><span class="p">(</span><span class="s2">&quot;test_table&quot;</span><span class="p">):</span>
-<span class="linenos"> 6</span>    <span class="n">db</span><span class="o">.</span><span class="n">drop_table</span><span class="p">(</span><span class="s2">&quot;test_table&quot;</span><span class="p">)</span>
-<span class="linenos"> 7</span>
-<span class="linenos"> 8</span><span class="c1"># Create sample table</span>
-<span class="linenos"> 9</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span>
-<span class="linenos">10</span>    <span class="nb">dict</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="n">type_</span><span class="o">=</span><span class="s1">&#39;Integer&#39;</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
-<span class="linenos">11</span>    <span class="p">(</span><span class="s1">&#39;column_one&#39;</span><span class="p">,</span> <span class="s1">&#39;String&#39;</span><span class="p">),</span>
-<span class="linenos">12</span>    <span class="p">(</span><span class="s1">&#39;column_two&#39;</span><span class="p">,</span> <span class="s1">&#39;Integer&#39;</span><span class="p">)</span>
-<span class="linenos">13</span><span class="p">]</span>
-<span class="linenos">14</span><span class="n">db</span><span class="o">.</span><span class="n">create_table</span><span class="p">(</span><span class="s1">&#39;test_table&#39;</span><span class="p">,</span> <span class="n">columns</span><span class="p">)</span>
-<span class="linenos">15</span>
-<span class="linenos">16</span><span class="c1"># Write sample data</span>
-<span class="linenos">17</span><span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
-<span class="linenos">18</span>    <span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
-<span class="linenos">19</span>    <span class="s1">&#39;column_one&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">],</span>
-<span class="linenos">20</span>    <span class="s1">&#39;column_two&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">]</span>
-<span class="linenos">21</span><span class="p">}</span>
-<span class="linenos">22</span><span class="n">db</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="s1">&#39;test_table&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
-<span class="linenos">23</span>
-<span class="linenos">24</span><span class="c1"># Get data from query</span>
-<span class="linenos">25</span><span class="n">cursor</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">_execute_query</span><span class="p">(</span><span class="s1">&#39;SELECT * FROM test_table LIMIT 5;&#39;</span><span class="p">)</span>
-<span class="linenos">26</span><span class="n">cursor</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">_execute_query</span><span class="p">(</span><span class="s1">&#39;SELECT column_one, column_two FROM test_table WHERE column_two &gt; 3;&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-</div>
-</div>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="msdss_base_database.core.Database._get_table">
-<span class="sig-name descname"><span class="pre">_get_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/msdss_base_database/core.html#Database._get_table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#msdss_base_database.core.Database._get_table" title="Permalink to this definition"></a></dt>
-<dd><p>Get a table object from the database.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>table</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Name of the table to remove.</p></li>
-<li><p><strong>*args</strong> – Additional arguments passed to <a class="reference external" href="https://docs.sqlalchemy.org/en/14/core/metadata.html#sqlalchemy.schema.Table" title="(in SQLAlchemy v1.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">sqlalchemy.schema.Table</span></code></a>.</p></li>
-<li><p><strong>**kwargs</strong> – Additional arguments passed to <a class="reference external" href="https://docs.sqlalchemy.org/en/14/core/metadata.html#sqlalchemy.schema.Table" title="(in SQLAlchemy v1.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">sqlalchemy.schema.Table</span></code></a>.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>A <code class="docutils literal notranslate"><span class="pre">Table</span></code> object from <code class="docutils literal notranslate"><span class="pre">sqlalchemy</span></code>.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.sqlalchemy.org/en/14/core/metadata.html#sqlalchemy.schema.Table" title="(in SQLAlchemy v1.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">sqlalchemy.schema.Table</span></code></a></p>
-</dd>
-</dl>
-<p class="rubric">Author</p>
-<p>Richard Wen &lt;<a class="reference external" href="mailto:rrwen&#46;dev&#37;&#52;&#48;gmail&#46;com">rrwen<span>&#46;</span>dev<span>&#64;</span>gmail<span>&#46;</span>com</a>&gt;</p>
-<p class="rubric">Example</p>
-<div class="jupyter_cell jupyter_container docutils container">
-<div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">from</span> <span class="nn">msdss_base_database.core</span> <span class="kn">import</span> <span class="n">Database</span>
-<span class="linenos"> 2</span><span class="n">db</span> <span class="o">=</span> <span class="n">Database</span><span class="p">()</span>
-<span class="linenos"> 3</span>
-<span class="linenos"> 4</span><span class="c1"># Check if the table exists and drop if it does</span>
-<span class="linenos"> 5</span><span class="k">if</span> <span class="n">db</span><span class="o">.</span><span class="n">has_table</span><span class="p">(</span><span class="s2">&quot;test_table&quot;</span><span class="p">):</span>
-<span class="linenos"> 6</span>    <span class="n">db</span><span class="o">.</span><span class="n">drop_table</span><span class="p">(</span><span class="s2">&quot;test_table&quot;</span><span class="p">)</span>
-<span class="linenos"> 7</span>
-<span class="linenos"> 8</span><span class="c1"># Create sample table</span>
-<span class="linenos"> 9</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span>
-<span class="linenos">10</span>    <span class="nb">dict</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="n">type_</span><span class="o">=</span><span class="s1">&#39;Integer&#39;</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
-<span class="linenos">11</span>    <span class="p">(</span><span class="s1">&#39;column_one&#39;</span><span class="p">,</span> <span class="s1">&#39;String&#39;</span><span class="p">),</span>
-<span class="linenos">12</span>    <span class="p">(</span><span class="s1">&#39;column_two&#39;</span><span class="p">,</span> <span class="s1">&#39;Integer&#39;</span><span class="p">)</span>
-<span class="linenos">13</span><span class="p">]</span>
-<span class="linenos">14</span><span class="n">db</span><span class="o">.</span><span class="n">create_table</span><span class="p">(</span><span class="s1">&#39;test_table&#39;</span><span class="p">,</span> <span class="n">columns</span><span class="p">)</span>
-<span class="linenos">15</span>
-<span class="linenos">16</span><span class="c1"># Get the table object</span>
-<span class="linenos">17</span><span class="n">tb</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">_get_table</span><span class="p">(</span><span class="s1">&#39;test_table&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-</div>
-</div>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="msdss_base_database.core.Database._list_to_columns">
-<span class="sig-name descname"><span class="pre">_list_to_columns</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">clist</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/msdss_base_database/core.html#Database._list_to_columns"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#msdss_base_database.core.Database._list_to_columns" title="Permalink to this definition"></a></dt>
-<dd><p>Converts a list of dict or list to <code class="docutils literal notranslate"><span class="pre">sqlalchemy</span></code> columns.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>clist</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><em>list</em></a><em>(</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><em>dict</em></a><em>) or </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><em>list</em></a><em>(</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><em>list</em></a><em>)</em>) – <p>List of dict (kwargs) or lists (positional args) that are passed to <a class="reference external" href="https://docs.sqlalchemy.org/en/14/core/metadata.html#sqlalchemy.schema.Column" title="(in SQLAlchemy v1.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">sqlalchemy.schema.Column</span></code></a>. Data types can also be specified as str.</p>
-<ul>
-<li><p>Example list(dict): <code class="docutils literal notranslate"><span class="pre">[dict(name='id',</span> <span class="pre">type_='Integer',</span> <span class="pre">autoincrement=True,</span> <span class="pre">primary_key=True),</span> <span class="pre">dict(name='col',</span> <span class="pre">type='String')]</span></code></p></li>
-<li><p>Example list(list): <code class="docutils literal notranslate"><span class="pre">[('id',</span> <span class="pre">'Integer'),</span> <span class="pre">('col',</span> <span class="pre">'String')]</span></code></p></li>
-</ul>
-</p></li>
-<li><p><strong>*args</strong> – Additional arguments passed to <a class="reference external" href="https://docs.sqlalchemy.org/en/14/core/metadata.html#sqlalchemy.schema.Table" title="(in SQLAlchemy v1.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">sqlalchemy.schema.Table</span></code></a>.</p></li>
-<li><p><strong>**kwargs</strong> – Additional arguments passed to <a class="reference external" href="https://docs.sqlalchemy.org/en/14/core/metadata.html#sqlalchemy.schema.Table" title="(in SQLAlchemy v1.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">sqlalchemy.schema.Table</span></code></a>.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>A list of <code class="docutils literal notranslate"><span class="pre">Column</span></code> objects from <code class="docutils literal notranslate"><span class="pre">sqlalchemy</span></code>.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>list(<a class="reference external" href="https://docs.sqlalchemy.org/en/14/core/metadata.html#sqlalchemy.schema.Column" title="(in SQLAlchemy v1.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">sqlalchemy.schema.Column</span></code></a>)</p>
-</dd>
-</dl>
-<p class="rubric">Author</p>
-<p>Richard Wen &lt;<a class="reference external" href="mailto:rrwen&#46;dev&#37;&#52;&#48;gmail&#46;com">rrwen<span>&#46;</span>dev<span>&#64;</span>gmail<span>&#46;</span>com</a>&gt;</p>
-<p class="rubric">Example</p>
-<div class="jupyter_cell jupyter_container docutils container">
-<div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">from</span> <span class="nn">msdss_base_database.core</span> <span class="kn">import</span> <span class="n">Database</span>
-<span class="linenos"> 2</span><span class="n">db</span> <span class="o">=</span> <span class="n">Database</span><span class="p">()</span>
-<span class="linenos"> 3</span>
-<span class="linenos"> 4</span><span class="c1"># Create column definitions</span>
-<span class="linenos"> 5</span><span class="n">clist</span> <span class="o">=</span> <span class="p">[</span>
-<span class="linenos"> 6</span>    <span class="nb">dict</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="n">type_</span><span class="o">=</span><span class="s1">&#39;Integer&#39;</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
-<span class="linenos"> 7</span>    <span class="nb">dict</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;column_one&#39;</span><span class="p">,</span> <span class="n">type_</span><span class="o">=</span><span class="s1">&#39;String&#39;</span><span class="p">),</span>
-<span class="linenos"> 8</span>    <span class="nb">dict</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;column_two&#39;</span><span class="p">,</span> <span class="n">type_</span><span class="o">=</span><span class="s1">&#39;Integer&#39;</span><span class="p">)</span>
-<span class="linenos"> 9</span><span class="p">]</span>
-<span class="linenos">10</span>
-<span class="linenos">11</span><span class="c1"># Convert to sqlalchemy column objects</span>
-<span class="linenos">12</span><span class="n">columns</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">_list_to_columns</span><span class="p">(</span><span class="n">clist</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-</div>
-</div>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="msdss_base_database.core.Database._write_data">
-<span class="sig-name descname"><span class="pre">_write_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">schema</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">if_exists</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'append'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/msdss_base_database/core.html#Database._write_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#msdss_base_database.core.Database._write_data" title="Permalink to this definition"></a></dt>
-<dd><p>Write data to the database.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>table</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Name of the table to write to.</p></li>
-<li><p><strong>data</strong> (dict or list or <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.3.4)"><code class="docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a>) – Dataframe with the data to write to the database. If <code class="docutils literal notranslate"><span class="pre">dict</span></code> or <code class="docutils literal notranslate"><span class="pre">list</span></code> see <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.3.4)"><code class="docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a>.</p></li>
-<li><p><strong>schema</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Name of the schema to for the table.</p></li>
-<li><p><strong>if_exists</strong> (<em>'fail'</em><em> or </em><em>'replace'</em><em> or </em><em>'append'</em>) – String indicating whether to throw an error (fail), replace the data, or append the data to the table if it already exists.</p></li>
-<li><p><strong>index</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – Set to True to include the row indices as a column and False to omit them.</p></li>
-<li><p><strong>*args</strong> – Additional arguments passed to <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.3.4)"><code class="docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a> if parameter <code class="docutils literal notranslate"><span class="pre">data</span></code> is <code class="docutils literal notranslate"><span class="pre">dict</span></code> or <code class="docutils literal notranslate"><span class="pre">list</span></code>.</p></li>
-<li><p><strong>**kwargs</strong> – Additional arguments passed to <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.3.4)"><code class="docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a> if parameter <code class="docutils literal notranslate"><span class="pre">data</span></code> is <code class="docutils literal notranslate"><span class="pre">dict</span></code> or <code class="docutils literal notranslate"><span class="pre">list</span></code>.</p></li>
-</ul>
-</dd>
-</dl>
-<p class="rubric">Author</p>
-<p>Richard Wen &lt;<a class="reference external" href="mailto:rrwen&#46;dev&#37;&#52;&#48;gmail&#46;com">rrwen<span>&#46;</span>dev<span>&#64;</span>gmail<span>&#46;</span>com</a>&gt;</p>
-<p class="rubric">Example</p>
-<div class="jupyter_cell jupyter_container docutils container">
-<div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">from</span> <span class="nn">msdss_base_database</span> <span class="kn">import</span> <span class="n">Database</span>
-<span class="linenos"> 2</span>
-<span class="linenos"> 3</span><span class="c1"># Setup database</span>
-<span class="linenos"> 4</span><span class="n">db</span> <span class="o">=</span> <span class="n">Database</span><span class="p">()</span>
-<span class="linenos"> 5</span>
-<span class="linenos"> 6</span><span class="c1"># Check if the table exists and drop if it does</span>
-<span class="linenos"> 7</span><span class="k">if</span> <span class="n">db</span><span class="o">.</span><span class="n">has_table</span><span class="p">(</span><span class="s2">&quot;test_table&quot;</span><span class="p">):</span>
-<span class="linenos"> 8</span>    <span class="n">db</span><span class="o">.</span><span class="n">drop_table</span><span class="p">(</span><span class="s2">&quot;test_table&quot;</span><span class="p">)</span>
-<span class="linenos"> 9</span>
-<span class="linenos">10</span><span class="c1"># Write data to table</span>
-<span class="linenos">11</span><span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
-<span class="linenos">12</span>    <span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
-<span class="linenos">13</span>    <span class="s1">&#39;column_one&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">],</span>
-<span class="linenos">14</span>    <span class="s1">&#39;column_two&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">]</span>
-<span class="linenos">15</span><span class="p">}</span>
-<span class="linenos">16</span><span class="n">db</span><span class="o">.</span><span class="n">_write_data</span><span class="p">(</span><span class="s1">&#39;test_table&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">if_exists</span> <span class="o">=</span> <span class="s1">&#39;replace&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-</div>
-</div>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="msdss_base_database.core.Database.create_table">
-<span class="sig-name descname"><span class="pre">create_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">columns</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/msdss_base_database/core.html#Database.create_table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#msdss_base_database.core.Database.create_table" title="Permalink to this definition"></a></dt>
-<dd><p>Create a table in the database.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>table</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Name of the table to create.</p></li>
-<li><p><strong>columns</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><em>list</em></a><em>(</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><em>dict</em></a><em>) or </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><em>list</em></a><em>(</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><em>list</em></a><em>)</em>) – <p>List of dict (kwargs) or lists (positional args) that are passed to <a class="reference external" href="https://docs.sqlalchemy.org/en/14/core/metadata.html#sqlalchemy.schema.Column" title="(in SQLAlchemy v1.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">sqlalchemy.schema.Column</span></code></a>. Data types can also be specified as str.</p>
-<ul>
-<li><p>Example list(dict): <code class="docutils literal notranslate"><span class="pre">[dict(name='id',</span> <span class="pre">type_='Integer',</span> <span class="pre">autoincrement=True,</span> <span class="pre">primary_key=True),</span> <span class="pre">dict(name='col',</span> <span class="pre">type='String')]</span></code></p></li>
-<li><p>Example list(list): <code class="docutils literal notranslate"><span class="pre">[('id',</span> <span class="pre">'Integer'),</span> <span class="pre">('col',</span> <span class="pre">'String')]</span></code></p></li>
-</ul>
-</p></li>
-<li><p><strong>*args</strong> – Additional arguments passed to <code class="xref py py-class docutils literal notranslate"><span class="pre">msdss_base_database.core.Database._write</span></code> except that parameter <code class="docutils literal notranslate"><span class="pre">if_exists</span></code> is set to <code class="docutils literal notranslate"><span class="pre">fail</span></code> or <code class="docutils literal notranslate"><span class="pre">replace</span></code> only.</p></li>
-<li><p><strong>**kwargs</strong> – Additional arguments passed to <code class="xref py py-class docutils literal notranslate"><span class="pre">msdss_base_database.core.Database._write</span></code> except that parameter <code class="docutils literal notranslate"><span class="pre">if_exists</span></code> is set to <code class="docutils literal notranslate"><span class="pre">fail</span></code> or <code class="docutils literal notranslate"><span class="pre">replace</span></code> only.</p></li>
-</ul>
-</dd>
-</dl>
-<p class="rubric">Author</p>
-<p>Richard Wen &lt;<a class="reference external" href="mailto:rrwen&#46;dev&#37;&#52;&#48;gmail&#46;com">rrwen<span>&#46;</span>dev<span>&#64;</span>gmail<span>&#46;</span>com</a>&gt;</p>
-<p class="rubric">Example</p>
-<div class="jupyter_cell jupyter_container docutils container">
-<div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">from</span> <span class="nn">msdss_base_database</span> <span class="kn">import</span> <span class="n">Database</span>
-<span class="linenos"> 2</span>
-<span class="linenos"> 3</span><span class="c1"># Setup database</span>
-<span class="linenos"> 4</span><span class="n">db</span> <span class="o">=</span> <span class="n">Database</span><span class="p">()</span>
-<span class="linenos"> 5</span>
-<span class="linenos"> 6</span><span class="c1"># Drop table if exists</span>
-<span class="linenos"> 7</span><span class="k">if</span> <span class="n">db</span><span class="o">.</span><span class="n">has_table</span><span class="p">(</span><span class="s1">&#39;test_table&#39;</span><span class="p">):</span>
-<span class="linenos"> 8</span>    <span class="n">db</span><span class="o">.</span><span class="n">drop_table</span><span class="p">(</span><span class="s1">&#39;test_table&#39;</span><span class="p">)</span>
-<span class="linenos"> 9</span>
-<span class="linenos">10</span><span class="c1"># Create column definitions</span>
-<span class="linenos">11</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span>
-<span class="linenos">12</span>    <span class="nb">dict</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="n">type_</span><span class="o">=</span><span class="s1">&#39;Integer&#39;</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
-<span class="linenos">13</span>    <span class="nb">dict</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;column_one&#39;</span><span class="p">,</span> <span class="n">type_</span><span class="o">=</span><span class="s1">&#39;String&#39;</span><span class="p">),</span>
-<span class="linenos">14</span>    <span class="nb">dict</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;column_two&#39;</span><span class="p">,</span> <span class="n">type_</span><span class="o">=</span><span class="s1">&#39;Integer&#39;</span><span class="p">)</span>
-<span class="linenos">15</span><span class="p">]</span>
-<span class="linenos">16</span>
-<span class="linenos">17</span><span class="c1"># Create the table</span>
-<span class="linenos">18</span><span class="n">db</span><span class="o">.</span><span class="n">create_table</span><span class="p">(</span><span class="s1">&#39;test_table&#39;</span><span class="p">,</span> <span class="n">columns</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-</div>
-</div>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="msdss_base_database.core.Database.delete">
-<span class="sig-name descname"><span class="pre">delete</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">where</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">where_boolean</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'AND'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/msdss_base_database/core.html#Database.delete"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#msdss_base_database.core.Database.delete" title="Permalink to this definition"></a></dt>
-<dd><p>Remove rows from a table in the database.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>table</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Name of the table to remove rows from.</p></li>
-<li><p><strong>where</strong> (<em>list of list</em><em> or </em><em>list of tuple</em><em> or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><em>None</em></a>) – list of where statements the form of <code class="docutils literal notranslate"><span class="pre">['column_name',</span> <span class="pre">'operator',</span> <span class="pre">value]</span></code> to further filter individual values or rows.
-See parameter <code class="docutils literal notranslate"><span class="pre">where</span></code> in <a class="reference internal" href="#msdss_base_database.core.Database._build_query" title="msdss_base_database.core.Database._build_query"><code class="xref py py-meth docutils literal notranslate"><span class="pre">msdss_base_database.core.Database._build_query()</span></code></a>.</p></li>
-<li><p><strong>where_boolean</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – One of <code class="docutils literal notranslate"><span class="pre">AND</span></code> or <code class="docutils literal notranslate"><span class="pre">OR</span></code> to combine <code class="docutils literal notranslate"><span class="pre">where</span></code> statements with. Defaults to <code class="docutils literal notranslate"><span class="pre">AND</span></code> if not one of <code class="docutils literal notranslate"><span class="pre">AND</span></code> or <code class="docutils literal notranslate"><span class="pre">OR</span></code>.</p></li>
-<li><p><strong>*args</strong> – Additional arguments passed to <a class="reference internal" href="#msdss_base_database.core.Database._execute_query" title="msdss_base_database.core.Database._execute_query"><code class="xref py py-meth docutils literal notranslate"><span class="pre">msdss_base_database.core.Database._execute_query()</span></code></a>.</p></li>
-<li><p><strong>**kwargs</strong> – Additional arguments passed to <a class="reference internal" href="#msdss_base_database.core.Database._execute_query" title="msdss_base_database.core.Database._execute_query"><code class="xref py py-meth docutils literal notranslate"><span class="pre">msdss_base_database.core.Database._execute_query()</span></code></a>.</p></li>
-</ul>
-</dd>
-</dl>
-<p class="rubric">Author</p>
-<p>Richard Wen &lt;<a class="reference external" href="mailto:rrwen&#46;dev&#37;&#52;&#48;gmail&#46;com">rrwen<span>&#46;</span>dev<span>&#64;</span>gmail<span>&#46;</span>com</a>&gt;</p>
-<p class="rubric">Example</p>
-<div class="jupyter_cell jupyter_container docutils container">
-<div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">from</span> <span class="nn">msdss_base_database.core</span> <span class="kn">import</span> <span class="n">Database</span>
-<span class="linenos"> 2</span><span class="n">db</span> <span class="o">=</span> <span class="n">Database</span><span class="p">()</span>
-<span class="linenos"> 3</span>
-<span class="linenos"> 4</span><span class="c1"># Check if the table exists and drop if it does</span>
-<span class="linenos"> 5</span><span class="k">if</span> <span class="n">db</span><span class="o">.</span><span class="n">has_table</span><span class="p">(</span><span class="s2">&quot;test_table&quot;</span><span class="p">):</span>
-<span class="linenos"> 6</span>    <span class="n">db</span><span class="o">.</span><span class="n">drop_table</span><span class="p">(</span><span class="s2">&quot;test_table&quot;</span><span class="p">)</span>
-<span class="linenos"> 7</span>
-<span class="linenos"> 8</span><span class="c1"># Create sample table</span>
-<span class="linenos"> 9</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span>
-<span class="linenos">10</span>    <span class="nb">dict</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="n">type_</span><span class="o">=</span><span class="s1">&#39;Integer&#39;</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
-<span class="linenos">11</span>    <span class="p">(</span><span class="s1">&#39;column_one&#39;</span><span class="p">,</span> <span class="s1">&#39;String&#39;</span><span class="p">),</span>
-<span class="linenos">12</span>    <span class="p">(</span><span class="s1">&#39;column_two&#39;</span><span class="p">,</span> <span class="s1">&#39;Integer&#39;</span><span class="p">)</span>
-<span class="linenos">13</span><span class="p">]</span>
-<span class="linenos">14</span><span class="n">db</span><span class="o">.</span><span class="n">create_table</span><span class="p">(</span><span class="s1">&#39;test_table&#39;</span><span class="p">,</span> <span class="n">columns</span><span class="p">)</span>
-<span class="linenos">15</span>
-<span class="linenos">16</span><span class="c1"># Write sample data</span>
-<span class="linenos">17</span><span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
-<span class="linenos">18</span>    <span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
-<span class="linenos">19</span>    <span class="s1">&#39;column_one&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">],</span>
-<span class="linenos">20</span>    <span class="s1">&#39;column_two&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">]</span>
-<span class="linenos">21</span><span class="p">}</span>
-<span class="linenos">22</span><span class="n">db</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="s1">&#39;test_table&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
-<span class="linenos">23</span>
-<span class="linenos">24</span><span class="c1"># Delete a row with matching id</span>
-<span class="linenos">25</span><span class="n">db</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span>
-<span class="linenos">26</span>    <span class="s1">&#39;test_table&#39;</span><span class="p">,</span>
-<span class="linenos">27</span>    <span class="n">where</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;=&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-<span class="linenos">28</span><span class="p">)</span>
-<span class="linenos">29</span>
-<span class="linenos">30</span><span class="c1"># Delete a row with matching query</span>
-<span class="linenos">31</span><span class="n">db</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span>
-<span class="linenos">32</span>    <span class="s1">&#39;test_table&#39;</span><span class="p">,</span>
-<span class="linenos">33</span>    <span class="n">where</span><span class="o">=</span><span class="p">[(</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;column_one&#39;</span><span class="p">,</span> <span class="s1">&#39;=&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">)],</span>
-<span class="linenos">34</span>    <span class="n">where_boolean</span><span class="o">=</span><span class="s1">&#39;OR&#39;</span>
-<span class="linenos">35</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-</div>
-</div>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="msdss_base_database.core.Database.drop_table">
-<span class="sig-name descname"><span class="pre">drop_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/msdss_base_database/core.html#Database.drop_table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#msdss_base_database.core.Database.drop_table" title="Permalink to this definition"></a></dt>
-<dd><p>Remove a table from the database.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>table</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Name of the table to remove.</p></li>
-<li><p><strong>*args</strong> – Additional arguments passed to <a class="reference external" href="https://docs.sqlalchemy.org/en/14/core/metadata.html#sqlalchemy.schema.Table.drop" title="(in SQLAlchemy v1.4)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">sqlalchemy.schema.Table.drop()</span></code></a>.</p></li>
-<li><p><strong>**kwargs</strong> – Additional arguments passed to <a class="reference external" href="https://docs.sqlalchemy.org/en/14/core/metadata.html#sqlalchemy.schema.Table.drop" title="(in SQLAlchemy v1.4)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">sqlalchemy.schema.Table.drop()</span></code></a>.</p></li>
-</ul>
-</dd>
-</dl>
-<p class="rubric">Author</p>
-<p>Richard Wen &lt;<a class="reference external" href="mailto:rrwen&#46;dev&#37;&#52;&#48;gmail&#46;com">rrwen<span>&#46;</span>dev<span>&#64;</span>gmail<span>&#46;</span>com</a>&gt;</p>
-<p class="rubric">Example</p>
-<div class="jupyter_cell jupyter_container docutils container">
-<div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">from</span> <span class="nn">msdss_base_database.core</span> <span class="kn">import</span> <span class="n">Database</span>
-<span class="linenos"> 2</span><span class="n">db</span> <span class="o">=</span> <span class="n">Database</span><span class="p">()</span>
-<span class="linenos"> 3</span>
-<span class="linenos"> 4</span><span class="c1"># Check if the table exists and drop if it does</span>
-<span class="linenos"> 5</span><span class="k">if</span> <span class="n">db</span><span class="o">.</span><span class="n">has_table</span><span class="p">(</span><span class="s2">&quot;test_table&quot;</span><span class="p">):</span>
-<span class="linenos"> 6</span>    <span class="n">db</span><span class="o">.</span><span class="n">drop_table</span><span class="p">(</span><span class="s2">&quot;test_table&quot;</span><span class="p">)</span>
-<span class="linenos"> 7</span>
-<span class="linenos"> 8</span><span class="c1"># Create sample table</span>
-<span class="linenos"> 9</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span>
-<span class="linenos">10</span>    <span class="nb">dict</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="n">type_</span><span class="o">=</span><span class="s1">&#39;Integer&#39;</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
-<span class="linenos">11</span>    <span class="p">(</span><span class="s1">&#39;column_one&#39;</span><span class="p">,</span> <span class="s1">&#39;String&#39;</span><span class="p">),</span>
-<span class="linenos">12</span>    <span class="p">(</span><span class="s1">&#39;column_two&#39;</span><span class="p">,</span> <span class="s1">&#39;Integer&#39;</span><span class="p">)</span>
-<span class="linenos">13</span><span class="p">]</span>
-<span class="linenos">14</span><span class="n">db</span><span class="o">.</span><span class="n">create_table</span><span class="p">(</span><span class="s1">&#39;test_table&#39;</span><span class="p">,</span> <span class="n">columns</span><span class="p">)</span>
-<span class="linenos">15</span>
-<span class="linenos">16</span><span class="c1"># Drop the table</span>
-<span class="linenos">17</span><span class="n">db</span><span class="o">.</span><span class="n">drop_table</span><span class="p">(</span><span class="s1">&#39;test_table&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-</div>
-</div>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="msdss_base_database.core.Database.has_table">
-<span class="sig-name descname"><span class="pre">has_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/msdss_base_database/core.html#Database.has_table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#msdss_base_database.core.Database.has_table" title="Permalink to this definition"></a></dt>
-<dd><p>Check if a table exists.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>table</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Name of the table to check.</p></li>
-<li><p><strong>*args</strong> – Additional arguments passed to <a class="reference external" href="https://docs.sqlalchemy.org/en/14/core/reflection.html#sqlalchemy.engine.reflection.Inspector.has_table" title="(in SQLAlchemy v1.4)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">sqlalchemy.engine.reflection.Inspector.has_table()</span></code></a>.</p></li>
-<li><p><strong>**kwargs</strong> – Additional arguments passed to <a class="reference external" href="https://docs.sqlalchemy.org/en/14/core/reflection.html#sqlalchemy.engine.reflection.Inspector.has_table" title="(in SQLAlchemy v1.4)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">sqlalchemy.engine.reflection.Inspector.has_table()</span></code></a>.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Returns <code class="docutils literal notranslate"><span class="pre">True</span></code> if the table exists and <code class="docutils literal notranslate"><span class="pre">False</span></code> otherwise.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)">bool</a></p>
-</dd>
-</dl>
-<p class="rubric">Author</p>
-<p>Richard Wen &lt;<a class="reference external" href="mailto:rrwen&#46;dev&#37;&#52;&#48;gmail&#46;com">rrwen<span>&#46;</span>dev<span>&#64;</span>gmail<span>&#46;</span>com</a>&gt;</p>
-<p class="rubric">Example</p>
-<div class="jupyter_cell jupyter_container docutils container">
-<div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">from</span> <span class="nn">msdss_base_database.core</span> <span class="kn">import</span> <span class="n">Database</span>
-<span class="linenos"> 2</span><span class="n">db</span> <span class="o">=</span> <span class="n">Database</span><span class="p">()</span>
-<span class="linenos"> 3</span>
-<span class="linenos"> 4</span><span class="c1"># Drop the table if it exists</span>
-<span class="linenos"> 5</span><span class="k">if</span> <span class="n">db</span><span class="o">.</span><span class="n">has_table</span><span class="p">(</span><span class="s1">&#39;test_table&#39;</span><span class="p">):</span>
-<span class="linenos"> 6</span>    <span class="n">db</span><span class="o">.</span><span class="n">drop_table</span><span class="p">(</span><span class="s1">&#39;test_table&#39;</span><span class="p">)</span>
-<span class="linenos"> 7</span><span class="n">db</span><span class="o">.</span><span class="n">has_table</span><span class="p">(</span><span class="s1">&#39;test_table&#39;</span><span class="p">)</span> <span class="c1"># False</span>
-<span class="linenos"> 8</span>
-<span class="linenos"> 9</span><span class="c1"># Create sample table</span>
-<span class="linenos">10</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span>
-<span class="linenos">11</span>    <span class="nb">dict</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="n">type_</span><span class="o">=</span><span class="s1">&#39;Integer&#39;</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
-<span class="linenos">12</span>    <span class="p">(</span><span class="s1">&#39;column_one&#39;</span><span class="p">,</span> <span class="s1">&#39;String&#39;</span><span class="p">),</span>
-<span class="linenos">13</span>    <span class="p">(</span><span class="s1">&#39;column_two&#39;</span><span class="p">,</span> <span class="s1">&#39;Integer&#39;</span><span class="p">)</span>
-<span class="linenos">14</span><span class="p">]</span>
-<span class="linenos">15</span><span class="n">db</span><span class="o">.</span><span class="n">create_table</span><span class="p">(</span><span class="s1">&#39;test_table&#39;</span><span class="p">,</span> <span class="n">columns</span><span class="p">)</span>
-<span class="linenos">16</span>
-<span class="linenos">17</span><span class="c1"># Check if table exists again</span>
-<span class="linenos">18</span><span class="n">db</span><span class="o">.</span><span class="n">has_table</span><span class="p">(</span><span class="s1">&#39;test_table&#39;</span><span class="p">)</span> <span class="c1"># True</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-</div>
-</div>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="msdss_base_database.core.Database.insert">
-<span class="sig-name descname"><span class="pre">insert</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/msdss_base_database/core.html#Database.insert"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#msdss_base_database.core.Database.insert" title="Permalink to this definition"></a></dt>
-<dd><p>Insert additional data to the database.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>table</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Name of the table to insert additional data to.</p></li>
-<li><p><strong>where</strong> (<em>list of list</em><em> or </em><em>list of tuple</em><em> or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><em>None</em></a>) – list of where statements the form of <code class="docutils literal notranslate"><span class="pre">['column_name',</span> <span class="pre">'operator',</span> <span class="pre">value]</span></code> to further filter individual values or rows.
-See parameter <code class="docutils literal notranslate"><span class="pre">where</span></code> in <a class="reference internal" href="#msdss_base_database.core.Database._build_query" title="msdss_base_database.core.Database._build_query"><code class="xref py py-meth docutils literal notranslate"><span class="pre">msdss_base_database.core.Database._build_query()</span></code></a>.</p></li>
-<li><p><strong>where_boolean</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – One of <code class="docutils literal notranslate"><span class="pre">AND</span></code> or <code class="docutils literal notranslate"><span class="pre">OR</span></code> to combine <code class="docutils literal notranslate"><span class="pre">where</span></code> statements with. Defaults to <code class="docutils literal notranslate"><span class="pre">AND</span></code> if not one of <code class="docutils literal notranslate"><span class="pre">AND</span></code> or <code class="docutils literal notranslate"><span class="pre">OR</span></code>.</p></li>
-<li><p><strong>*args</strong> – Additional arguments passed to <code class="xref py py-meth docutils literal notranslate"><span class="pre">msdss_base_database.core.Database._write()</span></code>. Except that <code class="docutils literal notranslate"><span class="pre">if_exists</span></code> is always set to <code class="docutils literal notranslate"><span class="pre">append</span></code>.</p></li>
-<li><p><strong>**kwargs</strong> – Additional arguments passed to <code class="xref py py-meth docutils literal notranslate"><span class="pre">msdss_base_database.core.Database._write()</span></code>. Except that <code class="docutils literal notranslate"><span class="pre">if_exists</span></code> is always set to <code class="docutils literal notranslate"><span class="pre">append</span></code>.</p></li>
-</ul>
-</dd>
-</dl>
-<p class="rubric">Author</p>
-<p>Richard Wen &lt;<a class="reference external" href="mailto:rrwen&#46;dev&#37;&#52;&#48;gmail&#46;com">rrwen<span>&#46;</span>dev<span>&#64;</span>gmail<span>&#46;</span>com</a>&gt;</p>
-<p class="rubric">Example</p>
-<div class="jupyter_cell jupyter_container docutils container">
-<div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">from</span> <span class="nn">msdss_base_database</span> <span class="kn">import</span> <span class="n">Database</span>
-<span class="linenos"> 2</span>
-<span class="linenos"> 3</span><span class="c1"># Setup database</span>
-<span class="linenos"> 4</span><span class="n">db</span> <span class="o">=</span> <span class="n">Database</span><span class="p">()</span>
-<span class="linenos"> 5</span>
-<span class="linenos"> 6</span><span class="c1"># Check if the table exists and drop if it does</span>
-<span class="linenos"> 7</span><span class="k">if</span> <span class="n">db</span><span class="o">.</span><span class="n">has_table</span><span class="p">(</span><span class="s2">&quot;test_table&quot;</span><span class="p">):</span>
-<span class="linenos"> 8</span>    <span class="n">db</span><span class="o">.</span><span class="n">drop_table</span><span class="p">(</span><span class="s2">&quot;test_table&quot;</span><span class="p">)</span>
-<span class="linenos"> 9</span>
-<span class="linenos">10</span><span class="c1"># Create sample table</span>
-<span class="linenos">11</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span>
-<span class="linenos">12</span>    <span class="nb">dict</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="n">type_</span><span class="o">=</span><span class="s1">&#39;Integer&#39;</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
-<span class="linenos">13</span>    <span class="p">(</span><span class="s1">&#39;column_one&#39;</span><span class="p">,</span> <span class="s1">&#39;String&#39;</span><span class="p">),</span>
-<span class="linenos">14</span>    <span class="p">(</span><span class="s1">&#39;column_two&#39;</span><span class="p">,</span> <span class="s1">&#39;Integer&#39;</span><span class="p">)</span>
-<span class="linenos">15</span><span class="p">]</span>
-<span class="linenos">16</span><span class="n">db</span><span class="o">.</span><span class="n">create_table</span><span class="p">(</span><span class="s1">&#39;test_table&#39;</span><span class="p">,</span> <span class="n">columns</span><span class="p">)</span>
-<span class="linenos">17</span>
-<span class="linenos">18</span><span class="c1"># Write data to table</span>
-<span class="linenos">19</span><span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
-<span class="linenos">20</span>    <span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
-<span class="linenos">21</span>    <span class="s1">&#39;column_one&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">],</span>
-<span class="linenos">22</span>    <span class="s1">&#39;column_two&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">]</span>
-<span class="linenos">23</span><span class="p">}</span>
-<span class="linenos">24</span><span class="n">db</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="s1">&#39;test_table&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
-<span class="linenos">25</span>
-<span class="linenos">26</span><span class="c1"># Insert more new values to table</span>
-<span class="linenos">27</span><span class="n">more_new</span> <span class="o">=</span> <span class="p">{</span>
-<span class="linenos">28</span>    <span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">],</span>
-<span class="linenos">29</span>    <span class="s1">&#39;column_one&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;e&#39;</span><span class="p">,</span> <span class="s1">&#39;f&#39;</span><span class="p">,</span> <span class="s1">&#39;g&#39;</span><span class="p">],</span>
-<span class="linenos">30</span>    <span class="s1">&#39;column_two&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">14</span><span class="p">]</span>
-<span class="linenos">31</span><span class="p">}</span>
-<span class="linenos">32</span><span class="n">db</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="s1">&#39;test_table&#39;</span><span class="p">,</span> <span class="n">more_new</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-</div>
-</div>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="msdss_base_database.core.Database.select">
-<span class="sig-name descname"><span class="pre">select</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">select</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">where</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group_by</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aggregate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aggregate_func</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'count'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order_by</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order_by_sort</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'asc'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">where_boolean</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'AND'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/msdss_base_database/core.html#Database.select"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#msdss_base_database.core.Database.select" title="Permalink to this definition"></a></dt>
-<dd><p>Query data from a table in the database.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>table</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Name of the database table to query from.</p></li>
-<li><p><strong>select</strong> (str or list(str or list:class:<cite>sqlalchemy:sqlalchemy.schema.Column</cite>) or None) – List of column names or a single column name to filter or select from the table. If <code class="docutils literal notranslate"><span class="pre">None</span></code> then all columns will be selected.</p></li>
-<li><p><strong>where</strong> (<em>list of list</em><em> or </em><em>list of tuple</em><em> or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><em>None</em></a>) – <p>list of where statements the form of <code class="docutils literal notranslate"><span class="pre">['column_name',</span> <span class="pre">'operator',</span> <span class="pre">value]</span></code> to further filter individual values or rows.</p>
-<ul>
-<li><p>Operators are one of: <code class="docutils literal notranslate"><span class="pre">=</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;=</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;=</span></code>, <code class="docutils literal notranslate"><span class="pre">!='',</span> <span class="pre">``LIKE</span></code></p></li>
-<li><p>Values can be any single value such as <code class="docutils literal notranslate"><span class="pre">int</span></code> or <code class="docutils literal notranslate"><span class="pre">str</span></code></p></li>
-<li><p>Examples: <code class="docutils literal notranslate"><span class="pre">['column_two',</span> <span class="pre">'&gt;',</span> <span class="pre">2]</span></code>, <code class="docutils literal notranslate"><span class="pre">['column_one',</span> <span class="pre">'LIKE',</span> <span class="pre">'a']</span></code>, <code class="docutils literal notranslate"><span class="pre">[['column_two',</span> <span class="pre">'&gt;',</span> <span class="pre">2],</span> <span class="pre">['column_one',</span> <span class="pre">'LIKE',</span> <span class="pre">'a']]</span></code></p></li>
-</ul>
-</p></li>
-<li><p><strong>group_by</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><em>list</em></a><em>(</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a><em>) or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><em>None</em></a>) – Single or list of column names to group by. This should be used with <code class="docutils literal notranslate"><span class="pre">aggregate</span></code> and <code class="docutils literal notranslate"><span class="pre">aggregate_func</span></code>.</p></li>
-<li><p><strong>aggregate</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><em>list</em></a><em>(</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a><em>) or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><em>None</em></a>) – Single or list of column names to aggregate using the <code class="docutils literal notranslate"><span class="pre">aggregate_func</span></code>. This should be used with <code class="docutils literal notranslate"><span class="pre">group_by</span></code> and <code class="docutils literal notranslate"><span class="pre">aggregate_func</span></code>.</p></li>
-<li><p><strong>aggregate_func</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><em>list</em></a><em>(</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a><em>)</em>) – Function name (such as ‘count’ or ‘sum’) from <a class="reference external" href="https://docs.sqlalchemy.org/en/14/core/functions.html#sqlalchemy.sql.functions.Function" title="(in SQLAlchemy v1.4)"><code class="docutils literal notranslate"><span class="pre">sqlalchemy.sql.functions.Function</span></code></a> for aggregating records from each <code class="docutils literal notranslate"><span class="pre">aggregate</span></code> column.
-If a list of str, then it must have the same number of elements as <code class="docutils literal notranslate"><span class="pre">aggregate</span></code> or else only the shortest length list will be used.</p></li>
-<li><p><strong>order_by</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><em>list</em></a><em>(</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a><em>) or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><em>None</em></a>) – Single or list of column names to order or sort by.</p></li>
-<li><p><strong>order_by_sort</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><em>list</em></a><em>(</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a><em>)</em>) – Sort the records in increasing or decreasing order by each column in <code class="docutils literal notranslate"><span class="pre">order_by</span></code>, where the value can be one of ‘asc’ for ascending or ‘desc’ for descending’.
-If a list of str, then it must have the same number of elements as <code class="docutils literal notranslate"><span class="pre">order_by</span></code> or else only the shortest length list will be used.</p></li>
-<li><p><strong>limit</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><em>None</em></a>) – Integer number to limit the number of rows returned.</p></li>
-<li><p><strong>where_boolean</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – One of <code class="docutils literal notranslate"><span class="pre">AND</span></code> or <code class="docutils literal notranslate"><span class="pre">OR</span></code> to combine <code class="docutils literal notranslate"><span class="pre">where</span></code> statements with. Defaults to <code class="docutils literal notranslate"><span class="pre">AND</span></code> if not one of <code class="docutils literal notranslate"><span class="pre">AND</span></code> or <code class="docutils literal notranslate"><span class="pre">OR</span></code>.</p></li>
-<li><p><strong>*args</strong> – Additional parameters passed to <code class="xref py py-meth docutils literal notranslate"><span class="pre">pandas.read_sql</span></code>.</p></li>
-<li><p><strong>**kwargs</strong> – Additional parameters passed to <code class="xref py py-meth docutils literal notranslate"><span class="pre">pandas.read_sql</span></code>.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>pandas dataframe containing the queried data.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.3.4)"><code class="docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></p>
-</dd>
-</dl>
-<p class="rubric">Author</p>
-<p>Richard Wen &lt;<a class="reference external" href="mailto:rrwen&#46;dev&#37;&#52;&#48;gmail&#46;com">rrwen<span>&#46;</span>dev<span>&#64;</span>gmail<span>&#46;</span>com</a>&gt;</p>
-<p class="rubric">Example</p>
-<div class="jupyter_cell jupyter_container docutils container">
-<div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">from</span> <span class="nn">msdss_base_database.core</span> <span class="kn">import</span> <span class="n">Database</span>
-<span class="linenos"> 2</span>
-<span class="linenos"> 3</span><span class="c1"># Setup database</span>
-<span class="linenos"> 4</span><span class="n">db</span> <span class="o">=</span> <span class="n">Database</span><span class="p">()</span>
-<span class="linenos"> 5</span>
-<span class="linenos"> 6</span><span class="c1"># Check if the table exists and drop if it does</span>
-<span class="linenos"> 7</span><span class="k">if</span> <span class="n">db</span><span class="o">.</span><span class="n">has_table</span><span class="p">(</span><span class="s2">&quot;test_table&quot;</span><span class="p">):</span>
-<span class="linenos"> 8</span>    <span class="n">db</span><span class="o">.</span><span class="n">drop_table</span><span class="p">(</span><span class="s2">&quot;test_table&quot;</span><span class="p">)</span>
-<span class="linenos"> 9</span>
-<span class="linenos">10</span><span class="c1"># Create sample table</span>
-<span class="linenos">11</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span>
-<span class="linenos">12</span>    <span class="nb">dict</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="n">type_</span><span class="o">=</span><span class="s1">&#39;Integer&#39;</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
-<span class="linenos">13</span>    <span class="p">(</span><span class="s1">&#39;column_one&#39;</span><span class="p">,</span> <span class="s1">&#39;String&#39;</span><span class="p">),</span>
-<span class="linenos">14</span>    <span class="p">(</span><span class="s1">&#39;column_two&#39;</span><span class="p">,</span> <span class="s1">&#39;Integer&#39;</span><span class="p">)</span>
-<span class="linenos">15</span><span class="p">]</span>
-<span class="linenos">16</span><span class="n">db</span><span class="o">.</span><span class="n">create_table</span><span class="p">(</span><span class="s1">&#39;test_table&#39;</span><span class="p">,</span> <span class="n">columns</span><span class="p">)</span>
-<span class="linenos">17</span>
-<span class="linenos">18</span><span class="c1"># Write sample data</span>
-<span class="linenos">19</span><span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
-<span class="linenos">20</span>    <span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
-<span class="linenos">21</span>    <span class="s1">&#39;column_one&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">],</span>
-<span class="linenos">22</span>    <span class="s1">&#39;column_two&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">]</span>
-<span class="linenos">23</span><span class="p">}</span>
-<span class="linenos">24</span><span class="n">db</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="s1">&#39;test_table&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
-<span class="linenos">25</span>
-<span class="linenos">26</span><span class="c1"># Read data from table using select and limit</span>
-<span class="linenos">27</span><span class="n">data</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">select</span><span class="p">(</span>
-<span class="linenos">28</span>    <span class="s1">&#39;test_table&#39;</span><span class="p">,</span>
-<span class="linenos">29</span>    <span class="n">select</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;column_one&#39;</span><span class="p">,</span> <span class="s1">&#39;column_two&#39;</span><span class="p">],</span>
-<span class="linenos">30</span>    <span class="n">limit</span> <span class="o">=</span> <span class="mi">5</span>
-<span class="linenos">31</span><span class="p">)</span>
-<span class="linenos">32</span>
-<span class="linenos">33</span><span class="c1"># Use where statements</span>
-<span class="linenos">34</span><span class="n">data</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">select</span><span class="p">(</span>
-<span class="linenos">35</span>    <span class="s1">&#39;test_table&#39;</span><span class="p">,</span>
-<span class="linenos">36</span>    <span class="n">select</span> <span class="o">=</span> <span class="s1">&#39;column_one&#39;</span><span class="p">,</span>
-<span class="linenos">37</span>    <span class="n">where</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;column_two&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;&#39;</span><span class="p">,</span> <span class="s1">&#39;15&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;column_one&#39;</span><span class="p">,</span> <span class="s1">&#39;=&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">)],</span>
-<span class="linenos">38</span>    <span class="n">where_boolean</span> <span class="o">=</span> <span class="s1">&#39;AND&#39;</span>
-<span class="linenos">39</span><span class="p">)</span>
-<span class="linenos">40</span>
-<span class="linenos">41</span><span class="c1"># Order results</span>
-<span class="linenos">42</span><span class="n">data</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">select</span><span class="p">(</span>
-<span class="linenos">43</span>    <span class="s1">&#39;test_table&#39;</span><span class="p">,</span>
-<span class="linenos">44</span>    <span class="n">select</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;column_one&#39;</span><span class="p">,</span> <span class="s1">&#39;column_two&#39;</span><span class="p">],</span>
-<span class="linenos">45</span>    <span class="n">order_by</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;column_one&#39;</span><span class="p">,</span> <span class="s1">&#39;column_two&#39;</span><span class="p">],</span>
-<span class="linenos">46</span>    <span class="n">order_by_sort</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;asc&#39;</span><span class="p">,</span> <span class="s1">&#39;desc&#39;</span><span class="p">]</span>
-<span class="linenos">47</span><span class="p">)</span>
-<span class="linenos">48</span>
-<span class="linenos">49</span><span class="c1"># Aggregate read</span>
-<span class="linenos">50</span><span class="n">data</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">select</span><span class="p">(</span>
-<span class="linenos">51</span>    <span class="s1">&#39;test_table&#39;</span><span class="p">,</span>
-<span class="linenos">52</span>    <span class="n">select</span> <span class="o">=</span> <span class="s1">&#39;column_one&#39;</span><span class="p">,</span>
-<span class="linenos">53</span>    <span class="n">group_by</span> <span class="o">=</span> <span class="s1">&#39;column_one&#39;</span><span class="p">,</span>
-<span class="linenos">54</span>    <span class="n">aggregate</span> <span class="o">=</span> <span class="s1">&#39;column_two&#39;</span><span class="p">,</span>
-<span class="linenos">55</span>    <span class="n">aggregate_func</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;count&#39;</span><span class="p">,</span> <span class="s1">&#39;sum&#39;</span><span class="p">]</span>
-<span class="linenos">56</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-</div>
-</div>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="msdss_base_database.core.Database.update">
-<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">where</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">values</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/msdss_base_database/core.html#Database.update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#msdss_base_database.core.Database.update" title="Permalink to this definition"></a></dt>
-<dd><p>Update a table from the database.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>table</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Name of the table to update.</p></li>
-<li><p><strong>where</strong> – </p></li>
-<li><p><strong>values</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><em>dict</em></a>) – Dictionary representing values to update if they match the <code class="docutils literal notranslate"><span class="pre">where</span></code> parameter requirements.</p></li>
-<li><p><strong>*args</strong> – Additional arguments passed to <a class="reference internal" href="#msdss_base_database.core.Database._execute_query" title="msdss_base_database.core.Database._execute_query"><code class="xref py py-meth docutils literal notranslate"><span class="pre">msdss_base_database.core.Database._execute_query()</span></code></a>.</p></li>
-<li><p><strong>**kwargs</strong> – Additional arguments passed to <a class="reference internal" href="#msdss_base_database.core.Database._execute_query" title="msdss_base_database.core.Database._execute_query"><code class="xref py py-meth docutils literal notranslate"><span class="pre">msdss_base_database.core.Database._execute_query()</span></code></a>.</p></li>
-</ul>
-</dd>
-</dl>
-<p class="rubric">Author</p>
-<p>Richard Wen &lt;<a class="reference external" href="mailto:rrwen&#46;dev&#37;&#52;&#48;gmail&#46;com">rrwen<span>&#46;</span>dev<span>&#64;</span>gmail<span>&#46;</span>com</a>&gt;</p>
-<p class="rubric">Example</p>
-<div class="jupyter_cell jupyter_container docutils container">
-<div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">from</span> <span class="nn">msdss_base_database</span> <span class="kn">import</span> <span class="n">Database</span>
-<span class="linenos"> 2</span>
-<span class="linenos"> 3</span><span class="c1"># Setup database</span>
-<span class="linenos"> 4</span><span class="n">db</span> <span class="o">=</span> <span class="n">Database</span><span class="p">()</span>
-<span class="linenos"> 5</span>
-<span class="linenos"> 6</span><span class="c1"># Check if the table exists and drop if it does</span>
-<span class="linenos"> 7</span><span class="k">if</span> <span class="n">db</span><span class="o">.</span><span class="n">has_table</span><span class="p">(</span><span class="s2">&quot;test_table&quot;</span><span class="p">):</span>
-<span class="linenos"> 8</span>    <span class="n">db</span><span class="o">.</span><span class="n">drop_table</span><span class="p">(</span><span class="s2">&quot;test_table&quot;</span><span class="p">)</span>
-<span class="linenos"> 9</span>
-<span class="linenos">10</span><span class="c1"># Create sample table</span>
-<span class="linenos">11</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span>
-<span class="linenos">12</span>    <span class="nb">dict</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="n">type_</span><span class="o">=</span><span class="s1">&#39;Integer&#39;</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
-<span class="linenos">13</span>    <span class="p">(</span><span class="s1">&#39;column_one&#39;</span><span class="p">,</span> <span class="s1">&#39;String&#39;</span><span class="p">),</span>
-<span class="linenos">14</span>    <span class="p">(</span><span class="s1">&#39;column_two&#39;</span><span class="p">,</span> <span class="s1">&#39;Integer&#39;</span><span class="p">)</span>
-<span class="linenos">15</span><span class="p">]</span>
-<span class="linenos">16</span><span class="n">db</span><span class="o">.</span><span class="n">create_table</span><span class="p">(</span><span class="s1">&#39;test_table&#39;</span><span class="p">,</span> <span class="n">columns</span><span class="p">)</span>
-<span class="linenos">17</span>
-<span class="linenos">18</span><span class="c1"># Write sample data</span>
-<span class="linenos">19</span><span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
-<span class="linenos">20</span>    <span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
-<span class="linenos">21</span>    <span class="s1">&#39;column_one&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">],</span>
-<span class="linenos">22</span>    <span class="s1">&#39;column_two&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">]</span>
-<span class="linenos">23</span><span class="p">}</span>
-<span class="linenos">24</span><span class="n">db</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="s1">&#39;test_table&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
-<span class="linenos">25</span>
-<span class="linenos">26</span><span class="c1"># Update values in table</span>
-<span class="linenos">27</span><span class="n">db</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
-<span class="linenos">28</span>    <span class="s1">&#39;test_table&#39;</span><span class="p">,</span>
-<span class="linenos">29</span>    <span class="n">where</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;&gt;&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
-<span class="linenos">30</span>    <span class="n">values</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;column_one&#39;</span><span class="p">:</span> <span class="s1">&#39;AA&#39;</span><span class="p">})</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-</div>
-</div>
-</dd></dl>
-
-</dd></dl>
-
-</section>
 <section id="contact">
-<h1>Contact<a class="headerlink" href="#contact" title="Permalink to this headline"></a></h1>
-<p>Richard Wen &lt;<a class="reference external" href="mailto:rrwen&#46;dev&#37;&#52;&#48;gmail&#46;com">rrwen<span>&#46;</span>dev<span>&#64;</span>gmail<span>&#46;</span>com</a>&gt;</p>
+<h2 id="contact">Contact<a class="headerlink" href="#contact" title="Permalink to this headline">¶</a></h2>
+<p>Richard Wen &lt;<a class="reference external" href="mailto:rrwen.dev%40gmail.com">rrwen<span>.</span>dev<span>@</span>gmail<span>.</span>com</a>&gt;</p>
 <div class="toctree-wrapper compound">
 </div>
 </section>
+</section>
 
 
-           </div>
-          </div>
-          <footer>
-
-  <hr/>
-
-  <div role="contentinfo">
-    <p>&#169; Copyright 2021, Richard Wen.</p>
-  </div>
-
-  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    provided by <a href="https://readthedocs.org">Read the Docs</a>.
-   
-
-</footer>
+          </article>
         </div>
       </div>
-    </section>
+    </main>
   </div>
-  <script>
-      jQuery(function () {
-          SphinxRtdTheme.Navigation.enable(true);
-      });
-  </script> 
-
-</body>
+  <footer class="md-footer">
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+          
+          
+            <a href="install.html" title="Install"
+               class="md-flex md-footer-nav__link md-footer-nav__link--next"
+               rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title"><span
+                class="md-flex__ellipsis"> <span
+                class="md-footer-nav__direction"> Next </span> Install </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink"><i
+                class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          
+        </a>
+        
+      </nav>
+    </div>
+    <div class="md-footer-meta md-typeset">
+      <div class="md-footer-meta__inner md-grid">
+        <div class="md-footer-copyright">
+          <div class="md-footer-copyright__highlight">
+              &#169; Copyright 2021, Richard Wen.
+              
+          </div>
+            Created using
+            <a href="http://www.sphinx-doc.org/">Sphinx</a> 4.2.0.
+             and
+            <a href="https://github.com/bashtage/sphinx-material/">Material for
+              Sphinx</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <script src="_static/javascripts/application.js"></script>
+  <script>app.initialize({version: "1.0.4", url: {base: ".."}})</script>
+  </body>
 </html>

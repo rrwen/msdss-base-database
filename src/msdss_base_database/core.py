@@ -2,6 +2,7 @@ import os
 import pandas
 import sqlalchemy
 
+from . import tools
 from msdss_base_dotenv import env_exists, load_env_file
 
 class Database:
@@ -41,7 +42,6 @@ class Database:
     Example
     -------
     .. jupyter-execute::
-        :hide-output:
 
         from msdss_base_database.core import Database
 
@@ -85,18 +85,31 @@ class Database:
             'column_two': [10, 12, 14]
         }
         db.insert('test_table', new)
+        df_insert = db.select('test_table')
 
         # Delete rows from the table
         db.delete(
             'test_table',
             where=('id', '=', 5)
         )
+        df_delete = db.select('test_table')
 
         # Update values in table
         db.update(
             'test_table',
             where=('id', '>', 3),
             values={'column_one': 'AA'})
+        df_update = db.select('test_table')
+
+        # Display results
+        print('df:')
+        print(df)
+        print('\\ndf_insert:')
+        print(df_insert)
+        print('\\ndf_delete:')
+        print(df_delete)
+        print('\\ndf_update:')
+        print(df_update)
     """
     def __init__(
         self,
@@ -129,7 +142,7 @@ class Database:
             database = os.getenv(database_key, database)
         
         # (Database_connect_str) Build connection str from parameters
-        connection_str = str(sqlalchemy.engine.URL.create(drivername=driver, username=user, password=password, host=host, port=port, database=database, *args, **kwargs))
+        connection_str = tools.get_database_url(driver=driver, user=user, password=password, host=host, port=port, database=database)
 
         # (Database_attr) Create attributes for database obj
         self._connection = sqlalchemy.create_engine(connection_str, *args, **kwargs)
@@ -159,7 +172,7 @@ class Database:
         ----------
         table : str
             Name of the database table.
-        select : str or list(str or list:class:`sqlalchemy:sqlalchemy.schema.Column`) or None
+        select : str or list(str) or list(:class:`sqlalchemy:sqlalchemy.schema.Column`) or None
             List of column names or a single column name to filter or select from the table. If ``None`` then all columns will be selected.
         where : list of list or list of tuple or None
             list of where statements the form of ``['column_name', 'operator', value]`` to further filter individual values or rows.
