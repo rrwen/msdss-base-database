@@ -4,12 +4,12 @@ import sqlalchemy
 from msdss_base_dotenv import env_exists, load_env_file
 
 def get_database_url(
-    driver,
-    user=None,
-    password=None,
-    host=None,
-    port=None,
-    database=None,
+    driver='postgresql',
+    user='msdss',
+    password='msdss123',
+    host='localhost',
+    port='5432',
+    database='msdss',
     load_env=True,
     env_file='./.env',
     key_path=None,

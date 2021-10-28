@@ -272,12 +272,12 @@
 <span class="kn">from</span> <span class="nn">msdss_base_dotenv</span> <span class="kn">import</span> <span class="n">env_exists</span><span class="p">,</span> <span class="n">load_env_file</span>
 
 <div class="viewcode-block" id="get_database_url"><a class="viewcode-back" href="../../reference/tools.html#msdss_base_database.tools.get_database_url">[docs]</a><span class="k">def</span> <span class="nf">get_database_url</span><span class="p">(</span>
-    <span class="n">driver</span><span class="p">,</span>
-    <span class="n">user</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-    <span class="n">password</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-    <span class="n">host</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-    <span class="n">port</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-    <span class="n">database</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">driver</span><span class="o">=</span><span class="s1">'postgresql'</span><span class="p">,</span>
+    <span class="n">user</span><span class="o">=</span><span class="s1">'msdss'</span><span class="p">,</span>
+    <span class="n">password</span><span class="o">=</span><span class="s1">'msdss123'</span><span class="p">,</span>
+    <span class="n">host</span><span class="o">=</span><span class="s1">'localhost'</span><span class="p">,</span>
+    <span class="n">port</span><span class="o">=</span><span class="s1">'5432'</span><span class="p">,</span>
+    <span class="n">database</span><span class="o">=</span><span class="s1">'msdss'</span><span class="p">,</span>
     <span class="n">load_env</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="n">env_file</span><span class="o">=</span><span class="s1">'./.env'</span><span class="p">,</span>
     <span class="n">key_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -351,6 +351,7 @@
 
 <span class="sd">        print(url)</span>
 <span class="sd">    """</span>
+    
     <span class="c1"># (get_database_url_env) Load env if it exists</span>
     <span class="n">has_env</span> <span class="o">=</span> <span class="n">env_exists</span><span class="p">(</span><span class="n">file_path</span><span class="o">=</span><span class="n">env_file</span><span class="p">,</span> <span class="n">key_path</span><span class="o">=</span><span class="n">key_path</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">load_env</span> <span class="ow">and</span> <span class="n">has_env</span><span class="p">:</span>
