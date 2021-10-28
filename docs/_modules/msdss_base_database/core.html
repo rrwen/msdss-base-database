@@ -46,7 +46,7 @@
   
   
   
-    <title>msdss_base_database.core &#8212; 0.0.3</title>
+    <title>msdss_base_database.core &#8212; 0.0.4</title>
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/material.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
@@ -84,11 +84,11 @@
   <nav class="md-header-nav md-grid">
     <div class="md-flex navheader">
       <div class="md-flex__cell md-flex__cell--shrink">
-        <a href="../../index.html" title="0.0.3"
+        <a href="../../index.html" title="0.0.4"
            class="md-header-nav__button md-logo">
           
               <img src="../../_static/logo.svg" height="26"
-                   alt="0.0.3 logo">
+                   alt="0.0.4 logo">
           
         </a>
       </div>
@@ -171,7 +171,7 @@
   <nav class="md-tabs" data-md-component="tabs">
     <div class="md-tabs__inner md-grid">
       <ul class="md-tabs__list">
-          <li class="md-tabs__item"><a href="../../index.html" class="md-tabs__link">0.0.3</a></li>
+          <li class="md-tabs__item"><a href="../../index.html" class="md-tabs__link">0.0.4</a></li>
           <li class="md-tabs__item"><a href="../index.html" class="md-tabs__link">Module code</a></li>
       </ul>
     </div>
@@ -184,13 +184,13 @@
               <div class="md-sidebar__inner">
                 <nav class="md-nav md-nav--primary" data-md-level="0">
   <label class="md-nav__title md-nav__title--site" for="__drawer">
-    <a href="../../index.html" title="0.0.3" class="md-nav__button md-logo">
+    <a href="../../index.html" title="0.0.4" class="md-nav__button md-logo">
       
         <img src="../../_static/logo.svg" alt=" logo" width="48" height="48">
       
     </a>
     <a href="../../index.html"
-       title="0.0.3">msdss-base-database</a>
+       title="0.0.4">msdss-base-database</a>
   </label>
     <div class="md-nav__source">
       <a href="https://github.com/rrwen/msdss-base-database/" title="Go to repository" class="md-source" data-md-source="github">
@@ -266,12 +266,10 @@
           <article class="md-content__inner md-typeset" role="main">
             
   <h1 id="modules-msdss-base-database-core--page-root">Source code for msdss_base_database.core</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">pandas</span>
+<span></span><span class="kn">import</span> <span class="nn">pandas</span>
 <span class="kn">import</span> <span class="nn">sqlalchemy</span>
 
 <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">tools</span>
-<span class="kn">from</span> <span class="nn">msdss_base_dotenv</span> <span class="kn">import</span> <span class="n">env_exists</span><span class="p">,</span> <span class="n">load_env_file</span>
 
 <div class="viewcode-block" id="Database"><a class="viewcode-back" href="../../reference/database.html#msdss_base_database.core.Database">[docs]</a><span class="k">class</span> <span class="nc">Database</span><span class="p">:</span>
     <span class="sd">"""</span>
@@ -291,6 +289,24 @@
 <span class="sd">        Port number of the connection.</span>
 <span class="sd">    database : str</span>
 <span class="sd">        Database name of the connection.</span>
+<span class="sd">    load_env : bool</span>
+<span class="sd">        Whether to load variables for connecting from a file with environmental variables at ``env_file`` or not.</span>
+<span class="sd">    env_file : str</span>
+<span class="sd">        The path of the file with environmental variables.</span>
+<span class="sd">    key_path : str</span>
+<span class="sd">        The path of the key file for the ``env_file``.</span>
+<span class="sd">    driver_key : str</span>
+<span class="sd">        The environmental variable name for ``driver``.</span>
+<span class="sd">    user_key : str</span>
+<span class="sd">        The environmental variable name for ``user``.</span>
+<span class="sd">    password_key : str</span>
+<span class="sd">        The environmental variable name for ``password``.</span>
+<span class="sd">    host_key : str</span>
+<span class="sd">        The environmental variable name for ``key``.</span>
+<span class="sd">    port_key : str</span>
+<span class="sd">        The environmental variable name for ``port``.</span>
+<span class="sd">    database_key : str</span>
+<span class="sd">        The environmental variable name for ``database``.</span>
 <span class="sd">    *args, **kwargs</span>
 <span class="sd">        Additional arguments passed to :func:`sqlalchemy:sqlalchemy.create_engine`.</span>
 
@@ -397,20 +413,25 @@
         <span class="n">port_key</span><span class="o">=</span><span class="s1">'MSDSS_DATABASE_PORT'</span><span class="p">,</span>
         <span class="n">database_key</span><span class="o">=</span><span class="s1">'MSDSS_DATABASE_NAME'</span><span class="p">,</span>
         <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-
-        <span class="c1"># (Database_env) Load env if it exists</span>
-        <span class="n">has_env</span> <span class="o">=</span> <span class="n">env_exists</span><span class="p">(</span><span class="n">file_path</span><span class="o">=</span><span class="n">env_file</span><span class="p">,</span> <span class="n">key_path</span><span class="o">=</span><span class="n">key_path</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">load_env</span> <span class="ow">and</span> <span class="n">has_env</span><span class="p">:</span>
-            <span class="n">load_env_file</span><span class="p">(</span><span class="n">file_path</span><span class="o">=</span><span class="n">env_file</span><span class="p">,</span> <span class="n">key_path</span><span class="o">=</span><span class="n">key_path</span><span class="p">)</span>
-            <span class="n">driver</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="n">driver_key</span><span class="p">,</span> <span class="n">driver</span><span class="p">)</span>
-            <span class="n">user</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="n">user_key</span><span class="p">,</span> <span class="n">user</span><span class="p">)</span>
-            <span class="n">password</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="n">password_key</span><span class="p">,</span> <span class="n">password</span><span class="p">)</span>
-            <span class="n">host</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="n">host_key</span><span class="p">,</span> <span class="n">host</span><span class="p">)</span>
-            <span class="n">port</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="n">port_key</span><span class="p">,</span> <span class="n">port</span><span class="p">)</span>
-            <span class="n">database</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="n">database_key</span><span class="p">,</span> <span class="n">database</span><span class="p">)</span>
         
         <span class="c1"># (Database_connect_str) Build connection str from parameters</span>
-        <span class="n">connection_str</span> <span class="o">=</span> <span class="n">tools</span><span class="o">.</span><span class="n">get_database_url</span><span class="p">(</span><span class="n">driver</span><span class="o">=</span><span class="n">driver</span><span class="p">,</span> <span class="n">user</span><span class="o">=</span><span class="n">user</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">password</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="n">host</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="n">port</span><span class="p">,</span> <span class="n">database</span><span class="o">=</span><span class="n">database</span><span class="p">)</span>
+        <span class="n">connection_str</span> <span class="o">=</span> <span class="n">tools</span><span class="o">.</span><span class="n">get_database_url</span><span class="p">(</span>
+            <span class="n">driver</span><span class="o">=</span><span class="n">driver</span><span class="p">,</span>
+            <span class="n">user</span><span class="o">=</span><span class="n">user</span><span class="p">,</span>
+            <span class="n">password</span><span class="o">=</span><span class="n">password</span><span class="p">,</span>
+            <span class="n">host</span><span class="o">=</span><span class="n">host</span><span class="p">,</span>
+            <span class="n">port</span><span class="o">=</span><span class="n">port</span><span class="p">,</span>
+            <span class="n">database</span><span class="o">=</span><span class="n">database</span><span class="p">,</span>
+            <span class="n">load_env</span><span class="o">=</span><span class="n">load_env</span><span class="p">,</span>
+            <span class="n">env_file</span><span class="o">=</span><span class="n">env_file</span><span class="p">,</span>
+            <span class="n">key_path</span><span class="o">=</span><span class="n">key_path</span><span class="p">,</span>
+            <span class="n">driver_key</span><span class="o">=</span><span class="n">driver_key</span><span class="p">,</span>
+            <span class="n">user_key</span><span class="o">=</span><span class="n">user_key</span><span class="p">,</span>
+            <span class="n">password_key</span><span class="o">=</span><span class="n">password_key</span><span class="p">,</span>
+            <span class="n">host_key</span><span class="o">=</span><span class="n">host_key</span><span class="p">,</span>
+            <span class="n">port_key</span><span class="o">=</span><span class="n">port_key</span><span class="p">,</span>
+            <span class="n">database_key</span><span class="o">=</span><span class="n">database_key</span>
+        <span class="p">)</span>
 
         <span class="c1"># (Database_attr) Create attributes for database obj</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_connection</span> <span class="o">=</span> <span class="n">sqlalchemy</span><span class="o">.</span><span class="n">create_engine</span><span class="p">(</span><span class="n">connection_str</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>

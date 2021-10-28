@@ -1,9 +1,7 @@
-import os
 import pandas
 import sqlalchemy
 
 from . import tools
-from msdss_base_dotenv import env_exists, load_env_file
 
 class Database:
     """
@@ -23,6 +21,24 @@ class Database:
         Port number of the connection.
     database : str
         Database name of the connection.
+    load_env : bool
+        Whether to load variables for connecting from a file with environmental variables at ``env_file`` or not.
+    env_file : str
+        The path of the file with environmental variables.
+    key_path : str
+        The path of the key file for the ``env_file``.
+    driver_key : str
+        The environmental variable name for ``driver``.
+    user_key : str
+        The environmental variable name for ``user``.
+    password_key : str
+        The environmental variable name for ``password``.
+    host_key : str
+        The environmental variable name for ``key``.
+    port_key : str
+        The environmental variable name for ``port``.
+    database_key : str
+        The environmental variable name for ``database``.
     *args, **kwargs
         Additional arguments passed to :func:`sqlalchemy:sqlalchemy.create_engine`.
 
@@ -129,20 +145,25 @@ class Database:
         port_key='MSDSS_DATABASE_PORT',
         database_key='MSDSS_DATABASE_NAME',
         *args, **kwargs):
-
-        # (Database_env) Load env if it exists
-        has_env = env_exists(file_path=env_file, key_path=key_path)
-        if load_env and has_env:
-            load_env_file(file_path=env_file, key_path=key_path)
-            driver = os.getenv(driver_key, driver)
-            user = os.getenv(user_key, user)
-            password = os.getenv(password_key, password)
-            host = os.getenv(host_key, host)
-            port = os.getenv(port_key, port)
-            database = os.getenv(database_key, database)
         
         # (Database_connect_str) Build connection str from parameters
-        connection_str = tools.get_database_url(driver=driver, user=user, password=password, host=host, port=port, database=database)
+        connection_str = tools.get_database_url(
+            driver=driver,
+            user=user,
+            password=password,
+            host=host,
+            port=port,
+            database=database,
+            load_env=load_env,
+            env_file=env_file,
+            key_path=key_path,
+            driver_key=driver_key,
+            user_key=user_key,
+            password_key=password_key,
+            host_key=host_key,
+            port_key=port_key,
+            database_key=database_key
+        )
 
         # (Database_attr) Create attributes for database obj
         self._connection = sqlalchemy.create_engine(connection_str, *args, **kwargs)

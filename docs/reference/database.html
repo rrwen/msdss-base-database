@@ -47,7 +47,7 @@
   
   
   
-    <title>Database &#8212; 0.0.3</title>
+    <title>Database &#8212; 0.0.4</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/material.css" />
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
@@ -87,11 +87,11 @@
   <nav class="md-header-nav md-grid">
     <div class="md-flex navheader">
       <div class="md-flex__cell md-flex__cell--shrink">
-        <a href="../index.html" title="0.0.3"
+        <a href="../index.html" title="0.0.4"
            class="md-header-nav__button md-logo">
           
               <img src="../_static/logo.svg" height="26"
-                   alt="0.0.3 logo">
+                   alt="0.0.4 logo">
           
         </a>
       </div>
@@ -174,7 +174,7 @@
   <nav class="md-tabs" data-md-component="tabs">
     <div class="md-tabs__inner md-grid">
       <ul class="md-tabs__list">
-          <li class="md-tabs__item"><a href="../index.html" class="md-tabs__link">0.0.3</a></li>
+          <li class="md-tabs__item"><a href="../index.html" class="md-tabs__link">0.0.4</a></li>
           <li class="md-tabs__item"><a href="reference.html" class="md-tabs__link">API Reference</a></li>
       </ul>
     </div>
@@ -187,13 +187,13 @@
               <div class="md-sidebar__inner">
                 <nav class="md-nav md-nav--primary" data-md-level="0">
   <label class="md-nav__title md-nav__title--site" for="__drawer">
-    <a href="../index.html" title="0.0.3" class="md-nav__button md-logo">
+    <a href="../index.html" title="0.0.4" class="md-nav__button md-logo">
       
         <img src="../_static/logo.svg" alt=" logo" width="48" height="48">
       
     </a>
     <a href="../index.html"
-       title="0.0.3">msdss-base-database</a>
+       title="0.0.4">msdss-base-database</a>
   </label>
     <div class="md-nav__source">
       <a href="https://github.com/rrwen/msdss-base-database/" title="Go to repository" class="md-source" data-md-source="github">
@@ -313,6 +313,15 @@
 <li><p><strong>host</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Host address of the connection.</p></li>
 <li><p><strong>port</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Port number of the connection.</p></li>
 <li><p><strong>database</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Database name of the connection.</p></li>
+<li><p><strong>load_env</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – Whether to load variables for connecting from a file with environmental variables at <code class="docutils literal notranslate"><span class="pre">env_file</span></code> or not.</p></li>
+<li><p><strong>env_file</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – The path of the file with environmental variables.</p></li>
+<li><p><strong>key_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – The path of the key file for the <code class="docutils literal notranslate"><span class="pre">env_file</span></code>.</p></li>
+<li><p><strong>driver_key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – The environmental variable name for <code class="docutils literal notranslate"><span class="pre">driver</span></code>.</p></li>
+<li><p><strong>user_key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – The environmental variable name for <code class="docutils literal notranslate"><span class="pre">user</span></code>.</p></li>
+<li><p><strong>password_key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – The environmental variable name for <code class="docutils literal notranslate"><span class="pre">password</span></code>.</p></li>
+<li><p><strong>host_key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – The environmental variable name for <code class="docutils literal notranslate"><span class="pre">key</span></code>.</p></li>
+<li><p><strong>port_key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – The environmental variable name for <code class="docutils literal notranslate"><span class="pre">port</span></code>.</p></li>
+<li><p><strong>database_key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – The environmental variable name for <code class="docutils literal notranslate"><span class="pre">database</span></code>.</p></li>
 <li><p><strong>*args</strong> – Additional arguments passed to <a class="reference external" href="https://docs.sqlalchemy.org/en/14/core/engines.html#sqlalchemy.create_engine" title="(in SQLAlchemy v1.4)"><code class="docutils literal notranslate"><span class="pre">sqlalchemy.create_engine()</span></code></a>.</p></li>
 <li><p><strong>**kwargs</strong> – Additional arguments passed to <a class="reference external" href="https://docs.sqlalchemy.org/en/14/core/engines.html#sqlalchemy.create_engine" title="(in SQLAlchemy v1.4)"><code class="docutils literal notranslate"><span class="pre">sqlalchemy.create_engine()</span></code></a>.</p></li>
 </ul>
