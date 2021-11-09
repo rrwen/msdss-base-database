@@ -843,11 +843,8 @@ class Database:
         ----------
         table : str
             Name of the table to insert additional data to.
-        where : list of list or list of tuple or None
-            list of where statements the form of ``['column_name', 'operator', value]`` to further filter individual values or rows. 
-            See parameter ``where`` in :meth:`msdss_base_database.core.Database._build_query`.
-        where_boolean : str
-            One of ``AND`` or ``OR`` to combine ``where`` statements with. Defaults to ``AND`` if not one of ``AND`` or ``OR``.
+        data : dict or list or :class:`pandas:pandas.DataFrame`
+            Dataframe with the data to write to the database. If ``dict`` or ``list`` see :class:`pandas:pandas.DataFrame`.
         *args, **kwargs
             Additional arguments passed to :meth:`msdss_base_database.core.Database._write`. Except that ``if_exists`` is always set to ``append``.
         
@@ -1063,7 +1060,12 @@ class Database:
         ----------
         table : str
             Name of the table to update.
-        where :
+        where : list of list or list of tuple or None
+            list of where statements the form of ``['column_name', 'operator', value]`` to update individual values or rows.
+            
+            * Operators are one of: ``=``, ``>``, ``>=``, ``>``, ``<``, ``<=``, ``!='', ``LIKE``
+            * Values can be any single value such as ``int`` or ``str``
+            * Examples: ``['column_two', '>', 2]``, ``['column_one', 'LIKE', 'a']``, ``[['column_two', '>', 2], ['column_one', 'LIKE', 'a']]``
         values : dict
             Dictionary representing values to update if they match the ``where`` parameter requirements.
         *args, **kwargs

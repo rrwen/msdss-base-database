@@ -1111,11 +1111,8 @@
 <span class="sd">        ----------</span>
 <span class="sd">        table : str</span>
 <span class="sd">            Name of the table to insert additional data to.</span>
-<span class="sd">        where : list of list or list of tuple or None</span>
-<span class="sd">            list of where statements the form of ``['column_name', 'operator', value]`` to further filter individual values or rows. </span>
-<span class="sd">            See parameter ``where`` in :meth:`msdss_base_database.core.Database._build_query`.</span>
-<span class="sd">        where_boolean : str</span>
-<span class="sd">            One of ``AND`` or ``OR`` to combine ``where`` statements with. Defaults to ``AND`` if not one of ``AND`` or ``OR``.</span>
+<span class="sd">        data : dict or list or :class:`pandas:pandas.DataFrame`</span>
+<span class="sd">            Dataframe with the data to write to the database. If ``dict`` or ``list`` see :class:`pandas:pandas.DataFrame`.</span>
 <span class="sd">        *args, **kwargs</span>
 <span class="sd">            Additional arguments passed to :meth:`msdss_base_database.core.Database._write`. Except that ``if_exists`` is always set to ``append``.</span>
 <span class="sd">        </span>
@@ -1331,7 +1328,12 @@
 <span class="sd">        ----------</span>
 <span class="sd">        table : str</span>
 <span class="sd">            Name of the table to update.</span>
-<span class="sd">        where :</span>
+<span class="sd">        where : list of list or list of tuple or None</span>
+<span class="sd">            list of where statements the form of ``['column_name', 'operator', value]`` to update individual values or rows.</span>
+<span class="sd">            </span>
+<span class="sd">            * Operators are one of: ``=``, ``&gt;``, ``&gt;=``, ``&gt;``, ``&lt;``, ``&lt;=``, ``!='', ``LIKE``</span>
+<span class="sd">            * Values can be any single value such as ``int`` or ``str``</span>
+<span class="sd">            * Examples: ``['column_two', '&gt;', 2]``, ``['column_one', 'LIKE', 'a']``, ``[['column_two', '&gt;', 2], ['column_one', 'LIKE', 'a']]``</span>
 <span class="sd">        values : dict</span>
 <span class="sd">            Dictionary representing values to update if they match the ``where`` parameter requirements.</span>
 <span class="sd">        *args, **kwargs</span>
