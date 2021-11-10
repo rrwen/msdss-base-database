@@ -48,6 +48,7 @@ extensions = [
     'sphinx.ext.autosectionlabel',
     'sphinx.ext.graphviz',
     'jupyter_sphinx.execute',
+    'sphinx_copybutton',
     'sphinx.ext.mathjax'
 ]
 intersphinx_mapping = {
@@ -57,7 +58,7 @@ intersphinx_mapping = {
 }
 napoleon_custom_sections = ['Author', 'Authors']
 napoleon_include_private_with_doc = True
-jupyter_sphinx_linenos = True
+jupyter_sphinx_linenos = False
 numpydoc_show_class_members = False
 
 # Add any paths that contain templates here, relative to this directory.

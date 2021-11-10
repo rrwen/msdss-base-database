@@ -53,11 +53,14 @@
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
     <link rel="stylesheet" type="text/css" href="../_static/jupyter-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../_static/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
     <script src="../_static/thebelab-helper.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -362,73 +365,73 @@
 <p class="rubric">Example</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">from</span> <span class="nn">msdss_base_database.core</span> <span class="kn">import</span> <span class="n">Database</span>
-<span class="linenos"> 2</span>
-<span class="linenos"> 3</span><span class="c1"># Initiate a connection with the default test user and database</span>
-<span class="linenos"> 4</span><span class="n">db</span> <span class="o">=</span> <span class="n">Database</span><span class="p">(</span>
-<span class="linenos"> 5</span>    <span class="n">driver</span><span class="o">=</span><span class="s2">"postgresql"</span><span class="p">,</span>
-<span class="linenos"> 6</span>    <span class="n">user</span><span class="o">=</span><span class="s2">"msdss"</span><span class="p">,</span>
-<span class="linenos"> 7</span>    <span class="n">password</span><span class="o">=</span><span class="s2">"msdss123"</span><span class="p">,</span>
-<span class="linenos"> 8</span>    <span class="n">host</span><span class="o">=</span><span class="s2">"localhost"</span><span class="p">,</span>
-<span class="linenos"> 9</span>    <span class="n">port</span><span class="o">=</span><span class="s2">"5432"</span><span class="p">,</span>
-<span class="linenos">10</span>    <span class="n">database</span><span class="o">=</span><span class="s2">"msdss"</span>
-<span class="linenos">11</span><span class="p">)</span>
-<span class="linenos">12</span>
-<span class="linenos">13</span><span class="c1"># Check if the table exists and drop if it does</span>
-<span class="linenos">14</span><span class="k">if</span> <span class="n">db</span><span class="o">.</span><span class="n">has_table</span><span class="p">(</span><span class="s2">"test_table"</span><span class="p">):</span>
-<span class="linenos">15</span>    <span class="n">db</span><span class="o">.</span><span class="n">drop_table</span><span class="p">(</span><span class="s2">"test_table"</span><span class="p">)</span>
-<span class="linenos">16</span>
-<span class="linenos">17</span><span class="c1"># Create sample table</span>
-<span class="linenos">18</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span>
-<span class="linenos">19</span>    <span class="nb">dict</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'id'</span><span class="p">,</span> <span class="n">type_</span><span class="o">=</span><span class="s1">'Integer'</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
-<span class="linenos">20</span>    <span class="p">(</span><span class="s1">'column_one'</span><span class="p">,</span> <span class="s1">'String'</span><span class="p">),</span>
-<span class="linenos">21</span>    <span class="p">(</span><span class="s1">'column_two'</span><span class="p">,</span> <span class="s1">'Integer'</span><span class="p">)</span>
-<span class="linenos">22</span><span class="p">]</span>
-<span class="linenos">23</span><span class="n">db</span><span class="o">.</span><span class="n">create_table</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">,</span> <span class="n">columns</span><span class="p">)</span>
-<span class="linenos">24</span>
-<span class="linenos">25</span><span class="c1"># Write sample data</span>
-<span class="linenos">26</span><span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
-<span class="linenos">27</span>    <span class="s1">'id'</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
-<span class="linenos">28</span>    <span class="s1">'column_one'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'a'</span><span class="p">,</span> <span class="s1">'b'</span><span class="p">,</span> <span class="s1">'c'</span><span class="p">],</span>
-<span class="linenos">29</span>    <span class="s1">'column_two'</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">]</span>
-<span class="linenos">30</span><span class="p">}</span>
-<span class="linenos">31</span><span class="n">db</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
-<span class="linenos">32</span>
-<span class="linenos">33</span><span class="c1"># Read the table to a pandas dataframe</span>
-<span class="linenos">34</span><span class="n">df</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">)</span>
-<span class="linenos">35</span>
-<span class="linenos">36</span><span class="c1"># Insert values into the table</span>
-<span class="linenos">37</span><span class="n">new</span> <span class="o">=</span> <span class="p">{</span>
-<span class="linenos">38</span>    <span class="s1">'id'</span><span class="p">:</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">],</span>
-<span class="linenos">39</span>    <span class="s1">'column_one'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'e'</span><span class="p">,</span> <span class="s1">'f'</span><span class="p">,</span> <span class="s1">'g'</span><span class="p">],</span>
-<span class="linenos">40</span>    <span class="s1">'column_two'</span><span class="p">:</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">14</span><span class="p">]</span>
-<span class="linenos">41</span><span class="p">}</span>
-<span class="linenos">42</span><span class="n">db</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">,</span> <span class="n">new</span><span class="p">)</span>
-<span class="linenos">43</span><span class="n">df_insert</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">)</span>
-<span class="linenos">44</span>
-<span class="linenos">45</span><span class="c1"># Delete rows from the table</span>
-<span class="linenos">46</span><span class="n">db</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span>
-<span class="linenos">47</span>    <span class="s1">'test_table'</span><span class="p">,</span>
-<span class="linenos">48</span>    <span class="n">where</span><span class="o">=</span><span class="p">(</span><span class="s1">'id'</span><span class="p">,</span> <span class="s1">'='</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
-<span class="linenos">49</span><span class="p">)</span>
-<span class="linenos">50</span><span class="n">df_delete</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">)</span>
-<span class="linenos">51</span>
-<span class="linenos">52</span><span class="c1"># Update values in table</span>
-<span class="linenos">53</span><span class="n">db</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
-<span class="linenos">54</span>    <span class="s1">'test_table'</span><span class="p">,</span>
-<span class="linenos">55</span>    <span class="n">where</span><span class="o">=</span><span class="p">(</span><span class="s1">'id'</span><span class="p">,</span> <span class="s1">'&gt;'</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
-<span class="linenos">56</span>    <span class="n">values</span><span class="o">=</span><span class="p">{</span><span class="s1">'column_one'</span><span class="p">:</span> <span class="s1">'AA'</span><span class="p">})</span>
-<span class="linenos">57</span><span class="n">df_update</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">)</span>
-<span class="linenos">58</span>
-<span class="linenos">59</span><span class="c1"># Display results</span>
-<span class="linenos">60</span><span class="nb">print</span><span class="p">(</span><span class="s1">'df:</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
-<span class="linenos">61</span><span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
-<span class="linenos">62</span><span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">df_insert:</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
-<span class="linenos">63</span><span class="nb">print</span><span class="p">(</span><span class="n">df_insert</span><span class="p">)</span>
-<span class="linenos">64</span><span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">df_delete:</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
-<span class="linenos">65</span><span class="nb">print</span><span class="p">(</span><span class="n">df_delete</span><span class="p">)</span>
-<span class="linenos">66</span><span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">df_update:</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
-<span class="linenos">67</span><span class="nb">print</span><span class="p">(</span><span class="n">df_update</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">msdss_base_database.core</span> <span class="kn">import</span> <span class="n">Database</span>
+
+<span class="c1"># Initiate a connection with the default test user and database</span>
+<span class="n">db</span> <span class="o">=</span> <span class="n">Database</span><span class="p">(</span>
+    <span class="n">driver</span><span class="o">=</span><span class="s2">"postgresql"</span><span class="p">,</span>
+    <span class="n">user</span><span class="o">=</span><span class="s2">"msdss"</span><span class="p">,</span>
+    <span class="n">password</span><span class="o">=</span><span class="s2">"msdss123"</span><span class="p">,</span>
+    <span class="n">host</span><span class="o">=</span><span class="s2">"localhost"</span><span class="p">,</span>
+    <span class="n">port</span><span class="o">=</span><span class="s2">"5432"</span><span class="p">,</span>
+    <span class="n">database</span><span class="o">=</span><span class="s2">"msdss"</span>
+<span class="p">)</span>
+
+<span class="c1"># Check if the table exists and drop if it does</span>
+<span class="k">if</span> <span class="n">db</span><span class="o">.</span><span class="n">has_table</span><span class="p">(</span><span class="s2">"test_table"</span><span class="p">):</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">drop_table</span><span class="p">(</span><span class="s2">"test_table"</span><span class="p">)</span>
+
+<span class="c1"># Create sample table</span>
+<span class="n">columns</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="nb">dict</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'id'</span><span class="p">,</span> <span class="n">type_</span><span class="o">=</span><span class="s1">'Integer'</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">'column_one'</span><span class="p">,</span> <span class="s1">'String'</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">'column_two'</span><span class="p">,</span> <span class="s1">'Integer'</span><span class="p">)</span>
+<span class="p">]</span>
+<span class="n">db</span><span class="o">.</span><span class="n">create_table</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">,</span> <span class="n">columns</span><span class="p">)</span>
+
+<span class="c1"># Write sample data</span>
+<span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">'id'</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
+    <span class="s1">'column_one'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'a'</span><span class="p">,</span> <span class="s1">'b'</span><span class="p">,</span> <span class="s1">'c'</span><span class="p">],</span>
+    <span class="s1">'column_two'</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">]</span>
+<span class="p">}</span>
+<span class="n">db</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+
+<span class="c1"># Read the table to a pandas dataframe</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">)</span>
+
+<span class="c1"># Insert values into the table</span>
+<span class="n">new</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">'id'</span><span class="p">:</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">],</span>
+    <span class="s1">'column_one'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'e'</span><span class="p">,</span> <span class="s1">'f'</span><span class="p">,</span> <span class="s1">'g'</span><span class="p">],</span>
+    <span class="s1">'column_two'</span><span class="p">:</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">14</span><span class="p">]</span>
+<span class="p">}</span>
+<span class="n">db</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">,</span> <span class="n">new</span><span class="p">)</span>
+<span class="n">df_insert</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">)</span>
+
+<span class="c1"># Delete rows from the table</span>
+<span class="n">db</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span>
+    <span class="s1">'test_table'</span><span class="p">,</span>
+    <span class="n">where</span><span class="o">=</span><span class="p">(</span><span class="s1">'id'</span><span class="p">,</span> <span class="s1">'='</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="n">df_delete</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">)</span>
+
+<span class="c1"># Update values in table</span>
+<span class="n">db</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+    <span class="s1">'test_table'</span><span class="p">,</span>
+    <span class="n">where</span><span class="o">=</span><span class="p">(</span><span class="s1">'id'</span><span class="p">,</span> <span class="s1">'&gt;'</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
+    <span class="n">values</span><span class="o">=</span><span class="p">{</span><span class="s1">'column_one'</span><span class="p">:</span> <span class="s1">'AA'</span><span class="p">})</span>
+<span class="n">df_update</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">)</span>
+
+<span class="c1"># Display results</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'df:</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">df_insert:</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df_insert</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">df_delete:</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df_delete</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">df_update:</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df_update</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -518,78 +521,78 @@ If a list of str, then it must have the same number of elements as <code class="
 <p class="rubric">Example</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">from</span> <span class="nn">msdss_base_database.core</span> <span class="kn">import</span> <span class="n">Database</span>
-<span class="linenos"> 2</span>
-<span class="linenos"> 3</span><span class="c1"># Setup database</span>
-<span class="linenos"> 4</span><span class="n">db</span> <span class="o">=</span> <span class="n">Database</span><span class="p">()</span>
-<span class="linenos"> 5</span>
-<span class="linenos"> 6</span><span class="c1"># Check if the table exists and drop if it does</span>
-<span class="linenos"> 7</span><span class="k">if</span> <span class="n">db</span><span class="o">.</span><span class="n">has_table</span><span class="p">(</span><span class="s2">"test_table"</span><span class="p">):</span>
-<span class="linenos"> 8</span>    <span class="n">db</span><span class="o">.</span><span class="n">drop_table</span><span class="p">(</span><span class="s2">"test_table"</span><span class="p">)</span>
-<span class="linenos"> 9</span>
-<span class="linenos">10</span><span class="c1"># Create sample table</span>
-<span class="linenos">11</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span>
-<span class="linenos">12</span>    <span class="nb">dict</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'id'</span><span class="p">,</span> <span class="n">type_</span><span class="o">=</span><span class="s1">'Integer'</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
-<span class="linenos">13</span>    <span class="p">(</span><span class="s1">'column_one'</span><span class="p">,</span> <span class="s1">'String'</span><span class="p">),</span>
-<span class="linenos">14</span>    <span class="p">(</span><span class="s1">'column_two'</span><span class="p">,</span> <span class="s1">'Integer'</span><span class="p">)</span>
-<span class="linenos">15</span><span class="p">]</span>
-<span class="linenos">16</span><span class="n">db</span><span class="o">.</span><span class="n">create_table</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">,</span> <span class="n">columns</span><span class="p">)</span>
-<span class="linenos">17</span>
-<span class="linenos">18</span><span class="c1"># Select columns and limit to 6 rows</span>
-<span class="linenos">19</span><span class="n">sql_limit</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">_build_query</span><span class="p">(</span>
-<span class="linenos">20</span>    <span class="s1">'test_table'</span><span class="p">,</span>
-<span class="linenos">21</span>    <span class="n">select</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'column_one'</span><span class="p">,</span> <span class="s1">'column_two'</span><span class="p">],</span>
-<span class="linenos">22</span>    <span class="n">limit</span><span class="o">=</span><span class="mi">6</span>
-<span class="linenos">23</span><span class="p">)</span>
-<span class="linenos">24</span>
-<span class="linenos">25</span><span class="c1"># Select columns with where statement</span>
-<span class="linenos">26</span><span class="n">sql_where</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">_build_query</span><span class="p">(</span>
-<span class="linenos">27</span>    <span class="s1">'test_table'</span><span class="p">,</span>
-<span class="linenos">28</span>    <span class="n">select</span><span class="o">=</span><span class="s1">'column_one'</span><span class="p">,</span>
-<span class="linenos">29</span>    <span class="n">where</span><span class="o">=</span><span class="p">[(</span><span class="s1">'column_two'</span><span class="p">,</span> <span class="s1">'&lt;'</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="s1">'column_one'</span><span class="p">,</span> <span class="s1">'='</span><span class="p">,</span> <span class="s1">'b'</span><span class="p">)],</span>
-<span class="linenos">30</span>    <span class="n">where_boolean</span><span class="o">=</span><span class="s1">'AND'</span>
-<span class="linenos">31</span><span class="p">)</span>
-<span class="linenos">32</span>
-<span class="linenos">33</span><span class="c1"># Select columns and order each column</span>
-<span class="linenos">34</span><span class="n">sql_order</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">_build_query</span><span class="p">(</span>
-<span class="linenos">35</span>    <span class="s1">'test_table'</span><span class="p">,</span>
-<span class="linenos">36</span>    <span class="n">select</span><span class="o">=</span><span class="p">[</span><span class="s1">'column_one'</span><span class="p">,</span> <span class="s1">'column_two'</span><span class="p">],</span>
-<span class="linenos">37</span>    <span class="n">order_by</span><span class="o">=</span><span class="p">[</span><span class="s1">'column_one'</span><span class="p">,</span> <span class="s1">'column_two'</span><span class="p">],</span>
-<span class="linenos">38</span>    <span class="n">order_by_sort</span><span class="o">=</span><span class="p">[</span><span class="s1">'asc'</span><span class="p">,</span> <span class="s1">'desc'</span><span class="p">]</span>
-<span class="linenos">39</span><span class="p">)</span>
-<span class="linenos">40</span>
-<span class="linenos">41</span><span class="c1"># Select columns, group, and aggregate data</span>
-<span class="linenos">42</span><span class="n">sql_agg</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">_build_query</span><span class="p">(</span>
-<span class="linenos">43</span>    <span class="s1">'test_table'</span><span class="p">,</span>
-<span class="linenos">44</span>    <span class="n">select</span><span class="o">=</span><span class="s1">'column_one'</span><span class="p">,</span>
-<span class="linenos">45</span>    <span class="n">group_by</span><span class="o">=</span><span class="s1">'column_one'</span><span class="p">,</span>
-<span class="linenos">46</span>    <span class="n">aggregate</span><span class="o">=</span><span class="p">[</span><span class="s1">'column_two'</span><span class="p">,</span> <span class="s1">'column_one'</span><span class="p">],</span>
-<span class="linenos">47</span>    <span class="n">aggregate_func</span><span class="o">=</span><span class="p">[</span><span class="s1">'sum'</span><span class="p">,</span> <span class="s1">'count'</span><span class="p">]</span>
-<span class="linenos">48</span><span class="p">)</span>
-<span class="linenos">49</span>
-<span class="linenos">50</span><span class="c1"># Update rows</span>
-<span class="linenos">51</span><span class="n">sql_update</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">_build_query</span><span class="p">(</span>
-<span class="linenos">52</span>    <span class="s1">'test_table'</span><span class="p">,</span>
-<span class="linenos">53</span>    <span class="n">where</span><span class="o">=</span><span class="p">[(</span><span class="s1">'id'</span><span class="p">,</span> <span class="s1">'='</span><span class="p">,</span> <span class="mi">1</span><span class="p">)],</span>
-<span class="linenos">54</span>    <span class="n">values</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">column_one</span><span class="o">=</span><span class="s1">'A'</span><span class="p">),</span>
-<span class="linenos">55</span>    <span class="n">update</span><span class="o">=</span><span class="kc">True</span>
-<span class="linenos">56</span><span class="p">)</span>
-<span class="linenos">57</span>
-<span class="linenos">58</span><span class="c1"># Delete rows</span>
-<span class="linenos">59</span><span class="n">sql_delete</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">_build_query</span><span class="p">(</span>
-<span class="linenos">60</span>    <span class="s1">'test_table'</span><span class="p">,</span>
-<span class="linenos">61</span>    <span class="n">where</span><span class="o">=</span><span class="p">[(</span><span class="s1">'column_two'</span><span class="p">,</span> <span class="s1">'&lt;'</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="s1">'column_one'</span><span class="p">,</span> <span class="s1">'='</span><span class="p">,</span> <span class="s1">'a'</span><span class="p">)],</span>
-<span class="linenos">62</span>    <span class="n">where_boolean</span><span class="o">=</span><span class="s1">'OR'</span><span class="p">,</span>
-<span class="linenos">63</span>    <span class="n">delete</span><span class="o">=</span><span class="kc">True</span>
-<span class="linenos">64</span><span class="p">)</span>
-<span class="linenos">65</span>
-<span class="linenos">66</span><span class="c1"># Display gen statements</span>
-<span class="linenos">67</span><span class="nb">print</span><span class="p">(</span><span class="s1">'sql_limit:</span><span class="se">\n\n</span><span class="s1">'</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">sql_limit</span><span class="p">))</span>
-<span class="linenos">68</span><span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">sql_where:</span><span class="se">\n\n</span><span class="s1">'</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">sql_where</span><span class="p">))</span>
-<span class="linenos">69</span><span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">sql_order:</span><span class="se">\n\n</span><span class="s1">'</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">sql_order</span><span class="p">))</span>
-<span class="linenos">70</span><span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">sql_agg:</span><span class="se">\n\n</span><span class="s1">'</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">sql_agg</span><span class="p">))</span>
-<span class="linenos">71</span><span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">sql_update:</span><span class="se">\n\n</span><span class="s1">'</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">sql_update</span><span class="p">))</span>
-<span class="linenos">72</span><span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">sql_delete:</span><span class="se">\n\n</span><span class="s1">'</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">sql_delete</span><span class="p">))</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">msdss_base_database.core</span> <span class="kn">import</span> <span class="n">Database</span>
+
+<span class="c1"># Setup database</span>
+<span class="n">db</span> <span class="o">=</span> <span class="n">Database</span><span class="p">()</span>
+
+<span class="c1"># Check if the table exists and drop if it does</span>
+<span class="k">if</span> <span class="n">db</span><span class="o">.</span><span class="n">has_table</span><span class="p">(</span><span class="s2">"test_table"</span><span class="p">):</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">drop_table</span><span class="p">(</span><span class="s2">"test_table"</span><span class="p">)</span>
+
+<span class="c1"># Create sample table</span>
+<span class="n">columns</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="nb">dict</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'id'</span><span class="p">,</span> <span class="n">type_</span><span class="o">=</span><span class="s1">'Integer'</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">'column_one'</span><span class="p">,</span> <span class="s1">'String'</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">'column_two'</span><span class="p">,</span> <span class="s1">'Integer'</span><span class="p">)</span>
+<span class="p">]</span>
+<span class="n">db</span><span class="o">.</span><span class="n">create_table</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">,</span> <span class="n">columns</span><span class="p">)</span>
+
+<span class="c1"># Select columns and limit to 6 rows</span>
+<span class="n">sql_limit</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">_build_query</span><span class="p">(</span>
+    <span class="s1">'test_table'</span><span class="p">,</span>
+    <span class="n">select</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'column_one'</span><span class="p">,</span> <span class="s1">'column_two'</span><span class="p">],</span>
+    <span class="n">limit</span><span class="o">=</span><span class="mi">6</span>
+<span class="p">)</span>
+
+<span class="c1"># Select columns with where statement</span>
+<span class="n">sql_where</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">_build_query</span><span class="p">(</span>
+    <span class="s1">'test_table'</span><span class="p">,</span>
+    <span class="n">select</span><span class="o">=</span><span class="s1">'column_one'</span><span class="p">,</span>
+    <span class="n">where</span><span class="o">=</span><span class="p">[(</span><span class="s1">'column_two'</span><span class="p">,</span> <span class="s1">'&lt;'</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="s1">'column_one'</span><span class="p">,</span> <span class="s1">'='</span><span class="p">,</span> <span class="s1">'b'</span><span class="p">)],</span>
+    <span class="n">where_boolean</span><span class="o">=</span><span class="s1">'AND'</span>
+<span class="p">)</span>
+
+<span class="c1"># Select columns and order each column</span>
+<span class="n">sql_order</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">_build_query</span><span class="p">(</span>
+    <span class="s1">'test_table'</span><span class="p">,</span>
+    <span class="n">select</span><span class="o">=</span><span class="p">[</span><span class="s1">'column_one'</span><span class="p">,</span> <span class="s1">'column_two'</span><span class="p">],</span>
+    <span class="n">order_by</span><span class="o">=</span><span class="p">[</span><span class="s1">'column_one'</span><span class="p">,</span> <span class="s1">'column_two'</span><span class="p">],</span>
+    <span class="n">order_by_sort</span><span class="o">=</span><span class="p">[</span><span class="s1">'asc'</span><span class="p">,</span> <span class="s1">'desc'</span><span class="p">]</span>
+<span class="p">)</span>
+
+<span class="c1"># Select columns, group, and aggregate data</span>
+<span class="n">sql_agg</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">_build_query</span><span class="p">(</span>
+    <span class="s1">'test_table'</span><span class="p">,</span>
+    <span class="n">select</span><span class="o">=</span><span class="s1">'column_one'</span><span class="p">,</span>
+    <span class="n">group_by</span><span class="o">=</span><span class="s1">'column_one'</span><span class="p">,</span>
+    <span class="n">aggregate</span><span class="o">=</span><span class="p">[</span><span class="s1">'column_two'</span><span class="p">,</span> <span class="s1">'column_one'</span><span class="p">],</span>
+    <span class="n">aggregate_func</span><span class="o">=</span><span class="p">[</span><span class="s1">'sum'</span><span class="p">,</span> <span class="s1">'count'</span><span class="p">]</span>
+<span class="p">)</span>
+
+<span class="c1"># Update rows</span>
+<span class="n">sql_update</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">_build_query</span><span class="p">(</span>
+    <span class="s1">'test_table'</span><span class="p">,</span>
+    <span class="n">where</span><span class="o">=</span><span class="p">[(</span><span class="s1">'id'</span><span class="p">,</span> <span class="s1">'='</span><span class="p">,</span> <span class="mi">1</span><span class="p">)],</span>
+    <span class="n">values</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">column_one</span><span class="o">=</span><span class="s1">'A'</span><span class="p">),</span>
+    <span class="n">update</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+
+<span class="c1"># Delete rows</span>
+<span class="n">sql_delete</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">_build_query</span><span class="p">(</span>
+    <span class="s1">'test_table'</span><span class="p">,</span>
+    <span class="n">where</span><span class="o">=</span><span class="p">[(</span><span class="s1">'column_two'</span><span class="p">,</span> <span class="s1">'&lt;'</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="s1">'column_one'</span><span class="p">,</span> <span class="s1">'='</span><span class="p">,</span> <span class="s1">'a'</span><span class="p">)],</span>
+    <span class="n">where_boolean</span><span class="o">=</span><span class="s1">'OR'</span><span class="p">,</span>
+    <span class="n">delete</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+
+<span class="c1"># Display gen statements</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'sql_limit:</span><span class="se">\n\n</span><span class="s1">'</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">sql_limit</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">sql_where:</span><span class="se">\n\n</span><span class="s1">'</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">sql_where</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">sql_order:</span><span class="se">\n\n</span><span class="s1">'</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">sql_order</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">sql_agg:</span><span class="se">\n\n</span><span class="s1">'</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">sql_agg</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">sql_update:</span><span class="se">\n\n</span><span class="s1">'</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">sql_update</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">sql_delete:</span><span class="se">\n\n</span><span class="s1">'</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">sql_delete</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -655,32 +658,32 @@ DELETE FROM test_table WHERE test_table.column_two &lt; %(column_two_1)s OR test
 <p class="rubric">Example</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">from</span> <span class="nn">msdss_base_database.core</span> <span class="kn">import</span> <span class="n">Database</span>
-<span class="linenos"> 2</span><span class="n">db</span> <span class="o">=</span> <span class="n">Database</span><span class="p">()</span>
-<span class="linenos"> 3</span>
-<span class="linenos"> 4</span><span class="c1"># Check if the table exists and drop if it does</span>
-<span class="linenos"> 5</span><span class="k">if</span> <span class="n">db</span><span class="o">.</span><span class="n">has_table</span><span class="p">(</span><span class="s2">"test_table"</span><span class="p">):</span>
-<span class="linenos"> 6</span>    <span class="n">db</span><span class="o">.</span><span class="n">drop_table</span><span class="p">(</span><span class="s2">"test_table"</span><span class="p">)</span>
-<span class="linenos"> 7</span>
-<span class="linenos"> 8</span><span class="c1"># Create sample table</span>
-<span class="linenos"> 9</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span>
-<span class="linenos">10</span>    <span class="nb">dict</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'id'</span><span class="p">,</span> <span class="n">type_</span><span class="o">=</span><span class="s1">'Integer'</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
-<span class="linenos">11</span>    <span class="p">(</span><span class="s1">'column_one'</span><span class="p">,</span> <span class="s1">'String'</span><span class="p">),</span>
-<span class="linenos">12</span>    <span class="p">(</span><span class="s1">'column_two'</span><span class="p">,</span> <span class="s1">'Integer'</span><span class="p">)</span>
-<span class="linenos">13</span><span class="p">]</span>
-<span class="linenos">14</span><span class="n">db</span><span class="o">.</span><span class="n">create_table</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">,</span> <span class="n">columns</span><span class="p">)</span>
-<span class="linenos">15</span>
-<span class="linenos">16</span><span class="c1"># Write sample data</span>
-<span class="linenos">17</span><span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
-<span class="linenos">18</span>    <span class="s1">'id'</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
-<span class="linenos">19</span>    <span class="s1">'column_one'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'a'</span><span class="p">,</span> <span class="s1">'b'</span><span class="p">,</span> <span class="s1">'c'</span><span class="p">],</span>
-<span class="linenos">20</span>    <span class="s1">'column_two'</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">]</span>
-<span class="linenos">21</span><span class="p">}</span>
-<span class="linenos">22</span><span class="n">db</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
-<span class="linenos">23</span>
-<span class="linenos">24</span><span class="c1"># Get data from query</span>
-<span class="linenos">25</span><span class="n">cursor</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">_execute_query</span><span class="p">(</span><span class="s1">'SELECT * FROM test_table LIMIT 5;'</span><span class="p">)</span>
-<span class="linenos">26</span><span class="n">cursor</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">_execute_query</span><span class="p">(</span><span class="s1">'SELECT column_one, column_two FROM test_table WHERE column_two &gt; 3;'</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">msdss_base_database.core</span> <span class="kn">import</span> <span class="n">Database</span>
+<span class="n">db</span> <span class="o">=</span> <span class="n">Database</span><span class="p">()</span>
+
+<span class="c1"># Check if the table exists and drop if it does</span>
+<span class="k">if</span> <span class="n">db</span><span class="o">.</span><span class="n">has_table</span><span class="p">(</span><span class="s2">"test_table"</span><span class="p">):</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">drop_table</span><span class="p">(</span><span class="s2">"test_table"</span><span class="p">)</span>
+
+<span class="c1"># Create sample table</span>
+<span class="n">columns</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="nb">dict</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'id'</span><span class="p">,</span> <span class="n">type_</span><span class="o">=</span><span class="s1">'Integer'</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">'column_one'</span><span class="p">,</span> <span class="s1">'String'</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">'column_two'</span><span class="p">,</span> <span class="s1">'Integer'</span><span class="p">)</span>
+<span class="p">]</span>
+<span class="n">db</span><span class="o">.</span><span class="n">create_table</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">,</span> <span class="n">columns</span><span class="p">)</span>
+
+<span class="c1"># Write sample data</span>
+<span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">'id'</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
+    <span class="s1">'column_one'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'a'</span><span class="p">,</span> <span class="s1">'b'</span><span class="p">,</span> <span class="s1">'c'</span><span class="p">],</span>
+    <span class="s1">'column_two'</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">]</span>
+<span class="p">}</span>
+<span class="n">db</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+
+<span class="c1"># Get data from query</span>
+<span class="n">cursor</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">_execute_query</span><span class="p">(</span><span class="s1">'SELECT * FROM test_table LIMIT 5;'</span><span class="p">)</span>
+<span class="n">cursor</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">_execute_query</span><span class="p">(</span><span class="s1">'SELECT column_one, column_two FROM test_table WHERE column_two &gt; 3;'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -715,24 +718,24 @@ DELETE FROM test_table WHERE test_table.column_two &lt; %(column_two_1)s OR test
 <p class="rubric">Example</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">from</span> <span class="nn">msdss_base_database.core</span> <span class="kn">import</span> <span class="n">Database</span>
-<span class="linenos"> 2</span><span class="n">db</span> <span class="o">=</span> <span class="n">Database</span><span class="p">()</span>
-<span class="linenos"> 3</span>
-<span class="linenos"> 4</span><span class="c1"># Check if the table exists and drop if it does</span>
-<span class="linenos"> 5</span><span class="k">if</span> <span class="n">db</span><span class="o">.</span><span class="n">has_table</span><span class="p">(</span><span class="s2">"test_table"</span><span class="p">):</span>
-<span class="linenos"> 6</span>    <span class="n">db</span><span class="o">.</span><span class="n">drop_table</span><span class="p">(</span><span class="s2">"test_table"</span><span class="p">)</span>
-<span class="linenos"> 7</span>
-<span class="linenos"> 8</span><span class="c1"># Create sample table</span>
-<span class="linenos"> 9</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span>
-<span class="linenos">10</span>    <span class="nb">dict</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'id'</span><span class="p">,</span> <span class="n">type_</span><span class="o">=</span><span class="s1">'Integer'</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
-<span class="linenos">11</span>    <span class="p">(</span><span class="s1">'column_one'</span><span class="p">,</span> <span class="s1">'String'</span><span class="p">),</span>
-<span class="linenos">12</span>    <span class="p">(</span><span class="s1">'column_two'</span><span class="p">,</span> <span class="s1">'Integer'</span><span class="p">)</span>
-<span class="linenos">13</span><span class="p">]</span>
-<span class="linenos">14</span><span class="n">db</span><span class="o">.</span><span class="n">create_table</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">,</span> <span class="n">columns</span><span class="p">)</span>
-<span class="linenos">15</span>
-<span class="linenos">16</span><span class="c1"># Get the table object</span>
-<span class="linenos">17</span><span class="n">tb</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">_get_table</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">)</span>
-<span class="linenos">18</span><span class="nb">print</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">tb</span><span class="p">))</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">msdss_base_database.core</span> <span class="kn">import</span> <span class="n">Database</span>
+<span class="n">db</span> <span class="o">=</span> <span class="n">Database</span><span class="p">()</span>
+
+<span class="c1"># Check if the table exists and drop if it does</span>
+<span class="k">if</span> <span class="n">db</span><span class="o">.</span><span class="n">has_table</span><span class="p">(</span><span class="s2">"test_table"</span><span class="p">):</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">drop_table</span><span class="p">(</span><span class="s2">"test_table"</span><span class="p">)</span>
+
+<span class="c1"># Create sample table</span>
+<span class="n">columns</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="nb">dict</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'id'</span><span class="p">,</span> <span class="n">type_</span><span class="o">=</span><span class="s1">'Integer'</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">'column_one'</span><span class="p">,</span> <span class="s1">'String'</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">'column_two'</span><span class="p">,</span> <span class="s1">'Integer'</span><span class="p">)</span>
+<span class="p">]</span>
+<span class="n">db</span><span class="o">.</span><span class="n">create_table</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">,</span> <span class="n">columns</span><span class="p">)</span>
+
+<span class="c1"># Get the table object</span>
+<span class="n">tb</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">_get_table</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">tb</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -775,19 +778,19 @@ DELETE FROM test_table WHERE test_table.column_two &lt; %(column_two_1)s OR test
 <p class="rubric">Example</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">from</span> <span class="nn">msdss_base_database.core</span> <span class="kn">import</span> <span class="n">Database</span>
-<span class="linenos"> 2</span><span class="n">db</span> <span class="o">=</span> <span class="n">Database</span><span class="p">()</span>
-<span class="linenos"> 3</span>
-<span class="linenos"> 4</span><span class="c1"># Create column definitions</span>
-<span class="linenos"> 5</span><span class="n">clist</span> <span class="o">=</span> <span class="p">[</span>
-<span class="linenos"> 6</span>    <span class="nb">dict</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'id'</span><span class="p">,</span> <span class="n">type_</span><span class="o">=</span><span class="s1">'Integer'</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
-<span class="linenos"> 7</span>    <span class="nb">dict</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'column_one'</span><span class="p">,</span> <span class="n">type_</span><span class="o">=</span><span class="s1">'String'</span><span class="p">),</span>
-<span class="linenos"> 8</span>    <span class="nb">dict</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'column_two'</span><span class="p">,</span> <span class="n">type_</span><span class="o">=</span><span class="s1">'Integer'</span><span class="p">)</span>
-<span class="linenos"> 9</span><span class="p">]</span>
-<span class="linenos">10</span>
-<span class="linenos">11</span><span class="c1"># Convert to sqlalchemy column objects</span>
-<span class="linenos">12</span><span class="n">columns</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">_list_to_columns</span><span class="p">(</span><span class="n">clist</span><span class="p">)</span>
-<span class="linenos">13</span><span class="nb">print</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">columns</span><span class="p">))</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">msdss_base_database.core</span> <span class="kn">import</span> <span class="n">Database</span>
+<span class="n">db</span> <span class="o">=</span> <span class="n">Database</span><span class="p">()</span>
+
+<span class="c1"># Create column definitions</span>
+<span class="n">clist</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="nb">dict</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'id'</span><span class="p">,</span> <span class="n">type_</span><span class="o">=</span><span class="s1">'Integer'</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+    <span class="nb">dict</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'column_one'</span><span class="p">,</span> <span class="n">type_</span><span class="o">=</span><span class="s1">'String'</span><span class="p">),</span>
+    <span class="nb">dict</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'column_two'</span><span class="p">,</span> <span class="n">type_</span><span class="o">=</span><span class="s1">'Integer'</span><span class="p">)</span>
+<span class="p">]</span>
+
+<span class="c1"># Convert to sqlalchemy column objects</span>
+<span class="n">columns</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">_list_to_columns</span><span class="p">(</span><span class="n">clist</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">columns</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -823,22 +826,22 @@ DELETE FROM test_table WHERE test_table.column_two &lt; %(column_two_1)s OR test
 <p class="rubric">Example</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">from</span> <span class="nn">msdss_base_database</span> <span class="kn">import</span> <span class="n">Database</span>
-<span class="linenos"> 2</span>
-<span class="linenos"> 3</span><span class="c1"># Setup database</span>
-<span class="linenos"> 4</span><span class="n">db</span> <span class="o">=</span> <span class="n">Database</span><span class="p">()</span>
-<span class="linenos"> 5</span>
-<span class="linenos"> 6</span><span class="c1"># Check if the table exists and drop if it does</span>
-<span class="linenos"> 7</span><span class="k">if</span> <span class="n">db</span><span class="o">.</span><span class="n">has_table</span><span class="p">(</span><span class="s2">"test_table"</span><span class="p">):</span>
-<span class="linenos"> 8</span>    <span class="n">db</span><span class="o">.</span><span class="n">drop_table</span><span class="p">(</span><span class="s2">"test_table"</span><span class="p">)</span>
-<span class="linenos"> 9</span>
-<span class="linenos">10</span><span class="c1"># Write data to table</span>
-<span class="linenos">11</span><span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
-<span class="linenos">12</span>    <span class="s1">'id'</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
-<span class="linenos">13</span>    <span class="s1">'column_one'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'a'</span><span class="p">,</span> <span class="s1">'b'</span><span class="p">,</span> <span class="s1">'c'</span><span class="p">],</span>
-<span class="linenos">14</span>    <span class="s1">'column_two'</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">]</span>
-<span class="linenos">15</span><span class="p">}</span>
-<span class="linenos">16</span><span class="n">db</span><span class="o">.</span><span class="n">_write_data</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">if_exists</span> <span class="o">=</span> <span class="s1">'replace'</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">msdss_base_database</span> <span class="kn">import</span> <span class="n">Database</span>
+
+<span class="c1"># Setup database</span>
+<span class="n">db</span> <span class="o">=</span> <span class="n">Database</span><span class="p">()</span>
+
+<span class="c1"># Check if the table exists and drop if it does</span>
+<span class="k">if</span> <span class="n">db</span><span class="o">.</span><span class="n">has_table</span><span class="p">(</span><span class="s2">"test_table"</span><span class="p">):</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">drop_table</span><span class="p">(</span><span class="s2">"test_table"</span><span class="p">)</span>
+
+<span class="c1"># Write data to table</span>
+<span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">'id'</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
+    <span class="s1">'column_one'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'a'</span><span class="p">,</span> <span class="s1">'b'</span><span class="p">,</span> <span class="s1">'c'</span><span class="p">],</span>
+    <span class="s1">'column_two'</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">]</span>
+<span class="p">}</span>
+<span class="n">db</span><span class="o">.</span><span class="n">_write_data</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">if_exists</span> <span class="o">=</span> <span class="s1">'replace'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -873,28 +876,28 @@ DELETE FROM test_table WHERE test_table.column_two &lt; %(column_two_1)s OR test
 <p class="rubric">Example</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">from</span> <span class="nn">msdss_base_database</span> <span class="kn">import</span> <span class="n">Database</span>
-<span class="linenos"> 2</span>
-<span class="linenos"> 3</span><span class="c1"># Setup database</span>
-<span class="linenos"> 4</span><span class="n">db</span> <span class="o">=</span> <span class="n">Database</span><span class="p">()</span>
-<span class="linenos"> 5</span>
-<span class="linenos"> 6</span><span class="c1"># Drop table if exists</span>
-<span class="linenos"> 7</span><span class="k">if</span> <span class="n">db</span><span class="o">.</span><span class="n">has_table</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">):</span>
-<span class="linenos"> 8</span>    <span class="n">db</span><span class="o">.</span><span class="n">drop_table</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">)</span>
-<span class="linenos"> 9</span>
-<span class="linenos">10</span><span class="c1"># Create column definitions</span>
-<span class="linenos">11</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span>
-<span class="linenos">12</span>    <span class="nb">dict</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'id'</span><span class="p">,</span> <span class="n">type_</span><span class="o">=</span><span class="s1">'Integer'</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
-<span class="linenos">13</span>    <span class="nb">dict</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'column_one'</span><span class="p">,</span> <span class="n">type_</span><span class="o">=</span><span class="s1">'String'</span><span class="p">),</span>
-<span class="linenos">14</span>    <span class="nb">dict</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'column_two'</span><span class="p">,</span> <span class="n">type_</span><span class="o">=</span><span class="s1">'Integer'</span><span class="p">)</span>
-<span class="linenos">15</span><span class="p">]</span>
-<span class="linenos">16</span>
-<span class="linenos">17</span><span class="c1"># Create the table</span>
-<span class="linenos">18</span><span class="n">db</span><span class="o">.</span><span class="n">create_table</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">,</span> <span class="n">columns</span><span class="p">)</span>
-<span class="linenos">19</span>
-<span class="linenos">20</span><span class="c1"># View the table</span>
-<span class="linenos">21</span><span class="n">df</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">)</span>
-<span class="linenos">22</span><span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">msdss_base_database</span> <span class="kn">import</span> <span class="n">Database</span>
+
+<span class="c1"># Setup database</span>
+<span class="n">db</span> <span class="o">=</span> <span class="n">Database</span><span class="p">()</span>
+
+<span class="c1"># Drop table if exists</span>
+<span class="k">if</span> <span class="n">db</span><span class="o">.</span><span class="n">has_table</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">):</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">drop_table</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">)</span>
+
+<span class="c1"># Create column definitions</span>
+<span class="n">columns</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="nb">dict</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'id'</span><span class="p">,</span> <span class="n">type_</span><span class="o">=</span><span class="s1">'Integer'</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+    <span class="nb">dict</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'column_one'</span><span class="p">,</span> <span class="n">type_</span><span class="o">=</span><span class="s1">'String'</span><span class="p">),</span>
+    <span class="nb">dict</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'column_two'</span><span class="p">,</span> <span class="n">type_</span><span class="o">=</span><span class="s1">'Integer'</span><span class="p">)</span>
+<span class="p">]</span>
+
+<span class="c1"># Create the table</span>
+<span class="n">db</span><span class="o">.</span><span class="n">create_table</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">,</span> <span class="n">columns</span><span class="p">)</span>
+
+<span class="c1"># View the table</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -931,52 +934,52 @@ See parameter <code class="docutils literal notranslate"><span class="pre">where
 <p class="rubric">Example</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">from</span> <span class="nn">msdss_base_database.core</span> <span class="kn">import</span> <span class="n">Database</span>
-<span class="linenos"> 2</span><span class="n">db</span> <span class="o">=</span> <span class="n">Database</span><span class="p">()</span>
-<span class="linenos"> 3</span>
-<span class="linenos"> 4</span><span class="c1"># Check if the table exists and drop if it does</span>
-<span class="linenos"> 5</span><span class="k">if</span> <span class="n">db</span><span class="o">.</span><span class="n">has_table</span><span class="p">(</span><span class="s2">"test_table"</span><span class="p">):</span>
-<span class="linenos"> 6</span>    <span class="n">db</span><span class="o">.</span><span class="n">drop_table</span><span class="p">(</span><span class="s2">"test_table"</span><span class="p">)</span>
-<span class="linenos"> 7</span>
-<span class="linenos"> 8</span><span class="c1"># Create sample table</span>
-<span class="linenos"> 9</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span>
-<span class="linenos">10</span>    <span class="nb">dict</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'id'</span><span class="p">,</span> <span class="n">type_</span><span class="o">=</span><span class="s1">'Integer'</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
-<span class="linenos">11</span>    <span class="p">(</span><span class="s1">'column_one'</span><span class="p">,</span> <span class="s1">'String'</span><span class="p">),</span>
-<span class="linenos">12</span>    <span class="p">(</span><span class="s1">'column_two'</span><span class="p">,</span> <span class="s1">'Integer'</span><span class="p">)</span>
-<span class="linenos">13</span><span class="p">]</span>
-<span class="linenos">14</span><span class="n">db</span><span class="o">.</span><span class="n">create_table</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">,</span> <span class="n">columns</span><span class="p">)</span>
-<span class="linenos">15</span>
-<span class="linenos">16</span><span class="c1"># Write sample data</span>
-<span class="linenos">17</span><span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
-<span class="linenos">18</span>    <span class="s1">'id'</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
-<span class="linenos">19</span>    <span class="s1">'column_one'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'a'</span><span class="p">,</span> <span class="s1">'b'</span><span class="p">,</span> <span class="s1">'c'</span><span class="p">],</span>
-<span class="linenos">20</span>    <span class="s1">'column_two'</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">]</span>
-<span class="linenos">21</span><span class="p">}</span>
-<span class="linenos">22</span><span class="n">db</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
-<span class="linenos">23</span><span class="n">df</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">)</span>
-<span class="linenos">24</span>
-<span class="linenos">25</span><span class="c1"># Delete a row with matching id</span>
-<span class="linenos">26</span><span class="n">db</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span>
-<span class="linenos">27</span>    <span class="s1">'test_table'</span><span class="p">,</span>
-<span class="linenos">28</span>    <span class="n">where</span><span class="o">=</span><span class="p">(</span><span class="s1">'id'</span><span class="p">,</span> <span class="s1">'='</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-<span class="linenos">29</span><span class="p">)</span>
-<span class="linenos">30</span><span class="n">df_delete_id</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">)</span>
-<span class="linenos">31</span>
-<span class="linenos">32</span><span class="c1"># Delete a row with matching query</span>
-<span class="linenos">33</span><span class="n">db</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span>
-<span class="linenos">34</span>    <span class="s1">'test_table'</span><span class="p">,</span>
-<span class="linenos">35</span>    <span class="n">where</span><span class="o">=</span><span class="p">[(</span><span class="s1">'id'</span><span class="p">,</span> <span class="s1">'&lt;'</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="s1">'column_one'</span><span class="p">,</span> <span class="s1">'='</span><span class="p">,</span> <span class="s1">'c'</span><span class="p">)],</span>
-<span class="linenos">36</span>    <span class="n">where_boolean</span><span class="o">=</span><span class="s1">'OR'</span>
-<span class="linenos">37</span><span class="p">)</span>
-<span class="linenos">38</span><span class="n">df_delete_where</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">)</span>
-<span class="linenos">39</span>
-<span class="linenos">40</span><span class="c1"># Print results</span>
-<span class="linenos">41</span><span class="nb">print</span><span class="p">(</span><span class="s1">'df:</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
-<span class="linenos">42</span><span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
-<span class="linenos">43</span><span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">df_delete_id:</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
-<span class="linenos">44</span><span class="nb">print</span><span class="p">(</span><span class="n">df_delete_id</span><span class="p">)</span>
-<span class="linenos">45</span><span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">df_delete_where:</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
-<span class="linenos">46</span><span class="nb">print</span><span class="p">(</span><span class="n">df_delete_where</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">msdss_base_database.core</span> <span class="kn">import</span> <span class="n">Database</span>
+<span class="n">db</span> <span class="o">=</span> <span class="n">Database</span><span class="p">()</span>
+
+<span class="c1"># Check if the table exists and drop if it does</span>
+<span class="k">if</span> <span class="n">db</span><span class="o">.</span><span class="n">has_table</span><span class="p">(</span><span class="s2">"test_table"</span><span class="p">):</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">drop_table</span><span class="p">(</span><span class="s2">"test_table"</span><span class="p">)</span>
+
+<span class="c1"># Create sample table</span>
+<span class="n">columns</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="nb">dict</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'id'</span><span class="p">,</span> <span class="n">type_</span><span class="o">=</span><span class="s1">'Integer'</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">'column_one'</span><span class="p">,</span> <span class="s1">'String'</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">'column_two'</span><span class="p">,</span> <span class="s1">'Integer'</span><span class="p">)</span>
+<span class="p">]</span>
+<span class="n">db</span><span class="o">.</span><span class="n">create_table</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">,</span> <span class="n">columns</span><span class="p">)</span>
+
+<span class="c1"># Write sample data</span>
+<span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">'id'</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
+    <span class="s1">'column_one'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'a'</span><span class="p">,</span> <span class="s1">'b'</span><span class="p">,</span> <span class="s1">'c'</span><span class="p">],</span>
+    <span class="s1">'column_two'</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">]</span>
+<span class="p">}</span>
+<span class="n">db</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">)</span>
+
+<span class="c1"># Delete a row with matching id</span>
+<span class="n">db</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span>
+    <span class="s1">'test_table'</span><span class="p">,</span>
+    <span class="n">where</span><span class="o">=</span><span class="p">(</span><span class="s1">'id'</span><span class="p">,</span> <span class="s1">'='</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="n">df_delete_id</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">)</span>
+
+<span class="c1"># Delete a row with matching query</span>
+<span class="n">db</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span>
+    <span class="s1">'test_table'</span><span class="p">,</span>
+    <span class="n">where</span><span class="o">=</span><span class="p">[(</span><span class="s1">'id'</span><span class="p">,</span> <span class="s1">'&lt;'</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="s1">'column_one'</span><span class="p">,</span> <span class="s1">'='</span><span class="p">,</span> <span class="s1">'c'</span><span class="p">)],</span>
+    <span class="n">where_boolean</span><span class="o">=</span><span class="s1">'OR'</span>
+<span class="p">)</span>
+<span class="n">df_delete_where</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">)</span>
+
+<span class="c1"># Print results</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'df:</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">df_delete_id:</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df_delete_id</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">df_delete_where:</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df_delete_where</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1025,29 +1028,29 @@ Index: []
 <p class="rubric">Example</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">from</span> <span class="nn">msdss_base_database.core</span> <span class="kn">import</span> <span class="n">Database</span>
-<span class="linenos"> 2</span><span class="n">db</span> <span class="o">=</span> <span class="n">Database</span><span class="p">()</span>
-<span class="linenos"> 3</span>
-<span class="linenos"> 4</span><span class="c1"># Check if the table exists and drop if it does</span>
-<span class="linenos"> 5</span><span class="k">if</span> <span class="n">db</span><span class="o">.</span><span class="n">has_table</span><span class="p">(</span><span class="s2">"test_table"</span><span class="p">):</span>
-<span class="linenos"> 6</span>    <span class="n">db</span><span class="o">.</span><span class="n">drop_table</span><span class="p">(</span><span class="s2">"test_table"</span><span class="p">)</span>
-<span class="linenos"> 7</span>
-<span class="linenos"> 8</span><span class="c1"># Create sample table</span>
-<span class="linenos"> 9</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span>
-<span class="linenos">10</span>    <span class="nb">dict</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'id'</span><span class="p">,</span> <span class="n">type_</span><span class="o">=</span><span class="s1">'Integer'</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
-<span class="linenos">11</span>    <span class="p">(</span><span class="s1">'column_one'</span><span class="p">,</span> <span class="s1">'String'</span><span class="p">),</span>
-<span class="linenos">12</span>    <span class="p">(</span><span class="s1">'column_two'</span><span class="p">,</span> <span class="s1">'Integer'</span><span class="p">)</span>
-<span class="linenos">13</span><span class="p">]</span>
-<span class="linenos">14</span><span class="n">db</span><span class="o">.</span><span class="n">create_table</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">,</span> <span class="n">columns</span><span class="p">)</span>
-<span class="linenos">15</span><span class="n">before_drop</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">has_table</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">)</span>
-<span class="linenos">16</span>
-<span class="linenos">17</span><span class="c1"># Drop the table</span>
-<span class="linenos">18</span><span class="n">db</span><span class="o">.</span><span class="n">drop_table</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">)</span>
-<span class="linenos">19</span><span class="n">after_drop</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">has_table</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">)</span>
-<span class="linenos">20</span>
-<span class="linenos">21</span><span class="c1"># Print results</span>
-<span class="linenos">22</span><span class="nb">print</span><span class="p">(</span><span class="s1">'before_drop: '</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">before_drop</span><span class="p">))</span>
-<span class="linenos">23</span><span class="nb">print</span><span class="p">(</span><span class="s1">'after_drop: '</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">after_drop</span><span class="p">))</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">msdss_base_database.core</span> <span class="kn">import</span> <span class="n">Database</span>
+<span class="n">db</span> <span class="o">=</span> <span class="n">Database</span><span class="p">()</span>
+
+<span class="c1"># Check if the table exists and drop if it does</span>
+<span class="k">if</span> <span class="n">db</span><span class="o">.</span><span class="n">has_table</span><span class="p">(</span><span class="s2">"test_table"</span><span class="p">):</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">drop_table</span><span class="p">(</span><span class="s2">"test_table"</span><span class="p">)</span>
+
+<span class="c1"># Create sample table</span>
+<span class="n">columns</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="nb">dict</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'id'</span><span class="p">,</span> <span class="n">type_</span><span class="o">=</span><span class="s1">'Integer'</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">'column_one'</span><span class="p">,</span> <span class="s1">'String'</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">'column_two'</span><span class="p">,</span> <span class="s1">'Integer'</span><span class="p">)</span>
+<span class="p">]</span>
+<span class="n">db</span><span class="o">.</span><span class="n">create_table</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">,</span> <span class="n">columns</span><span class="p">)</span>
+<span class="n">before_drop</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">has_table</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">)</span>
+
+<span class="c1"># Drop the table</span>
+<span class="n">db</span><span class="o">.</span><span class="n">drop_table</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">)</span>
+<span class="n">after_drop</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">has_table</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">)</span>
+
+<span class="c1"># Print results</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'before_drop: '</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">before_drop</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'after_drop: '</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">after_drop</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -1086,28 +1089,28 @@ after_drop: False
 <p class="rubric">Example</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">from</span> <span class="nn">msdss_base_database.core</span> <span class="kn">import</span> <span class="n">Database</span>
-<span class="linenos"> 2</span><span class="n">db</span> <span class="o">=</span> <span class="n">Database</span><span class="p">()</span>
-<span class="linenos"> 3</span>
-<span class="linenos"> 4</span><span class="c1"># Drop the table if it exists</span>
-<span class="linenos"> 5</span><span class="k">if</span> <span class="n">db</span><span class="o">.</span><span class="n">has_table</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">):</span>
-<span class="linenos"> 6</span>    <span class="n">db</span><span class="o">.</span><span class="n">drop_table</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">)</span>
-<span class="linenos"> 7</span><span class="n">before_create</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">has_table</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">)</span> <span class="c1"># False</span>
-<span class="linenos"> 8</span>
-<span class="linenos"> 9</span><span class="c1"># Create sample table</span>
-<span class="linenos">10</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span>
-<span class="linenos">11</span>    <span class="nb">dict</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'id'</span><span class="p">,</span> <span class="n">type_</span><span class="o">=</span><span class="s1">'Integer'</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
-<span class="linenos">12</span>    <span class="p">(</span><span class="s1">'column_one'</span><span class="p">,</span> <span class="s1">'String'</span><span class="p">),</span>
-<span class="linenos">13</span>    <span class="p">(</span><span class="s1">'column_two'</span><span class="p">,</span> <span class="s1">'Integer'</span><span class="p">)</span>
-<span class="linenos">14</span><span class="p">]</span>
-<span class="linenos">15</span><span class="n">db</span><span class="o">.</span><span class="n">create_table</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">,</span> <span class="n">columns</span><span class="p">)</span>
-<span class="linenos">16</span>
-<span class="linenos">17</span><span class="c1"># Check if table exists again</span>
-<span class="linenos">18</span><span class="n">after_create</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">has_table</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">)</span> <span class="c1"># True</span>
-<span class="linenos">19</span>
-<span class="linenos">20</span><span class="c1"># Print results</span>
-<span class="linenos">21</span><span class="nb">print</span><span class="p">(</span><span class="s1">'before_create: '</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">before_create</span><span class="p">))</span>
-<span class="linenos">22</span><span class="nb">print</span><span class="p">(</span><span class="s1">'after_create: '</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">after_create</span><span class="p">))</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">msdss_base_database.core</span> <span class="kn">import</span> <span class="n">Database</span>
+<span class="n">db</span> <span class="o">=</span> <span class="n">Database</span><span class="p">()</span>
+
+<span class="c1"># Drop the table if it exists</span>
+<span class="k">if</span> <span class="n">db</span><span class="o">.</span><span class="n">has_table</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">):</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">drop_table</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">)</span>
+<span class="n">before_create</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">has_table</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">)</span> <span class="c1"># False</span>
+
+<span class="c1"># Create sample table</span>
+<span class="n">columns</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="nb">dict</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'id'</span><span class="p">,</span> <span class="n">type_</span><span class="o">=</span><span class="s1">'Integer'</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">'column_one'</span><span class="p">,</span> <span class="s1">'String'</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">'column_two'</span><span class="p">,</span> <span class="s1">'Integer'</span><span class="p">)</span>
+<span class="p">]</span>
+<span class="n">db</span><span class="o">.</span><span class="n">create_table</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">,</span> <span class="n">columns</span><span class="p">)</span>
+
+<span class="c1"># Check if table exists again</span>
+<span class="n">after_create</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">has_table</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">)</span> <span class="c1"># True</span>
+
+<span class="c1"># Print results</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'before_create: '</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">before_create</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'after_create: '</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">after_create</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -1141,49 +1144,49 @@ after_create: True
 <p class="rubric">Example</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">from</span> <span class="nn">msdss_base_database</span> <span class="kn">import</span> <span class="n">Database</span>
-<span class="linenos"> 2</span>
-<span class="linenos"> 3</span><span class="c1"># Setup database</span>
-<span class="linenos"> 4</span><span class="n">db</span> <span class="o">=</span> <span class="n">Database</span><span class="p">()</span>
-<span class="linenos"> 5</span>
-<span class="linenos"> 6</span><span class="c1"># Check if the table exists and drop if it does</span>
-<span class="linenos"> 7</span><span class="k">if</span> <span class="n">db</span><span class="o">.</span><span class="n">has_table</span><span class="p">(</span><span class="s2">"test_table"</span><span class="p">):</span>
-<span class="linenos"> 8</span>    <span class="n">db</span><span class="o">.</span><span class="n">drop_table</span><span class="p">(</span><span class="s2">"test_table"</span><span class="p">)</span>
-<span class="linenos"> 9</span>
-<span class="linenos">10</span><span class="c1"># Create sample table</span>
-<span class="linenos">11</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span>
-<span class="linenos">12</span>    <span class="nb">dict</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'id'</span><span class="p">,</span> <span class="n">type_</span><span class="o">=</span><span class="s1">'Integer'</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
-<span class="linenos">13</span>    <span class="p">(</span><span class="s1">'column_one'</span><span class="p">,</span> <span class="s1">'String'</span><span class="p">),</span>
-<span class="linenos">14</span>    <span class="p">(</span><span class="s1">'column_two'</span><span class="p">,</span> <span class="s1">'Integer'</span><span class="p">)</span>
-<span class="linenos">15</span><span class="p">]</span>
-<span class="linenos">16</span><span class="n">db</span><span class="o">.</span><span class="n">create_table</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">,</span> <span class="n">columns</span><span class="p">)</span>
-<span class="linenos">17</span><span class="n">df</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">)</span>
-<span class="linenos">18</span>
-<span class="linenos">19</span><span class="c1"># Write data to table</span>
-<span class="linenos">20</span><span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
-<span class="linenos">21</span>    <span class="s1">'id'</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
-<span class="linenos">22</span>    <span class="s1">'column_one'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'a'</span><span class="p">,</span> <span class="s1">'b'</span><span class="p">,</span> <span class="s1">'c'</span><span class="p">],</span>
-<span class="linenos">23</span>    <span class="s1">'column_two'</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">]</span>
-<span class="linenos">24</span><span class="p">}</span>
-<span class="linenos">25</span><span class="n">db</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
-<span class="linenos">26</span><span class="n">df_insert</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">)</span>
-<span class="linenos">27</span>
-<span class="linenos">28</span><span class="c1"># Insert more new values to table</span>
-<span class="linenos">29</span><span class="n">more_new</span> <span class="o">=</span> <span class="p">{</span>
-<span class="linenos">30</span>    <span class="s1">'id'</span><span class="p">:</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">],</span>
-<span class="linenos">31</span>    <span class="s1">'column_one'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'e'</span><span class="p">,</span> <span class="s1">'f'</span><span class="p">,</span> <span class="s1">'g'</span><span class="p">],</span>
-<span class="linenos">32</span>    <span class="s1">'column_two'</span><span class="p">:</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">14</span><span class="p">]</span>
-<span class="linenos">33</span><span class="p">}</span>
-<span class="linenos">34</span><span class="n">db</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">,</span> <span class="n">more_new</span><span class="p">)</span>
-<span class="linenos">35</span><span class="n">df_insert_more</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">)</span>
-<span class="linenos">36</span>
-<span class="linenos">37</span><span class="c1"># Display results</span>
-<span class="linenos">38</span><span class="nb">print</span><span class="p">(</span><span class="s1">'df:</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
-<span class="linenos">39</span><span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
-<span class="linenos">40</span><span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">df_insert:</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
-<span class="linenos">41</span><span class="nb">print</span><span class="p">(</span><span class="n">df_insert</span><span class="p">)</span>
-<span class="linenos">42</span><span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">df_insert_more:</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
-<span class="linenos">43</span><span class="nb">print</span><span class="p">(</span><span class="n">df_insert_more</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">msdss_base_database</span> <span class="kn">import</span> <span class="n">Database</span>
+
+<span class="c1"># Setup database</span>
+<span class="n">db</span> <span class="o">=</span> <span class="n">Database</span><span class="p">()</span>
+
+<span class="c1"># Check if the table exists and drop if it does</span>
+<span class="k">if</span> <span class="n">db</span><span class="o">.</span><span class="n">has_table</span><span class="p">(</span><span class="s2">"test_table"</span><span class="p">):</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">drop_table</span><span class="p">(</span><span class="s2">"test_table"</span><span class="p">)</span>
+
+<span class="c1"># Create sample table</span>
+<span class="n">columns</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="nb">dict</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'id'</span><span class="p">,</span> <span class="n">type_</span><span class="o">=</span><span class="s1">'Integer'</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">'column_one'</span><span class="p">,</span> <span class="s1">'String'</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">'column_two'</span><span class="p">,</span> <span class="s1">'Integer'</span><span class="p">)</span>
+<span class="p">]</span>
+<span class="n">db</span><span class="o">.</span><span class="n">create_table</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">,</span> <span class="n">columns</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">)</span>
+
+<span class="c1"># Write data to table</span>
+<span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">'id'</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
+    <span class="s1">'column_one'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'a'</span><span class="p">,</span> <span class="s1">'b'</span><span class="p">,</span> <span class="s1">'c'</span><span class="p">],</span>
+    <span class="s1">'column_two'</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">]</span>
+<span class="p">}</span>
+<span class="n">db</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+<span class="n">df_insert</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">)</span>
+
+<span class="c1"># Insert more new values to table</span>
+<span class="n">more_new</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">'id'</span><span class="p">:</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">],</span>
+    <span class="s1">'column_one'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'e'</span><span class="p">,</span> <span class="s1">'f'</span><span class="p">,</span> <span class="s1">'g'</span><span class="p">],</span>
+    <span class="s1">'column_two'</span><span class="p">:</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">14</span><span class="p">]</span>
+<span class="p">}</span>
+<span class="n">db</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">,</span> <span class="n">more_new</span><span class="p">)</span>
+<span class="n">df_insert_more</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">)</span>
+
+<span class="c1"># Display results</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'df:</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">df_insert:</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df_insert</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">df_insert_more:</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df_insert_more</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1259,79 +1262,79 @@ If a list of str, then it must have the same number of elements as <code class="
 <p class="rubric">Example</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">from</span> <span class="nn">msdss_base_database.core</span> <span class="kn">import</span> <span class="n">Database</span>
-<span class="linenos"> 2</span>
-<span class="linenos"> 3</span><span class="c1"># Setup database</span>
-<span class="linenos"> 4</span><span class="n">db</span> <span class="o">=</span> <span class="n">Database</span><span class="p">()</span>
-<span class="linenos"> 5</span>
-<span class="linenos"> 6</span><span class="c1"># Check if the table exists and drop if it does</span>
-<span class="linenos"> 7</span><span class="k">if</span> <span class="n">db</span><span class="o">.</span><span class="n">has_table</span><span class="p">(</span><span class="s2">"test_table"</span><span class="p">):</span>
-<span class="linenos"> 8</span>    <span class="n">db</span><span class="o">.</span><span class="n">drop_table</span><span class="p">(</span><span class="s2">"test_table"</span><span class="p">)</span>
-<span class="linenos"> 9</span>
-<span class="linenos">10</span><span class="c1"># Create sample table</span>
-<span class="linenos">11</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span>
-<span class="linenos">12</span>    <span class="nb">dict</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'id'</span><span class="p">,</span> <span class="n">type_</span><span class="o">=</span><span class="s1">'Integer'</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
-<span class="linenos">13</span>    <span class="p">(</span><span class="s1">'column_one'</span><span class="p">,</span> <span class="s1">'String'</span><span class="p">),</span>
-<span class="linenos">14</span>    <span class="p">(</span><span class="s1">'column_two'</span><span class="p">,</span> <span class="s1">'Integer'</span><span class="p">)</span>
-<span class="linenos">15</span><span class="p">]</span>
-<span class="linenos">16</span><span class="n">db</span><span class="o">.</span><span class="n">create_table</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">,</span> <span class="n">columns</span><span class="p">)</span>
-<span class="linenos">17</span>
-<span class="linenos">18</span><span class="c1"># Write sample data</span>
-<span class="linenos">19</span><span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
-<span class="linenos">20</span>    <span class="s1">'id'</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
-<span class="linenos">21</span>    <span class="s1">'column_one'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'a'</span><span class="p">,</span> <span class="s1">'b'</span><span class="p">,</span> <span class="s1">'c'</span><span class="p">],</span>
-<span class="linenos">22</span>    <span class="s1">'column_two'</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">]</span>
-<span class="linenos">23</span><span class="p">}</span>
-<span class="linenos">24</span><span class="n">db</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
-<span class="linenos">25</span><span class="n">df</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">)</span>
-<span class="linenos">26</span>
-<span class="linenos">27</span><span class="c1"># Read data from table using select and limit</span>
-<span class="linenos">28</span><span class="n">data</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">select</span><span class="p">(</span>
-<span class="linenos">29</span>    <span class="s1">'test_table'</span><span class="p">,</span>
-<span class="linenos">30</span>    <span class="n">select</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'column_one'</span><span class="p">,</span> <span class="s1">'column_two'</span><span class="p">],</span>
-<span class="linenos">31</span>    <span class="n">limit</span> <span class="o">=</span> <span class="mi">5</span>
-<span class="linenos">32</span><span class="p">)</span>
-<span class="linenos">33</span><span class="n">df_select</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">)</span>
-<span class="linenos">34</span>
-<span class="linenos">35</span><span class="c1"># Use where statements</span>
-<span class="linenos">36</span><span class="n">data</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">select</span><span class="p">(</span>
-<span class="linenos">37</span>    <span class="s1">'test_table'</span><span class="p">,</span>
-<span class="linenos">38</span>    <span class="n">select</span> <span class="o">=</span> <span class="s1">'column_one'</span><span class="p">,</span>
-<span class="linenos">39</span>    <span class="n">where</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">'column_two'</span><span class="p">,</span> <span class="s1">'&lt;'</span><span class="p">,</span> <span class="s1">'15'</span><span class="p">),</span> <span class="p">(</span><span class="s1">'column_one'</span><span class="p">,</span> <span class="s1">'='</span><span class="p">,</span> <span class="s1">'b'</span><span class="p">)],</span>
-<span class="linenos">40</span>    <span class="n">where_boolean</span> <span class="o">=</span> <span class="s1">'AND'</span>
-<span class="linenos">41</span><span class="p">)</span>
-<span class="linenos">42</span><span class="n">df_where</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">)</span>
-<span class="linenos">43</span>
-<span class="linenos">44</span><span class="c1"># Order results</span>
-<span class="linenos">45</span><span class="n">data</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">select</span><span class="p">(</span>
-<span class="linenos">46</span>    <span class="s1">'test_table'</span><span class="p">,</span>
-<span class="linenos">47</span>    <span class="n">select</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'column_one'</span><span class="p">,</span> <span class="s1">'column_two'</span><span class="p">],</span>
-<span class="linenos">48</span>    <span class="n">order_by</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'column_one'</span><span class="p">,</span> <span class="s1">'column_two'</span><span class="p">],</span>
-<span class="linenos">49</span>    <span class="n">order_by_sort</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'asc'</span><span class="p">,</span> <span class="s1">'desc'</span><span class="p">]</span>
-<span class="linenos">50</span><span class="p">)</span>
-<span class="linenos">51</span><span class="n">df_order</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">)</span>
-<span class="linenos">52</span>
-<span class="linenos">53</span><span class="c1"># Aggregate read</span>
-<span class="linenos">54</span><span class="n">data</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">select</span><span class="p">(</span>
-<span class="linenos">55</span>    <span class="s1">'test_table'</span><span class="p">,</span>
-<span class="linenos">56</span>    <span class="n">select</span> <span class="o">=</span> <span class="s1">'column_one'</span><span class="p">,</span>
-<span class="linenos">57</span>    <span class="n">group_by</span> <span class="o">=</span> <span class="s1">'column_one'</span><span class="p">,</span>
-<span class="linenos">58</span>    <span class="n">aggregate</span> <span class="o">=</span> <span class="s1">'column_two'</span><span class="p">,</span>
-<span class="linenos">59</span>    <span class="n">aggregate_func</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'count'</span><span class="p">,</span> <span class="s1">'sum'</span><span class="p">]</span>
-<span class="linenos">60</span><span class="p">)</span>
-<span class="linenos">61</span><span class="n">df_agg</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">)</span>
-<span class="linenos">62</span>
-<span class="linenos">63</span><span class="c1"># Display results</span>
-<span class="linenos">64</span><span class="nb">print</span><span class="p">(</span><span class="s1">'df:</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
-<span class="linenos">65</span><span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
-<span class="linenos">66</span><span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">df_select:</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
-<span class="linenos">67</span><span class="nb">print</span><span class="p">(</span><span class="n">df_select</span><span class="p">)</span>
-<span class="linenos">68</span><span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">df_where:</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
-<span class="linenos">69</span><span class="nb">print</span><span class="p">(</span><span class="n">df_where</span><span class="p">)</span>
-<span class="linenos">70</span><span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">df_order:</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
-<span class="linenos">71</span><span class="nb">print</span><span class="p">(</span><span class="n">df_order</span><span class="p">)</span>
-<span class="linenos">72</span><span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">df_agg:</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
-<span class="linenos">73</span><span class="nb">print</span><span class="p">(</span><span class="n">df_agg</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">msdss_base_database.core</span> <span class="kn">import</span> <span class="n">Database</span>
+
+<span class="c1"># Setup database</span>
+<span class="n">db</span> <span class="o">=</span> <span class="n">Database</span><span class="p">()</span>
+
+<span class="c1"># Check if the table exists and drop if it does</span>
+<span class="k">if</span> <span class="n">db</span><span class="o">.</span><span class="n">has_table</span><span class="p">(</span><span class="s2">"test_table"</span><span class="p">):</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">drop_table</span><span class="p">(</span><span class="s2">"test_table"</span><span class="p">)</span>
+
+<span class="c1"># Create sample table</span>
+<span class="n">columns</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="nb">dict</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'id'</span><span class="p">,</span> <span class="n">type_</span><span class="o">=</span><span class="s1">'Integer'</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">'column_one'</span><span class="p">,</span> <span class="s1">'String'</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">'column_two'</span><span class="p">,</span> <span class="s1">'Integer'</span><span class="p">)</span>
+<span class="p">]</span>
+<span class="n">db</span><span class="o">.</span><span class="n">create_table</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">,</span> <span class="n">columns</span><span class="p">)</span>
+
+<span class="c1"># Write sample data</span>
+<span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">'id'</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
+    <span class="s1">'column_one'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'a'</span><span class="p">,</span> <span class="s1">'b'</span><span class="p">,</span> <span class="s1">'c'</span><span class="p">],</span>
+    <span class="s1">'column_two'</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">]</span>
+<span class="p">}</span>
+<span class="n">db</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">)</span>
+
+<span class="c1"># Read data from table using select and limit</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">select</span><span class="p">(</span>
+    <span class="s1">'test_table'</span><span class="p">,</span>
+    <span class="n">select</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'column_one'</span><span class="p">,</span> <span class="s1">'column_two'</span><span class="p">],</span>
+    <span class="n">limit</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="p">)</span>
+<span class="n">df_select</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">)</span>
+
+<span class="c1"># Use where statements</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">select</span><span class="p">(</span>
+    <span class="s1">'test_table'</span><span class="p">,</span>
+    <span class="n">select</span> <span class="o">=</span> <span class="s1">'column_one'</span><span class="p">,</span>
+    <span class="n">where</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">'column_two'</span><span class="p">,</span> <span class="s1">'&lt;'</span><span class="p">,</span> <span class="s1">'15'</span><span class="p">),</span> <span class="p">(</span><span class="s1">'column_one'</span><span class="p">,</span> <span class="s1">'='</span><span class="p">,</span> <span class="s1">'b'</span><span class="p">)],</span>
+    <span class="n">where_boolean</span> <span class="o">=</span> <span class="s1">'AND'</span>
+<span class="p">)</span>
+<span class="n">df_where</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">)</span>
+
+<span class="c1"># Order results</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">select</span><span class="p">(</span>
+    <span class="s1">'test_table'</span><span class="p">,</span>
+    <span class="n">select</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'column_one'</span><span class="p">,</span> <span class="s1">'column_two'</span><span class="p">],</span>
+    <span class="n">order_by</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'column_one'</span><span class="p">,</span> <span class="s1">'column_two'</span><span class="p">],</span>
+    <span class="n">order_by_sort</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'asc'</span><span class="p">,</span> <span class="s1">'desc'</span><span class="p">]</span>
+<span class="p">)</span>
+<span class="n">df_order</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">)</span>
+
+<span class="c1"># Aggregate read</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">select</span><span class="p">(</span>
+    <span class="s1">'test_table'</span><span class="p">,</span>
+    <span class="n">select</span> <span class="o">=</span> <span class="s1">'column_one'</span><span class="p">,</span>
+    <span class="n">group_by</span> <span class="o">=</span> <span class="s1">'column_one'</span><span class="p">,</span>
+    <span class="n">aggregate</span> <span class="o">=</span> <span class="s1">'column_two'</span><span class="p">,</span>
+    <span class="n">aggregate_func</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'count'</span><span class="p">,</span> <span class="s1">'sum'</span><span class="p">]</span>
+<span class="p">)</span>
+<span class="n">df_agg</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">)</span>
+
+<span class="c1"># Display results</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'df:</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">df_select:</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df_select</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">df_where:</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df_where</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">df_order:</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df_order</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">df_agg:</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df_agg</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1404,44 +1407,44 @@ df_agg:
 <p class="rubric">Example</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">from</span> <span class="nn">msdss_base_database</span> <span class="kn">import</span> <span class="n">Database</span>
-<span class="linenos"> 2</span>
-<span class="linenos"> 3</span><span class="c1"># Setup database</span>
-<span class="linenos"> 4</span><span class="n">db</span> <span class="o">=</span> <span class="n">Database</span><span class="p">()</span>
-<span class="linenos"> 5</span>
-<span class="linenos"> 6</span><span class="c1"># Check if the table exists and drop if it does</span>
-<span class="linenos"> 7</span><span class="k">if</span> <span class="n">db</span><span class="o">.</span><span class="n">has_table</span><span class="p">(</span><span class="s2">"test_table"</span><span class="p">):</span>
-<span class="linenos"> 8</span>    <span class="n">db</span><span class="o">.</span><span class="n">drop_table</span><span class="p">(</span><span class="s2">"test_table"</span><span class="p">)</span>
-<span class="linenos"> 9</span>
-<span class="linenos">10</span><span class="c1"># Create sample table</span>
-<span class="linenos">11</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span>
-<span class="linenos">12</span>    <span class="nb">dict</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'id'</span><span class="p">,</span> <span class="n">type_</span><span class="o">=</span><span class="s1">'Integer'</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
-<span class="linenos">13</span>    <span class="p">(</span><span class="s1">'column_one'</span><span class="p">,</span> <span class="s1">'String'</span><span class="p">),</span>
-<span class="linenos">14</span>    <span class="p">(</span><span class="s1">'column_two'</span><span class="p">,</span> <span class="s1">'Integer'</span><span class="p">)</span>
-<span class="linenos">15</span><span class="p">]</span>
-<span class="linenos">16</span><span class="n">db</span><span class="o">.</span><span class="n">create_table</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">,</span> <span class="n">columns</span><span class="p">)</span>
-<span class="linenos">17</span>
-<span class="linenos">18</span><span class="c1"># Write sample data</span>
-<span class="linenos">19</span><span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
-<span class="linenos">20</span>    <span class="s1">'id'</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
-<span class="linenos">21</span>    <span class="s1">'column_one'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'a'</span><span class="p">,</span> <span class="s1">'b'</span><span class="p">,</span> <span class="s1">'c'</span><span class="p">],</span>
-<span class="linenos">22</span>    <span class="s1">'column_two'</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">]</span>
-<span class="linenos">23</span><span class="p">}</span>
-<span class="linenos">24</span><span class="n">db</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
-<span class="linenos">25</span><span class="n">df</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">)</span>
-<span class="linenos">26</span>
-<span class="linenos">27</span><span class="c1"># Update values in table</span>
-<span class="linenos">28</span><span class="n">db</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
-<span class="linenos">29</span>    <span class="s1">'test_table'</span><span class="p">,</span>
-<span class="linenos">30</span>    <span class="n">where</span><span class="o">=</span><span class="p">(</span><span class="s1">'id'</span><span class="p">,</span> <span class="s1">'&gt;'</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
-<span class="linenos">31</span>    <span class="n">values</span><span class="o">=</span><span class="p">{</span><span class="s1">'column_one'</span><span class="p">:</span> <span class="s1">'AA'</span><span class="p">})</span>
-<span class="linenos">32</span><span class="n">df_update</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">)</span>
-<span class="linenos">33</span>
-<span class="linenos">34</span><span class="c1"># Print results</span>
-<span class="linenos">35</span><span class="nb">print</span><span class="p">(</span><span class="s1">'df:</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
-<span class="linenos">36</span><span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
-<span class="linenos">37</span><span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">df_update:</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
-<span class="linenos">38</span><span class="nb">print</span><span class="p">(</span><span class="n">df_update</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">msdss_base_database</span> <span class="kn">import</span> <span class="n">Database</span>
+
+<span class="c1"># Setup database</span>
+<span class="n">db</span> <span class="o">=</span> <span class="n">Database</span><span class="p">()</span>
+
+<span class="c1"># Check if the table exists and drop if it does</span>
+<span class="k">if</span> <span class="n">db</span><span class="o">.</span><span class="n">has_table</span><span class="p">(</span><span class="s2">"test_table"</span><span class="p">):</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">drop_table</span><span class="p">(</span><span class="s2">"test_table"</span><span class="p">)</span>
+
+<span class="c1"># Create sample table</span>
+<span class="n">columns</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="nb">dict</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'id'</span><span class="p">,</span> <span class="n">type_</span><span class="o">=</span><span class="s1">'Integer'</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">'column_one'</span><span class="p">,</span> <span class="s1">'String'</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">'column_two'</span><span class="p">,</span> <span class="s1">'Integer'</span><span class="p">)</span>
+<span class="p">]</span>
+<span class="n">db</span><span class="o">.</span><span class="n">create_table</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">,</span> <span class="n">columns</span><span class="p">)</span>
+
+<span class="c1"># Write sample data</span>
+<span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">'id'</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
+    <span class="s1">'column_one'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'a'</span><span class="p">,</span> <span class="s1">'b'</span><span class="p">,</span> <span class="s1">'c'</span><span class="p">],</span>
+    <span class="s1">'column_two'</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">]</span>
+<span class="p">}</span>
+<span class="n">db</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">)</span>
+
+<span class="c1"># Update values in table</span>
+<span class="n">db</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+    <span class="s1">'test_table'</span><span class="p">,</span>
+    <span class="n">where</span><span class="o">=</span><span class="p">(</span><span class="s1">'id'</span><span class="p">,</span> <span class="s1">'&gt;'</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+    <span class="n">values</span><span class="o">=</span><span class="p">{</span><span class="s1">'column_one'</span><span class="p">:</span> <span class="s1">'AA'</span><span class="p">})</span>
+<span class="n">df_update</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">'test_table'</span><span class="p">)</span>
+
+<span class="c1"># Print results</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'df:</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">df_update:</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df_update</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
