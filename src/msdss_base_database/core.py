@@ -3,6 +3,8 @@ import sqlalchemy
 
 from . import tools
 
+SUPPORTED_OPERATORS = ['=', '!=', '>', '>=', '>', '<', '<=', 'LIKE', 'NOTLIKE', 'ILIKE', 'NOTILIKE', 'CONTAINS', 'STARTSWITH', 'ENDSWITH']
+
 class Database:
     """
     Class for MSDSS database management.
@@ -197,8 +199,16 @@ class Database:
             List of column names or a single column name to filter or select from the table. If ``None`` then all columns will be selected.
         where : list of list or list of tuple or None
             list of where statements the form of ``['column_name', 'operator', value]`` to further filter individual values or rows.
-            
-            * Operators are one of: ``=``, ``>``, ``>=``, ``>``, ``<``, ``<=``, ``!='', ``LIKE``
+
+            * Operators are one of:
+
+                .. jupyter-execute::
+                    :hide-code:
+
+                    from msdss_base_database import SUPPORTED_OPERATORS
+                    for operator in SUPPORTED_OPERATORS:
+                        print(operator)
+                        
             * Values can be any single value such as ``int`` or ``str``
             * Examples: ``['column_two', '>', 2]``, ``['column_one', 'LIKE', 'a']``, ``[['column_two', '>', 2], ['column_one', 'LIKE', 'a']]``
         
@@ -364,6 +374,8 @@ class Database:
                 # (Database_build_query_where_convert_op) Convert to clause based on operator
                 if clause_op in ('=', '=='):
                     clause = target.c[clause_col] == clause_val
+                elif clause_op in ('!=', '!=='):
+                    clause = target.c[clause_col] != clause_val
                 elif clause_op == '>':
                     clause = target.c[clause_col] > clause_val
                 elif clause_op == '>=':
@@ -374,6 +386,20 @@ class Database:
                     clause = target.c[clause_col] <= clause_val
                 elif clause_op.lower() == 'like':
                     clause = target.c[clause_col].like(clause_val)
+                elif clause_op.lower() == 'notlike':
+                    clause = target.c[clause_col].notlike(clause_val)
+                elif clause_op.lower() == 'ilike':
+                    clause = target.c[clause_col].ilike(clause_val)
+                elif clause_op.lower() == 'notilike':
+                    clause = target.c[clause_col].notilike(clause_val)
+                elif clause_op.lower() == 'contains':
+                    clause = target.c[clause_col].contains(clause_val)
+                elif clause_op.lower() == 'startswith':
+                    clause = target.c[clause_col].startswith(clause_val)
+                elif clause_op.lower() == 'endswith':
+                    clause = target.c[clause_col].endswith(clause_val)
+                else:
+                    raise ValueError(clause_op + ' is not supported')
                 where_clauses.append(clause)
 
             # (Database_build_query_where_add) Add where clauses to select query
@@ -678,6 +704,19 @@ class Database:
             See parameter ``where`` in :meth:`msdss_base_database.core.Database._build_query`.
         where_boolean : str
             One of ``AND`` or ``OR`` to combine ``where`` statements with. Defaults to ``AND`` if not one of ``AND`` or ``OR``.
+            
+            * Operators are one of:
+
+                .. jupyter-execute::
+                    :hide-code:
+
+                    from msdss_base_database import SUPPORTED_OPERATORS
+                    for operator in SUPPORTED_OPERATORS:
+                        print(operator)
+                        
+            * Values can be any single value such as ``int`` or ``str``
+            * Examples: ``['column_two', '>', 2]``, ``['column_one', 'LIKE', 'a']``, ``[['column_two', '>', 2], ['column_one', 'LIKE', 'a']]``
+
         *args, **kwargs
             Additional arguments passed to :meth:`msdss_base_database.core.Database._execute_query`.
 
@@ -927,10 +966,18 @@ class Database:
         where : list of list or list of tuple or None
             list of where statements the form of ``['column_name', 'operator', value]`` to further filter individual values or rows.
             
-            * Operators are one of: ``=``, ``>``, ``>=``, ``>``, ``<``, ``<=``, ``!='', ``LIKE``
+            * Operators are one of:
+
+                .. jupyter-execute::
+                    :hide-code:
+
+                    from msdss_base_database import SUPPORTED_OPERATORS
+                    for operator in SUPPORTED_OPERATORS:
+                        print(operator)
+                        
             * Values can be any single value such as ``int`` or ``str``
-            * Examples: ``['column_two', '>', 2]``, ``['column_one', 'LIKE', 'a']``, ``[['column_two', '>', 2], ['column_one', 'LIKE', 'a']]``
-        
+            * Examples: ``['column_two', '>', 2]``, ``['column_one', 'LIKE', 'a']``, ``[['column_two', '>', 2], ['column_one', 'LIKE', 'a']]``            
+
         group_by : str or list(str) or None
             Single or list of column names to group by. This should be used with ``aggregate`` and ``aggregate_func``.
         aggregate : str or list(str) or None
@@ -1063,9 +1110,18 @@ class Database:
         where : list of list or list of tuple or None
             list of where statements the form of ``['column_name', 'operator', value]`` to update individual values or rows.
             
-            * Operators are one of: ``=``, ``>``, ``>=``, ``>``, ``<``, ``<=``, ``!='', ``LIKE``
+            * Operators are one of:
+
+                .. jupyter-execute::
+                    :hide-code:
+
+                    from msdss_base_database import SUPPORTED_OPERATORS
+                    for operator in SUPPORTED_OPERATORS:
+                        print(operator)
+                        
             * Values can be any single value such as ``int`` or ``str``
             * Examples: ``['column_two', '>', 2]``, ``['column_one', 'LIKE', 'a']``, ``[['column_two', '>', 2], ['column_one', 'LIKE', 'a']]``
+
         values : dict
             Dictionary representing values to update if they match the ``where`` parameter requirements.
         *args, **kwargs

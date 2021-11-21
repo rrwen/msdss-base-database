@@ -46,17 +46,20 @@
   
   
   
-    <title>msdss_base_database.core &#8212; 0.0.5</title>
+    <title>msdss_base_database.core &#8212; 0.0.6</title>
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/material.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/jupyter-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
     <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
     <script src="../../_static/jquery.js"></script>
     <script src="../../_static/underscore.js"></script>
     <script src="../../_static/doctools.js"></script>
     <script src="../../_static/thebelab-helper.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
@@ -84,11 +87,11 @@
   <nav class="md-header-nav md-grid">
     <div class="md-flex navheader">
       <div class="md-flex__cell md-flex__cell--shrink">
-        <a href="../../index.html" title="0.0.5"
+        <a href="../../index.html" title="0.0.6"
            class="md-header-nav__button md-logo">
           
               <img src="../../_static/logo.svg" height="26"
-                   alt="0.0.5 logo">
+                   alt="0.0.6 logo">
           
         </a>
       </div>
@@ -171,7 +174,7 @@
   <nav class="md-tabs" data-md-component="tabs">
     <div class="md-tabs__inner md-grid">
       <ul class="md-tabs__list">
-          <li class="md-tabs__item"><a href="../../index.html" class="md-tabs__link">0.0.5</a></li>
+          <li class="md-tabs__item"><a href="../../index.html" class="md-tabs__link">0.0.6</a></li>
           <li class="md-tabs__item"><a href="../index.html" class="md-tabs__link">Module code</a></li>
       </ul>
     </div>
@@ -184,13 +187,13 @@
               <div class="md-sidebar__inner">
                 <nav class="md-nav md-nav--primary" data-md-level="0">
   <label class="md-nav__title md-nav__title--site" for="__drawer">
-    <a href="../../index.html" title="0.0.5" class="md-nav__button md-logo">
+    <a href="../../index.html" title="0.0.6" class="md-nav__button md-logo">
       
         <img src="../../_static/logo.svg" alt=" logo" width="48" height="48">
       
     </a>
     <a href="../../index.html"
-       title="0.0.5">msdss-base-database</a>
+       title="0.0.6">msdss-base-database</a>
   </label>
     <div class="md-nav__source">
       <a href="https://github.com/rrwen/msdss-base-database/" title="Go to repository" class="md-source" data-md-source="github">
@@ -270,6 +273,8 @@
 <span class="kn">import</span> <span class="nn">sqlalchemy</span>
 
 <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">tools</span>
+
+<span class="n">SUPPORTED_OPERATORS</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'='</span><span class="p">,</span> <span class="s1">'!='</span><span class="p">,</span> <span class="s1">'&gt;'</span><span class="p">,</span> <span class="s1">'&gt;='</span><span class="p">,</span> <span class="s1">'&gt;'</span><span class="p">,</span> <span class="s1">'&lt;'</span><span class="p">,</span> <span class="s1">'&lt;='</span><span class="p">,</span> <span class="s1">'LIKE'</span><span class="p">,</span> <span class="s1">'NOTLIKE'</span><span class="p">,</span> <span class="s1">'ILIKE'</span><span class="p">,</span> <span class="s1">'NOTILIKE'</span><span class="p">,</span> <span class="s1">'CONTAINS'</span><span class="p">,</span> <span class="s1">'STARTSWITH'</span><span class="p">,</span> <span class="s1">'ENDSWITH'</span><span class="p">]</span>
 
 <div class="viewcode-block" id="Database"><a class="viewcode-back" href="../../reference/database.html#msdss_base_database.core.Database">[docs]</a><span class="k">class</span> <span class="nc">Database</span><span class="p">:</span>
     <span class="sd">"""</span>
@@ -465,8 +470,16 @@
 <span class="sd">            List of column names or a single column name to filter or select from the table. If ``None`` then all columns will be selected.</span>
 <span class="sd">        where : list of list or list of tuple or None</span>
 <span class="sd">            list of where statements the form of ``['column_name', 'operator', value]`` to further filter individual values or rows.</span>
-<span class="sd">            </span>
-<span class="sd">            * Operators are one of: ``=``, ``&gt;``, ``&gt;=``, ``&gt;``, ``&lt;``, ``&lt;=``, ``!='', ``LIKE``</span>
+
+<span class="sd">            * Operators are one of:</span>
+
+<span class="sd">                .. jupyter-execute::</span>
+<span class="sd">                    :hide-code:</span>
+
+<span class="sd">                    from msdss_base_database import SUPPORTED_OPERATORS</span>
+<span class="sd">                    for operator in SUPPORTED_OPERATORS:</span>
+<span class="sd">                        print(operator)</span>
+<span class="sd">                        </span>
 <span class="sd">            * Values can be any single value such as ``int`` or ``str``</span>
 <span class="sd">            * Examples: ``['column_two', '&gt;', 2]``, ``['column_one', 'LIKE', 'a']``, ``[['column_two', '&gt;', 2], ['column_one', 'LIKE', 'a']]``</span>
 <span class="sd">        </span>
@@ -632,6 +645,8 @@
                 <span class="c1"># (Database_build_query_where_convert_op) Convert to clause based on operator</span>
                 <span class="k">if</span> <span class="n">clause_op</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">'='</span><span class="p">,</span> <span class="s1">'=='</span><span class="p">):</span>
                     <span class="n">clause</span> <span class="o">=</span> <span class="n">target</span><span class="o">.</span><span class="n">c</span><span class="p">[</span><span class="n">clause_col</span><span class="p">]</span> <span class="o">==</span> <span class="n">clause_val</span>
+                <span class="k">elif</span> <span class="n">clause_op</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">'!='</span><span class="p">,</span> <span class="s1">'!=='</span><span class="p">):</span>
+                    <span class="n">clause</span> <span class="o">=</span> <span class="n">target</span><span class="o">.</span><span class="n">c</span><span class="p">[</span><span class="n">clause_col</span><span class="p">]</span> <span class="o">!=</span> <span class="n">clause_val</span>
                 <span class="k">elif</span> <span class="n">clause_op</span> <span class="o">==</span> <span class="s1">'&gt;'</span><span class="p">:</span>
                     <span class="n">clause</span> <span class="o">=</span> <span class="n">target</span><span class="o">.</span><span class="n">c</span><span class="p">[</span><span class="n">clause_col</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">clause_val</span>
                 <span class="k">elif</span> <span class="n">clause_op</span> <span class="o">==</span> <span class="s1">'&gt;='</span><span class="p">:</span>
@@ -642,6 +657,20 @@
                     <span class="n">clause</span> <span class="o">=</span> <span class="n">target</span><span class="o">.</span><span class="n">c</span><span class="p">[</span><span class="n">clause_col</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">clause_val</span>
                 <span class="k">elif</span> <span class="n">clause_op</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">'like'</span><span class="p">:</span>
                     <span class="n">clause</span> <span class="o">=</span> <span class="n">target</span><span class="o">.</span><span class="n">c</span><span class="p">[</span><span class="n">clause_col</span><span class="p">]</span><span class="o">.</span><span class="n">like</span><span class="p">(</span><span class="n">clause_val</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">clause_op</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">'notlike'</span><span class="p">:</span>
+                    <span class="n">clause</span> <span class="o">=</span> <span class="n">target</span><span class="o">.</span><span class="n">c</span><span class="p">[</span><span class="n">clause_col</span><span class="p">]</span><span class="o">.</span><span class="n">notlike</span><span class="p">(</span><span class="n">clause_val</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">clause_op</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">'ilike'</span><span class="p">:</span>
+                    <span class="n">clause</span> <span class="o">=</span> <span class="n">target</span><span class="o">.</span><span class="n">c</span><span class="p">[</span><span class="n">clause_col</span><span class="p">]</span><span class="o">.</span><span class="n">ilike</span><span class="p">(</span><span class="n">clause_val</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">clause_op</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">'notilike'</span><span class="p">:</span>
+                    <span class="n">clause</span> <span class="o">=</span> <span class="n">target</span><span class="o">.</span><span class="n">c</span><span class="p">[</span><span class="n">clause_col</span><span class="p">]</span><span class="o">.</span><span class="n">notilike</span><span class="p">(</span><span class="n">clause_val</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">clause_op</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">'contains'</span><span class="p">:</span>
+                    <span class="n">clause</span> <span class="o">=</span> <span class="n">target</span><span class="o">.</span><span class="n">c</span><span class="p">[</span><span class="n">clause_col</span><span class="p">]</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="n">clause_val</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">clause_op</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">'startswith'</span><span class="p">:</span>
+                    <span class="n">clause</span> <span class="o">=</span> <span class="n">target</span><span class="o">.</span><span class="n">c</span><span class="p">[</span><span class="n">clause_col</span><span class="p">]</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">clause_val</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">clause_op</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">'endswith'</span><span class="p">:</span>
+                    <span class="n">clause</span> <span class="o">=</span> <span class="n">target</span><span class="o">.</span><span class="n">c</span><span class="p">[</span><span class="n">clause_col</span><span class="p">]</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="n">clause_val</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">clause_op</span> <span class="o">+</span> <span class="s1">' is not supported'</span><span class="p">)</span>
                 <span class="n">where_clauses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">clause</span><span class="p">)</span>
 
             <span class="c1"># (Database_build_query_where_add) Add where clauses to select query</span>
@@ -946,6 +975,19 @@
 <span class="sd">            See parameter ``where`` in :meth:`msdss_base_database.core.Database._build_query`.</span>
 <span class="sd">        where_boolean : str</span>
 <span class="sd">            One of ``AND`` or ``OR`` to combine ``where`` statements with. Defaults to ``AND`` if not one of ``AND`` or ``OR``.</span>
+<span class="sd">            </span>
+<span class="sd">            * Operators are one of:</span>
+
+<span class="sd">                .. jupyter-execute::</span>
+<span class="sd">                    :hide-code:</span>
+
+<span class="sd">                    from msdss_base_database import SUPPORTED_OPERATORS</span>
+<span class="sd">                    for operator in SUPPORTED_OPERATORS:</span>
+<span class="sd">                        print(operator)</span>
+<span class="sd">                        </span>
+<span class="sd">            * Values can be any single value such as ``int`` or ``str``</span>
+<span class="sd">            * Examples: ``['column_two', '&gt;', 2]``, ``['column_one', 'LIKE', 'a']``, ``[['column_two', '&gt;', 2], ['column_one', 'LIKE', 'a']]``</span>
+
 <span class="sd">        *args, **kwargs</span>
 <span class="sd">            Additional arguments passed to :meth:`msdss_base_database.core.Database._execute_query`.</span>
 
@@ -1195,10 +1237,18 @@
 <span class="sd">        where : list of list or list of tuple or None</span>
 <span class="sd">            list of where statements the form of ``['column_name', 'operator', value]`` to further filter individual values or rows.</span>
 <span class="sd">            </span>
-<span class="sd">            * Operators are one of: ``=``, ``&gt;``, ``&gt;=``, ``&gt;``, ``&lt;``, ``&lt;=``, ``!='', ``LIKE``</span>
+<span class="sd">            * Operators are one of:</span>
+
+<span class="sd">                .. jupyter-execute::</span>
+<span class="sd">                    :hide-code:</span>
+
+<span class="sd">                    from msdss_base_database import SUPPORTED_OPERATORS</span>
+<span class="sd">                    for operator in SUPPORTED_OPERATORS:</span>
+<span class="sd">                        print(operator)</span>
+<span class="sd">                        </span>
 <span class="sd">            * Values can be any single value such as ``int`` or ``str``</span>
-<span class="sd">            * Examples: ``['column_two', '&gt;', 2]``, ``['column_one', 'LIKE', 'a']``, ``[['column_two', '&gt;', 2], ['column_one', 'LIKE', 'a']]``</span>
-<span class="sd">        </span>
+<span class="sd">            * Examples: ``['column_two', '&gt;', 2]``, ``['column_one', 'LIKE', 'a']``, ``[['column_two', '&gt;', 2], ['column_one', 'LIKE', 'a']]``            </span>
+
 <span class="sd">        group_by : str or list(str) or None</span>
 <span class="sd">            Single or list of column names to group by. This should be used with ``aggregate`` and ``aggregate_func``.</span>
 <span class="sd">        aggregate : str or list(str) or None</span>
@@ -1331,9 +1381,18 @@
 <span class="sd">        where : list of list or list of tuple or None</span>
 <span class="sd">            list of where statements the form of ``['column_name', 'operator', value]`` to update individual values or rows.</span>
 <span class="sd">            </span>
-<span class="sd">            * Operators are one of: ``=``, ``&gt;``, ``&gt;=``, ``&gt;``, ``&lt;``, ``&lt;=``, ``!='', ``LIKE``</span>
+<span class="sd">            * Operators are one of:</span>
+
+<span class="sd">                .. jupyter-execute::</span>
+<span class="sd">                    :hide-code:</span>
+
+<span class="sd">                    from msdss_base_database import SUPPORTED_OPERATORS</span>
+<span class="sd">                    for operator in SUPPORTED_OPERATORS:</span>
+<span class="sd">                        print(operator)</span>
+<span class="sd">                        </span>
 <span class="sd">            * Values can be any single value such as ``int`` or ``str``</span>
 <span class="sd">            * Examples: ``['column_two', '&gt;', 2]``, ``['column_one', 'LIKE', 'a']``, ``[['column_two', '&gt;', 2], ['column_one', 'LIKE', 'a']]``</span>
+
 <span class="sd">        values : dict</span>
 <span class="sd">            Dictionary representing values to update if they match the ``where`` parameter requirements.</span>
 <span class="sd">        *args, **kwargs</span>

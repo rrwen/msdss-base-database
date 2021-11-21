@@ -1,1 +1,1 @@
-from .core import Database
+from .core import *
