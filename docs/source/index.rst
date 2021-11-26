@@ -18,4 +18,4 @@ Richard Wen <rrwen.dev@gmail.com>
    install
    quickstart
    howitworks
-   reference/reference
+   reference/index

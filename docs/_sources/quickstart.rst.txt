@@ -16,11 +16,17 @@ After installing the package, set up environment variables using ``msdss-dotenv`
 In Python, use the package via :class:`msdss_base_database.core.Database` methods:
 
 .. jupyter-execute::
+   :hide-code:
+
+   from msdss_base_dotenv.tools import clear_env_file
+   clear_env_file()
+
+.. jupyter-execute::
 
    from msdss_base_database import Database
 
    # Initiate a connection, assuming env vars set
-   db = Database()
+   db = Database(env=True)
 
    # Check if the table exists and drop if it does
    if db.has_table("test_table"):
@@ -77,3 +83,9 @@ In Python, use the package via :class:`msdss_base_database.core.Database` method
    print(df_delete)
    print('\ndf_update:')
    print(df_update)
+
+.. jupyter-execute::
+   :hide-code:
+
+   from msdss_base_dotenv.tools import clear_env_file
+   clear_env_file()

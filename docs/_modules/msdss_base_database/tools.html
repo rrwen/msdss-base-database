@@ -46,17 +46,20 @@
   
   
   
-    <title>msdss_base_database.tools &#8212; 0.0.5</title>
+    <title>msdss_base_database.tools &#8212; 0.1.0</title>
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/material.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/jupyter-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
     <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
     <script src="../../_static/jquery.js"></script>
     <script src="../../_static/underscore.js"></script>
     <script src="../../_static/doctools.js"></script>
     <script src="../../_static/thebelab-helper.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
@@ -84,11 +87,11 @@
   <nav class="md-header-nav md-grid">
     <div class="md-flex navheader">
       <div class="md-flex__cell md-flex__cell--shrink">
-        <a href="../../index.html" title="0.0.5"
+        <a href="../../index.html" title="0.1.0"
            class="md-header-nav__button md-logo">
           
               <img src="../../_static/logo.svg" height="26"
-                   alt="0.0.5 logo">
+                   alt="0.1.0 logo">
           
         </a>
       </div>
@@ -171,7 +174,7 @@
   <nav class="md-tabs" data-md-component="tabs">
     <div class="md-tabs__inner md-grid">
       <ul class="md-tabs__list">
-          <li class="md-tabs__item"><a href="../../index.html" class="md-tabs__link">0.0.5</a></li>
+          <li class="md-tabs__item"><a href="../../index.html" class="md-tabs__link">0.1.0</a></li>
           <li class="md-tabs__item"><a href="../index.html" class="md-tabs__link">Module code</a></li>
       </ul>
     </div>
@@ -184,13 +187,13 @@
               <div class="md-sidebar__inner">
                 <nav class="md-nav md-nav--primary" data-md-level="0">
   <label class="md-nav__title md-nav__title--site" for="__drawer">
-    <a href="../../index.html" title="0.0.5" class="md-nav__button md-logo">
+    <a href="../../index.html" title="0.1.0" class="md-nav__button md-logo">
       
         <img src="../../_static/logo.svg" alt=" logo" width="48" height="48">
       
     </a>
     <a href="../../index.html"
-       title="0.0.5">msdss-base-database</a>
+       title="0.1.0">msdss-base-database</a>
   </label>
     <div class="md-nav__source">
       <a href="https://github.com/rrwen/msdss-base-database/" title="Go to repository" class="md-source" data-md-source="github">
@@ -269,60 +272,53 @@
 <span></span><span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">sqlalchemy</span>
 
-<span class="kn">from</span> <span class="nn">msdss_base_dotenv</span> <span class="kn">import</span> <span class="n">env_exists</span><span class="p">,</span> <span class="n">load_env_file</span>
+<span class="kn">from</span> <span class="nn">msdss_base_database.defaults</span> <span class="kn">import</span> <span class="n">DEFAULT_DOTENV_KWARGS</span>
+
+<span class="kn">from</span> <span class="nn">.env</span> <span class="kn">import</span> <span class="n">DatabaseDotEnv</span>
 
 <div class="viewcode-block" id="get_database_url"><a class="viewcode-back" href="../../reference/tools.html#msdss_base_database.tools.get_database_url">[docs]</a><span class="k">def</span> <span class="nf">get_database_url</span><span class="p">(</span>
-    <span class="n">driver</span><span class="o">=</span><span class="s1">'postgresql'</span><span class="p">,</span>
-    <span class="n">user</span><span class="o">=</span><span class="s1">'msdss'</span><span class="p">,</span>
-    <span class="n">password</span><span class="o">=</span><span class="s1">'msdss123'</span><span class="p">,</span>
-    <span class="n">host</span><span class="o">=</span><span class="s1">'localhost'</span><span class="p">,</span>
-    <span class="n">port</span><span class="o">=</span><span class="s1">'5432'</span><span class="p">,</span>
-    <span class="n">database</span><span class="o">=</span><span class="s1">'msdss'</span><span class="p">,</span>
-    <span class="n">load_env</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">env_file</span><span class="o">=</span><span class="s1">'./.env'</span><span class="p">,</span>
-    <span class="n">key_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-    <span class="n">driver_key</span><span class="o">=</span><span class="s1">'MSDSS_DATABASE_DRIVER'</span><span class="p">,</span>
-    <span class="n">user_key</span><span class="o">=</span><span class="s1">'MSDSS_DATABASE_USER'</span><span class="p">,</span>
-    <span class="n">password_key</span><span class="o">=</span><span class="s1">'MSDSS_DATABASE_PASSWORD'</span><span class="p">,</span>
-    <span class="n">host_key</span><span class="o">=</span><span class="s1">'MSDSS_DATABASE_HOST'</span><span class="p">,</span>
-    <span class="n">port_key</span><span class="o">=</span><span class="s1">'MSDSS_DATABASE_PORT'</span><span class="p">,</span>
-    <span class="n">database_key</span><span class="o">=</span><span class="s1">'MSDSS_DATABASE_NAME'</span><span class="p">,</span>
+    <span class="n">driver</span><span class="o">=</span><span class="n">DEFAULT_DOTENV_KWARGS</span><span class="p">[</span><span class="s1">'defaults'</span><span class="p">][</span><span class="s1">'driver'</span><span class="p">],</span>
+    <span class="n">user</span><span class="o">=</span><span class="n">DEFAULT_DOTENV_KWARGS</span><span class="p">[</span><span class="s1">'defaults'</span><span class="p">][</span><span class="s1">'user'</span><span class="p">],</span>
+    <span class="n">password</span><span class="o">=</span><span class="n">DEFAULT_DOTENV_KWARGS</span><span class="p">[</span><span class="s1">'defaults'</span><span class="p">][</span><span class="s1">'password'</span><span class="p">],</span>
+    <span class="n">host</span><span class="o">=</span><span class="n">DEFAULT_DOTENV_KWARGS</span><span class="p">[</span><span class="s1">'defaults'</span><span class="p">][</span><span class="s1">'host'</span><span class="p">],</span>
+    <span class="n">port</span><span class="o">=</span><span class="n">DEFAULT_DOTENV_KWARGS</span><span class="p">[</span><span class="s1">'defaults'</span><span class="p">][</span><span class="s1">'port'</span><span class="p">],</span>
+    <span class="n">database</span><span class="o">=</span><span class="n">DEFAULT_DOTENV_KWARGS</span><span class="p">[</span><span class="s1">'defaults'</span><span class="p">][</span><span class="s1">'database'</span><span class="p">],</span>
+    <span class="n">env</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">"""</span>
 <span class="sd">    Form database connection url from parameters or an environmental variables file.</span>
 <span class="sd">    </span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    driver : str or None</span>
-<span class="sd">        The driver name of the database connection, which are commonly ``postgresql``, ``sqlite``, ``mysql``, ``oracle`` or ``mssql``.  (see `SQLAlchemy supported databases &lt;https://docs.sqlalchemy.org/en/14/core/engines.html#supported-databases&gt;`_).</span>
-<span class="sd">    user : str or None</span>
+<span class="sd">    driver : str</span>
+<span class="sd">        The driver name of the database connection, which are commonly ``postgresql``, ``sqlite``, ``mysql``, ``oracle`` or ``mssql`` (see `SQLAlchemy supported databases &lt;https://docs.sqlalchemy.org/en/14/core/engines.html#supported-databases&gt;`_).</span>
+<span class="sd">    user : str</span>
 <span class="sd">        User name for the connection.</span>
-<span class="sd">    password : str or None</span>
+<span class="sd">    password : str</span>
 <span class="sd">        Password for the user.</span>
-<span class="sd">    host : str or None</span>
+<span class="sd">    host : str</span>
 <span class="sd">        Host address of the connection.</span>
-<span class="sd">    port : str or None</span>
+<span class="sd">    port : str</span>
 <span class="sd">        Port number of the connection.</span>
-<span class="sd">    database : str or None</span>
+<span class="sd">    database : str</span>
 <span class="sd">        Database name of the connection.</span>
-<span class="sd">    load_env : bool</span>
-<span class="sd">        Whether to load variables for connecting from a file with environmental variables at ``env_file`` or not.</span>
-<span class="sd">    env_file : str</span>
-<span class="sd">        The path of the file with environmental variables.</span>
-<span class="sd">    key_path : str</span>
-<span class="sd">        The path of the key file for the ``env_file``.</span>
-<span class="sd">    driver_key : str</span>
-<span class="sd">        The environmental variable name for ``driver``.</span>
-<span class="sd">    user_key : str</span>
-<span class="sd">        The environmental variable name for ``user``.</span>
-<span class="sd">    password_key : str</span>
-<span class="sd">        The environmental variable name for ``password``.</span>
-<span class="sd">    host_key : str</span>
-<span class="sd">        The environmental variable name for ``key``.</span>
-<span class="sd">    port_key : str</span>
-<span class="sd">        The environmental variable name for ``port``.</span>
-<span class="sd">    database_key : str</span>
-<span class="sd">        The environmental variable name for ``database``.</span>
+<span class="sd">    env : :class:`msdss_base_database.env.DatabaseDotEnv` or bool</span>
+<span class="sd">        An object to manage environment variables. These environment variables will overwrite the parameters above if they exist.</span>
+<span class="sd">        </span>
+<span class="sd">        * If ``True``, a default :class:`msdss_base_database.env.DatabaseDotEnv` will be created and used</span>
+<span class="sd">        * If ``False``, environment variables will not be used for the parameters above</span>
+
+<span class="sd">        By default, the parameters above are assigned to each of the environment variables below:</span>
+
+<span class="sd">        .. jupyter-execute::</span>
+<span class="sd">            :hide-code:</span>
+
+<span class="sd">            from msdss_base_database.defaults import DEFAULT_DOTENV_KWARGS</span>
+<span class="sd">            defaults = {k:v for k, v in DEFAULT_DOTENV_KWARGS.items() if k not in ['defaults', 'env_file', 'key_path']}</span>
+<span class="sd">            print('param,env_var')</span>
+<span class="sd">            for k, v in defaults.items():</span>
+<span class="sd">                print(k + ',' + v)</span>
+
 <span class="sd">    *args, **kwargs</span>
 <span class="sd">        Additional arguments passed to :class:`sqlalchemy:sqlalchemy.engine.URL.create`.</span>
 <span class="sd">    </span>
@@ -353,15 +349,14 @@
 <span class="sd">    """</span>
     
     <span class="c1"># (get_database_url_env) Load env if it exists</span>
-    <span class="n">has_env</span> <span class="o">=</span> <span class="n">env_exists</span><span class="p">(</span><span class="n">file_path</span><span class="o">=</span><span class="n">env_file</span><span class="p">,</span> <span class="n">key_path</span><span class="o">=</span><span class="n">key_path</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">load_env</span> <span class="ow">and</span> <span class="n">has_env</span><span class="p">:</span>
-        <span class="n">load_env_file</span><span class="p">(</span><span class="n">file_path</span><span class="o">=</span><span class="n">env_file</span><span class="p">,</span> <span class="n">key_path</span><span class="o">=</span><span class="n">key_path</span><span class="p">)</span>
-        <span class="n">driver</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="n">driver_key</span><span class="p">,</span> <span class="n">driver</span><span class="p">)</span>
-        <span class="n">user</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="n">user_key</span><span class="p">,</span> <span class="n">user</span><span class="p">)</span>
-        <span class="n">password</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="n">password_key</span><span class="p">,</span> <span class="n">password</span><span class="p">)</span>
-        <span class="n">host</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="n">host_key</span><span class="p">,</span> <span class="n">host</span><span class="p">)</span>
-        <span class="n">port</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="n">port_key</span><span class="p">,</span> <span class="n">port</span><span class="p">)</span>
-        <span class="n">database</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="n">database_key</span><span class="p">,</span> <span class="n">database</span><span class="p">)</span>
+    <span class="n">env</span> <span class="o">=</span> <span class="n">DatabaseDotEnv</span><span class="p">()</span> <span class="k">if</span> <span class="n">env</span> <span class="o">==</span> <span class="kc">True</span> <span class="k">else</span> <span class="n">env</span>
+    <span class="k">if</span> <span class="n">env</span><span class="p">:</span>
+        <span class="n">driver</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'driver'</span><span class="p">,</span> <span class="n">driver</span><span class="p">)</span>
+        <span class="n">user</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'user'</span><span class="p">,</span> <span class="n">user</span><span class="p">)</span>
+        <span class="n">password</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'password'</span><span class="p">,</span> <span class="n">password</span><span class="p">)</span>
+        <span class="n">host</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'host'</span><span class="p">,</span> <span class="n">host</span><span class="p">)</span>
+        <span class="n">port</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'port'</span><span class="p">,</span> <span class="n">port</span><span class="p">)</span>
+        <span class="n">database</span> <span class="o">=</span>  <span class="n">env</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'database'</span><span class="p">,</span> <span class="n">database</span><span class="p">)</span>
     
     <span class="c1"># (get_database_url_return) Get a str of the database url</span>
     <span class="n">out</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">sqlalchemy</span><span class="o">.</span><span class="n">engine</span><span class="o">.</span><span class="n">URL</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">drivername</span><span class="o">=</span><span class="n">driver</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="n">user</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">password</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="n">host</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="n">port</span><span class="p">,</span> <span class="n">database</span><span class="o">=</span><span class="n">database</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">))</span>

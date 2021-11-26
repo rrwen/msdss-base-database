@@ -47,7 +47,7 @@
   
   
   
-    <title>Tools &#8212; 0.0.6</title>
+    <title>tools &#8212; 0.1.0</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/material.css" />
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
@@ -65,7 +65,7 @@
     <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="prev" title="Database" href="database.html" />
+    <link rel="prev" title="env" href="env.html" />
   
    
 
@@ -89,11 +89,11 @@
   <nav class="md-header-nav md-grid">
     <div class="md-flex navheader">
       <div class="md-flex__cell md-flex__cell--shrink">
-        <a href="../index.html" title="0.0.6"
+        <a href="../index.html" title="0.1.0"
            class="md-header-nav__button md-logo">
           
               <img src="../_static/logo.svg" height="26"
-                   alt="0.0.6 logo">
+                   alt="0.1.0 logo">
           
         </a>
       </div>
@@ -103,7 +103,7 @@
       <div class="md-flex__cell md-flex__cell--stretch">
         <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
           <span class="md-header-nav__topic">msdss-base-database</span>
-          <span class="md-header-nav__topic"> Tools </span>
+          <span class="md-header-nav__topic"> tools </span>
         </div>
       </div>
       <div class="md-flex__cell md-flex__cell--shrink">
@@ -176,8 +176,8 @@
   <nav class="md-tabs" data-md-component="tabs">
     <div class="md-tabs__inner md-grid">
       <ul class="md-tabs__list">
-          <li class="md-tabs__item"><a href="../index.html" class="md-tabs__link">0.0.6</a></li>
-          <li class="md-tabs__item"><a href="reference.html" class="md-tabs__link">API Reference</a></li>
+          <li class="md-tabs__item"><a href="../index.html" class="md-tabs__link">0.1.0</a></li>
+          <li class="md-tabs__item"><a href="index.html" class="md-tabs__link">API Reference</a></li>
       </ul>
     </div>
   </nav>
@@ -189,13 +189,13 @@
               <div class="md-sidebar__inner">
                 <nav class="md-nav md-nav--primary" data-md-level="0">
   <label class="md-nav__title md-nav__title--site" for="__drawer">
-    <a href="../index.html" title="0.0.6" class="md-nav__button md-logo">
+    <a href="../index.html" title="0.1.0" class="md-nav__button md-logo">
       
         <img src="../_static/logo.svg" alt=" logo" width="48" height="48">
       
     </a>
     <a href="../index.html"
-       title="0.0.6">msdss-base-database</a>
+       title="0.1.0">msdss-base-database</a>
   </label>
     <div class="md-nav__source">
       <a href="https://github.com/rrwen/msdss-base-database/" title="Go to repository" class="md-source" data-md-source="github">
@@ -240,7 +240,7 @@
     <li class="md-nav__item">
     
     
-      <a href="reference.html" class="md-nav__link">API Reference</a>
+      <a href="index.html" class="md-nav__link">API Reference</a>
       
     
     </li>
@@ -258,7 +258,7 @@
 <nav class="md-nav md-nav--secondary">
     <label class="md-nav__title" for="__toc">Contents</label>
   <ul class="md-nav__list" data-md-scrollfix="">
-        <li class="md-nav__item"><a href="#reference-tools--page-root" class="md-nav__link">Tools</a><nav class="md-nav">
+        <li class="md-nav__item"><a href="#reference-tools--page-root" class="md-nav__link">tools</a><nav class="md-nav">
               <ul class="md-nav__list">
         <li class="md-nav__item"><a href="#get-database-url" class="md-nav__link">get_database_url</a>
         </li></ul>
@@ -279,31 +279,42 @@
           <article class="md-content__inner md-typeset" role="main">
             
   <section id="tools">
-<h1 id="reference-tools--page-root">Tools<a class="headerlink" href="#reference-tools--page-root" title="Permalink to this headline">¶</a></h1>
+<h1 id="reference-tools--page-root">tools<a class="headerlink" href="#reference-tools--page-root" title="Permalink to this headline">¶</a></h1>
 <section id="get-database-url">
 <h2 id="get-database-url">get_database_url<a class="headerlink" href="#get-database-url" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="msdss_base_database.tools.get_database_url">
-<span class="sig-prename descclassname"><span class="pre">msdss_base_database.tools.</span></span><span class="sig-name descname"><span class="pre">get_database_url</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">driver</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'postgresql'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'msdss'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">password</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'msdss123'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">host</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'localhost'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'5432'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">database</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'msdss'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">load_env</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">env_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'./.env'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">driver_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'MSDSS_DATABASE_DRIVER'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'MSDSS_DATABASE_USER'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">password_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'MSDSS_DATABASE_PASSWORD'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">host_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'MSDSS_DATABASE_HOST'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'MSDSS_DATABASE_PORT'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">database_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'MSDSS_DATABASE_NAME'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/msdss_base_database/tools.html#get_database_url"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#msdss_base_database.tools.get_database_url" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">msdss_base_database.tools.</span></span><span class="sig-name descname"><span class="pre">get_database_url</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">driver</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'postgresql'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'msdss'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">password</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'msdss123'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">host</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'localhost'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'5432'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">database</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'msdss'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">env</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/msdss_base_database/tools.html#get_database_url"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#msdss_base_database.tools.get_database_url" title="Permalink to this definition">¶</a></dt>
 <dd><p>Form database connection url from parameters or an environmental variables file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>driver</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><em>None</em></a>) – The driver name of the database connection, which are commonly <code class="docutils literal notranslate"><span class="pre">postgresql</span></code>, <code class="docutils literal notranslate"><span class="pre">sqlite</span></code>, <code class="docutils literal notranslate"><span class="pre">mysql</span></code>, <code class="docutils literal notranslate"><span class="pre">oracle</span></code> or <code class="docutils literal notranslate"><span class="pre">mssql</span></code>.  (see <a class="reference external" href="https://docs.sqlalchemy.org/en/14/core/engines.html#supported-databases">SQLAlchemy supported databases</a>).</p></li>
-<li><p><strong>user</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><em>None</em></a>) – User name for the connection.</p></li>
-<li><p><strong>password</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><em>None</em></a>) – Password for the user.</p></li>
-<li><p><strong>host</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><em>None</em></a>) – Host address of the connection.</p></li>
-<li><p><strong>port</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><em>None</em></a>) – Port number of the connection.</p></li>
-<li><p><strong>database</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><em>None</em></a>) – Database name of the connection.</p></li>
-<li><p><strong>load_env</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – Whether to load variables for connecting from a file with environmental variables at <code class="docutils literal notranslate"><span class="pre">env_file</span></code> or not.</p></li>
-<li><p><strong>env_file</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – The path of the file with environmental variables.</p></li>
-<li><p><strong>key_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – The path of the key file for the <code class="docutils literal notranslate"><span class="pre">env_file</span></code>.</p></li>
-<li><p><strong>driver_key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – The environmental variable name for <code class="docutils literal notranslate"><span class="pre">driver</span></code>.</p></li>
-<li><p><strong>user_key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – The environmental variable name for <code class="docutils literal notranslate"><span class="pre">user</span></code>.</p></li>
-<li><p><strong>password_key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – The environmental variable name for <code class="docutils literal notranslate"><span class="pre">password</span></code>.</p></li>
-<li><p><strong>host_key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – The environmental variable name for <code class="docutils literal notranslate"><span class="pre">key</span></code>.</p></li>
-<li><p><strong>port_key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – The environmental variable name for <code class="docutils literal notranslate"><span class="pre">port</span></code>.</p></li>
-<li><p><strong>database_key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – The environmental variable name for <code class="docutils literal notranslate"><span class="pre">database</span></code>.</p></li>
+<li><p><strong>driver</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – The driver name of the database connection, which are commonly <code class="docutils literal notranslate"><span class="pre">postgresql</span></code>, <code class="docutils literal notranslate"><span class="pre">sqlite</span></code>, <code class="docutils literal notranslate"><span class="pre">mysql</span></code>, <code class="docutils literal notranslate"><span class="pre">oracle</span></code> or <code class="docutils literal notranslate"><span class="pre">mssql</span></code> (see <a class="reference external" href="https://docs.sqlalchemy.org/en/14/core/engines.html#supported-databases">SQLAlchemy supported databases</a>).</p></li>
+<li><p><strong>user</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – User name for the connection.</p></li>
+<li><p><strong>password</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Password for the user.</p></li>
+<li><p><strong>host</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Host address of the connection.</p></li>
+<li><p><strong>port</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Port number of the connection.</p></li>
+<li><p><strong>database</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Database name of the connection.</p></li>
+<li><p><strong>env</strong> (<a class="reference internal" href="env.html#msdss_base_database.env.DatabaseDotEnv" title="msdss_base_database.env.DatabaseDotEnv"><code class="xref py py-class docutils literal notranslate"><span class="pre">msdss_base_database.env.DatabaseDotEnv</span></code></a> or bool) – <p>An object to manage environment variables. These environment variables will overwrite the parameters above if they exist.</p>
+<ul>
+<li><p>If <code class="docutils literal notranslate"><span class="pre">True</span></code>, a default <a class="reference internal" href="env.html#msdss_base_database.env.DatabaseDotEnv" title="msdss_base_database.env.DatabaseDotEnv"><code class="xref py py-class docutils literal notranslate"><span class="pre">msdss_base_database.env.DatabaseDotEnv</span></code></a> will be created and used</p></li>
+<li><p>If <code class="docutils literal notranslate"><span class="pre">False</span></code>, environment variables will not be used for the parameters above</p></li>
+</ul>
+<p>By default, the parameters above are assigned to each of the environment variables below:</p>
+<div class="jupyter_cell docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>param,env_var
+driver,MSDSS_DATABASE_DRIVER
+user,MSDSS_DATABASE_USER
+password,MSDSS_DATABASE_PASSWORD
+host,MSDSS_DATABASE_HOST
+port,MSDSS_DATABASE_PORT
+database,MSDSS_DATABASE_NAME
+</pre></div>
+</div>
+</div>
+</div>
+</p></li>
 <li><p><strong>*args</strong> – Additional arguments passed to <code class="xref py py-class docutils literal notranslate"><span class="pre">sqlalchemy.engine.URL.create</span></code>.</p></li>
 <li><p><strong>**kwargs</strong> – Additional arguments passed to <code class="xref py py-class docutils literal notranslate"><span class="pre">sqlalchemy.engine.URL.create</span></code>.</p></li>
 </ul>
@@ -354,7 +365,7 @@
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid">
           
-            <a href="database.html" title="Database"
+            <a href="env.html" title="env"
                class="md-flex md-footer-nav__link md-footer-nav__link--prev"
                rel="prev">
               <div class="md-flex__cell md-flex__cell--shrink">
@@ -363,7 +374,7 @@
               <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
                 <span class="md-flex__ellipsis">
                   <span
-                      class="md-footer-nav__direction"> Previous </span> Database </span>
+                      class="md-footer-nav__direction"> Previous </span> env </span>
               </div>
             </a>
           

@@ -27,7 +27,7 @@ author = 'Richard Wen rrwen.dev@gmail.com'
 project = 'msdss_base_database'
 description = 'Base database for the Modular Spatial Decision Support Systems (MSDSS) framework'
 copyright = str(datetime.now().year) + ', ' + 'Richard Wen'
-version = '0.0.6'
+version = '0.1.0'
 release = version
 
 # -- General configuration ------------------------------------------------
@@ -54,7 +54,8 @@ extensions = [
 intersphinx_mapping = {
     'pandas': ('https://pandas.pydata.org/pandas-docs/stable/', None),
     'python': ('https://docs.python.org/3/', None),
-    'sqlalchemy': ('https://docs.sqlalchemy.org/en/14/', None)
+    'sqlalchemy': ('https://docs.sqlalchemy.org/en/14/', None),
+    'msdss_base_dotenv': ('https://rrwen.github.io/msdss-base-dotenv/', None)
 }
 napoleon_custom_sections = ['Author', 'Authors']
 napoleon_include_private_with_doc = True

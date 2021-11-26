@@ -2,6 +2,7 @@ import pandas
 import sqlalchemy
 
 from . import tools
+from .defaults import DEFAULT_DOTENV_KWARGS
 
 SUPPORTED_OPERATORS = ['=', '!=', '>', '>=', '>', '<', '<=', 'LIKE', 'NOTLIKE', 'ILIKE', 'NOTILIKE', 'CONTAINS', 'STARTSWITH', 'ENDSWITH']
 
@@ -12,7 +13,7 @@ class Database:
     Parameters
     ----------
     driver : str
-        The driver name of the database connection, which are commonly ``postgresql``, ``sqlite``, ``mysql``, ``oracle`` or ``mssql``.  (see `SQLAlchemy supported databases <https://docs.sqlalchemy.org/en/14/core/engines.html#supported-databases>`_).
+        The driver name of the database connection, which are commonly ``postgresql``, ``sqlite``, ``mysql``, ``oracle`` or ``mssql`` (see `SQLAlchemy supported databases <https://docs.sqlalchemy.org/en/14/core/engines.html#supported-databases>`_).
     user : str
         User name for the connection.
     password : str
@@ -23,24 +24,23 @@ class Database:
         Port number of the connection.
     database : str
         Database name of the connection.
-    load_env : bool
-        Whether to load variables for connecting from a file with environmental variables at ``env_file`` or not.
-    env_file : str
-        The path of the file with environmental variables.
-    key_path : str
-        The path of the key file for the ``env_file``.
-    driver_key : str
-        The environmental variable name for ``driver``.
-    user_key : str
-        The environmental variable name for ``user``.
-    password_key : str
-        The environmental variable name for ``password``.
-    host_key : str
-        The environmental variable name for ``key``.
-    port_key : str
-        The environmental variable name for ``port``.
-    database_key : str
-        The environmental variable name for ``database``.
+    env : :class:`msdss_base_database.env.DatabaseDotEnv` or bool
+        An object to manage environment variables. These environment variables will overwrite the parameters above if they exist.
+        
+        * If ``True``, a default :class:`msdss_base_database.env.DatabaseDotEnv` will be created and used
+        * If ``False``, environment variables will not be used for the parameters above
+
+        By default, the parameters above are assigned to each of the environment variables below:
+
+        .. jupyter-execute::
+            :hide-code:
+
+            from msdss_base_database.defaults import DEFAULT_DOTENV_KWARGS
+            defaults = {k:v for k, v in DEFAULT_DOTENV_KWARGS.items() if k not in ['defaults', 'env_file', 'key_path']}
+            print('<parameter> = <environment variable>\\n')
+            for k, v in defaults.items():
+                print(k + ' = ' + v)
+
     *args, **kwargs
         Additional arguments passed to :func:`sqlalchemy:sqlalchemy.create_engine`.
 
@@ -131,21 +131,13 @@ class Database:
     """
     def __init__(
         self,
-        driver='postgresql',
-        user='msdss',
-        password='msdss123',
-        host='localhost',
-        port='5432',
-        database='msdss',
-        load_env=True,
-        env_file='./.env',
-        key_path=None,
-        driver_key='MSDSS_DATABASE_DRIVER',
-        user_key='MSDSS_DATABASE_USER',
-        password_key='MSDSS_DATABASE_PASSWORD',
-        host_key='MSDSS_DATABASE_HOST',
-        port_key='MSDSS_DATABASE_PORT',
-        database_key='MSDSS_DATABASE_NAME',
+        driver=DEFAULT_DOTENV_KWARGS['defaults']['driver'],
+        user=DEFAULT_DOTENV_KWARGS['defaults']['user'],
+        password=DEFAULT_DOTENV_KWARGS['defaults']['password'],
+        host=DEFAULT_DOTENV_KWARGS['defaults']['host'],
+        port=DEFAULT_DOTENV_KWARGS['defaults']['port'],
+        database=DEFAULT_DOTENV_KWARGS['defaults']['database'],
+        env=False,
         *args, **kwargs):
         
         # (Database_connect_str) Build connection str from parameters
@@ -156,15 +148,7 @@ class Database:
             host=host,
             port=port,
             database=database,
-            load_env=load_env,
-            env_file=env_file,
-            key_path=key_path,
-            driver_key=driver_key,
-            user_key=user_key,
-            password_key=password_key,
-            host_key=host_key,
-            port_key=port_key,
-            database_key=database_key
+            env=env
         )
 
         # (Database_attr) Create attributes for database obj

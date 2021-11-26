@@ -46,7 +46,7 @@
   
   
   
-    <title>msdss_base_database.core &#8212; 0.0.6</title>
+    <title>msdss_base_database.core &#8212; 0.1.0</title>
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/material.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
@@ -87,11 +87,11 @@
   <nav class="md-header-nav md-grid">
     <div class="md-flex navheader">
       <div class="md-flex__cell md-flex__cell--shrink">
-        <a href="../../index.html" title="0.0.6"
+        <a href="../../index.html" title="0.1.0"
            class="md-header-nav__button md-logo">
           
               <img src="../../_static/logo.svg" height="26"
-                   alt="0.0.6 logo">
+                   alt="0.1.0 logo">
           
         </a>
       </div>
@@ -174,7 +174,7 @@
   <nav class="md-tabs" data-md-component="tabs">
     <div class="md-tabs__inner md-grid">
       <ul class="md-tabs__list">
-          <li class="md-tabs__item"><a href="../../index.html" class="md-tabs__link">0.0.6</a></li>
+          <li class="md-tabs__item"><a href="../../index.html" class="md-tabs__link">0.1.0</a></li>
           <li class="md-tabs__item"><a href="../index.html" class="md-tabs__link">Module code</a></li>
       </ul>
     </div>
@@ -187,13 +187,13 @@
               <div class="md-sidebar__inner">
                 <nav class="md-nav md-nav--primary" data-md-level="0">
   <label class="md-nav__title md-nav__title--site" for="__drawer">
-    <a href="../../index.html" title="0.0.6" class="md-nav__button md-logo">
+    <a href="../../index.html" title="0.1.0" class="md-nav__button md-logo">
       
         <img src="../../_static/logo.svg" alt=" logo" width="48" height="48">
       
     </a>
     <a href="../../index.html"
-       title="0.0.6">msdss-base-database</a>
+       title="0.1.0">msdss-base-database</a>
   </label>
     <div class="md-nav__source">
       <a href="https://github.com/rrwen/msdss-base-database/" title="Go to repository" class="md-source" data-md-source="github">
@@ -238,7 +238,7 @@
     <li class="md-nav__item">
     
     
-      <a href="../../reference/reference.html" class="md-nav__link">API Reference</a>
+      <a href="../../reference/index.html" class="md-nav__link">API Reference</a>
       
     
     </li>
@@ -273,17 +273,18 @@
 <span class="kn">import</span> <span class="nn">sqlalchemy</span>
 
 <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">tools</span>
+<span class="kn">from</span> <span class="nn">.defaults</span> <span class="kn">import</span> <span class="n">DEFAULT_DOTENV_KWARGS</span>
 
 <span class="n">SUPPORTED_OPERATORS</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'='</span><span class="p">,</span> <span class="s1">'!='</span><span class="p">,</span> <span class="s1">'&gt;'</span><span class="p">,</span> <span class="s1">'&gt;='</span><span class="p">,</span> <span class="s1">'&gt;'</span><span class="p">,</span> <span class="s1">'&lt;'</span><span class="p">,</span> <span class="s1">'&lt;='</span><span class="p">,</span> <span class="s1">'LIKE'</span><span class="p">,</span> <span class="s1">'NOTLIKE'</span><span class="p">,</span> <span class="s1">'ILIKE'</span><span class="p">,</span> <span class="s1">'NOTILIKE'</span><span class="p">,</span> <span class="s1">'CONTAINS'</span><span class="p">,</span> <span class="s1">'STARTSWITH'</span><span class="p">,</span> <span class="s1">'ENDSWITH'</span><span class="p">]</span>
 
-<div class="viewcode-block" id="Database"><a class="viewcode-back" href="../../reference/database.html#msdss_base_database.core.Database">[docs]</a><span class="k">class</span> <span class="nc">Database</span><span class="p">:</span>
+<div class="viewcode-block" id="Database"><a class="viewcode-back" href="../../reference/core.html#msdss_base_database.core.Database">[docs]</a><span class="k">class</span> <span class="nc">Database</span><span class="p">:</span>
     <span class="sd">"""</span>
 <span class="sd">    Class for MSDSS database management.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    driver : str</span>
-<span class="sd">        The driver name of the database connection, which are commonly ``postgresql``, ``sqlite``, ``mysql``, ``oracle`` or ``mssql``.  (see `SQLAlchemy supported databases &lt;https://docs.sqlalchemy.org/en/14/core/engines.html#supported-databases&gt;`_).</span>
+<span class="sd">        The driver name of the database connection, which are commonly ``postgresql``, ``sqlite``, ``mysql``, ``oracle`` or ``mssql`` (see `SQLAlchemy supported databases &lt;https://docs.sqlalchemy.org/en/14/core/engines.html#supported-databases&gt;`_).</span>
 <span class="sd">    user : str</span>
 <span class="sd">        User name for the connection.</span>
 <span class="sd">    password : str</span>
@@ -294,24 +295,23 @@
 <span class="sd">        Port number of the connection.</span>
 <span class="sd">    database : str</span>
 <span class="sd">        Database name of the connection.</span>
-<span class="sd">    load_env : bool</span>
-<span class="sd">        Whether to load variables for connecting from a file with environmental variables at ``env_file`` or not.</span>
-<span class="sd">    env_file : str</span>
-<span class="sd">        The path of the file with environmental variables.</span>
-<span class="sd">    key_path : str</span>
-<span class="sd">        The path of the key file for the ``env_file``.</span>
-<span class="sd">    driver_key : str</span>
-<span class="sd">        The environmental variable name for ``driver``.</span>
-<span class="sd">    user_key : str</span>
-<span class="sd">        The environmental variable name for ``user``.</span>
-<span class="sd">    password_key : str</span>
-<span class="sd">        The environmental variable name for ``password``.</span>
-<span class="sd">    host_key : str</span>
-<span class="sd">        The environmental variable name for ``key``.</span>
-<span class="sd">    port_key : str</span>
-<span class="sd">        The environmental variable name for ``port``.</span>
-<span class="sd">    database_key : str</span>
-<span class="sd">        The environmental variable name for ``database``.</span>
+<span class="sd">    env : :class:`msdss_base_database.env.DatabaseDotEnv` or bool</span>
+<span class="sd">        An object to manage environment variables. These environment variables will overwrite the parameters above if they exist.</span>
+<span class="sd">        </span>
+<span class="sd">        * If ``True``, a default :class:`msdss_base_database.env.DatabaseDotEnv` will be created and used</span>
+<span class="sd">        * If ``False``, environment variables will not be used for the parameters above</span>
+
+<span class="sd">        By default, the parameters above are assigned to each of the environment variables below:</span>
+
+<span class="sd">        .. jupyter-execute::</span>
+<span class="sd">            :hide-code:</span>
+
+<span class="sd">            from msdss_base_database.defaults import DEFAULT_DOTENV_KWARGS</span>
+<span class="sd">            defaults = {k:v for k, v in DEFAULT_DOTENV_KWARGS.items() if k not in ['defaults', 'env_file', 'key_path']}</span>
+<span class="sd">            print('&lt;param&gt; = &lt;env_var&gt;\\n')</span>
+<span class="sd">            for k, v in defaults.items():</span>
+<span class="sd">                print(k + ' = ' + v)</span>
+
 <span class="sd">    *args, **kwargs</span>
 <span class="sd">        Additional arguments passed to :func:`sqlalchemy:sqlalchemy.create_engine`.</span>
 
@@ -402,21 +402,13 @@
 <span class="sd">    """</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">driver</span><span class="o">=</span><span class="s1">'postgresql'</span><span class="p">,</span>
-        <span class="n">user</span><span class="o">=</span><span class="s1">'msdss'</span><span class="p">,</span>
-        <span class="n">password</span><span class="o">=</span><span class="s1">'msdss123'</span><span class="p">,</span>
-        <span class="n">host</span><span class="o">=</span><span class="s1">'localhost'</span><span class="p">,</span>
-        <span class="n">port</span><span class="o">=</span><span class="s1">'5432'</span><span class="p">,</span>
-        <span class="n">database</span><span class="o">=</span><span class="s1">'msdss'</span><span class="p">,</span>
-        <span class="n">load_env</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="n">env_file</span><span class="o">=</span><span class="s1">'./.env'</span><span class="p">,</span>
-        <span class="n">key_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">driver_key</span><span class="o">=</span><span class="s1">'MSDSS_DATABASE_DRIVER'</span><span class="p">,</span>
-        <span class="n">user_key</span><span class="o">=</span><span class="s1">'MSDSS_DATABASE_USER'</span><span class="p">,</span>
-        <span class="n">password_key</span><span class="o">=</span><span class="s1">'MSDSS_DATABASE_PASSWORD'</span><span class="p">,</span>
-        <span class="n">host_key</span><span class="o">=</span><span class="s1">'MSDSS_DATABASE_HOST'</span><span class="p">,</span>
-        <span class="n">port_key</span><span class="o">=</span><span class="s1">'MSDSS_DATABASE_PORT'</span><span class="p">,</span>
-        <span class="n">database_key</span><span class="o">=</span><span class="s1">'MSDSS_DATABASE_NAME'</span><span class="p">,</span>
+        <span class="n">driver</span><span class="o">=</span><span class="n">DEFAULT_DOTENV_KWARGS</span><span class="p">[</span><span class="s1">'defaults'</span><span class="p">][</span><span class="s1">'driver'</span><span class="p">],</span>
+        <span class="n">user</span><span class="o">=</span><span class="n">DEFAULT_DOTENV_KWARGS</span><span class="p">[</span><span class="s1">'defaults'</span><span class="p">][</span><span class="s1">'user'</span><span class="p">],</span>
+        <span class="n">password</span><span class="o">=</span><span class="n">DEFAULT_DOTENV_KWARGS</span><span class="p">[</span><span class="s1">'defaults'</span><span class="p">][</span><span class="s1">'password'</span><span class="p">],</span>
+        <span class="n">host</span><span class="o">=</span><span class="n">DEFAULT_DOTENV_KWARGS</span><span class="p">[</span><span class="s1">'defaults'</span><span class="p">][</span><span class="s1">'host'</span><span class="p">],</span>
+        <span class="n">port</span><span class="o">=</span><span class="n">DEFAULT_DOTENV_KWARGS</span><span class="p">[</span><span class="s1">'defaults'</span><span class="p">][</span><span class="s1">'port'</span><span class="p">],</span>
+        <span class="n">database</span><span class="o">=</span><span class="n">DEFAULT_DOTENV_KWARGS</span><span class="p">[</span><span class="s1">'defaults'</span><span class="p">][</span><span class="s1">'database'</span><span class="p">],</span>
+        <span class="n">env</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         
         <span class="c1"># (Database_connect_str) Build connection str from parameters</span>
@@ -427,15 +419,7 @@
             <span class="n">host</span><span class="o">=</span><span class="n">host</span><span class="p">,</span>
             <span class="n">port</span><span class="o">=</span><span class="n">port</span><span class="p">,</span>
             <span class="n">database</span><span class="o">=</span><span class="n">database</span><span class="p">,</span>
-            <span class="n">load_env</span><span class="o">=</span><span class="n">load_env</span><span class="p">,</span>
-            <span class="n">env_file</span><span class="o">=</span><span class="n">env_file</span><span class="p">,</span>
-            <span class="n">key_path</span><span class="o">=</span><span class="n">key_path</span><span class="p">,</span>
-            <span class="n">driver_key</span><span class="o">=</span><span class="n">driver_key</span><span class="p">,</span>
-            <span class="n">user_key</span><span class="o">=</span><span class="n">user_key</span><span class="p">,</span>
-            <span class="n">password_key</span><span class="o">=</span><span class="n">password_key</span><span class="p">,</span>
-            <span class="n">host_key</span><span class="o">=</span><span class="n">host_key</span><span class="p">,</span>
-            <span class="n">port_key</span><span class="o">=</span><span class="n">port_key</span><span class="p">,</span>
-            <span class="n">database_key</span><span class="o">=</span><span class="n">database_key</span>
+            <span class="n">env</span><span class="o">=</span><span class="n">env</span>
         <span class="p">)</span>
 
         <span class="c1"># (Database_attr) Create attributes for database obj</span>
@@ -443,7 +427,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_inspector</span> <span class="o">=</span> <span class="n">sqlalchemy</span><span class="o">.</span><span class="n">inspect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_connection</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_metadata</span> <span class="o">=</span> <span class="n">sqlalchemy</span><span class="o">.</span><span class="n">MetaData</span><span class="p">(</span><span class="n">bind</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_connection</span><span class="p">)</span>
     
-<div class="viewcode-block" id="Database._build_query"><a class="viewcode-back" href="../../reference/database.html#msdss_base_database.core.Database._build_query">[docs]</a>    <span class="k">def</span> <span class="nf">_build_query</span><span class="p">(</span>
+<div class="viewcode-block" id="Database._build_query"><a class="viewcode-back" href="../../reference/core.html#msdss_base_database.core.Database._build_query">[docs]</a>    <span class="k">def</span> <span class="nf">_build_query</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">table</span><span class="p">,</span>
         <span class="n">select</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -701,7 +685,7 @@
         <span class="c1"># (Database_build_query_return) Return the sqlachemy query</span>
         <span class="k">return</span> <span class="n">out</span></div>
 
-<div class="viewcode-block" id="Database._execute_query"><a class="viewcode-back" href="../../reference/database.html#msdss_base_database.core.Database._execute_query">[docs]</a>    <span class="k">def</span> <span class="nf">_execute_query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sql</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="Database._execute_query"><a class="viewcode-back" href="../../reference/core.html#msdss_base_database.core.Database._execute_query">[docs]</a>    <span class="k">def</span> <span class="nf">_execute_query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sql</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">"""</span>
 <span class="sd">        Executes a query statement.</span>
 <span class="sd">        </span>
@@ -756,7 +740,7 @@
             <span class="n">out</span> <span class="o">=</span> <span class="n">connection</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">out</span></div>
 
-<div class="viewcode-block" id="Database._get_table"><a class="viewcode-back" href="../../reference/database.html#msdss_base_database.core.Database._get_table">[docs]</a>    <span class="k">def</span> <span class="nf">_get_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="Database._get_table"><a class="viewcode-back" href="../../reference/core.html#msdss_base_database.core.Database._get_table">[docs]</a>    <span class="k">def</span> <span class="nf">_get_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">"""</span>
 <span class="sd">        Get a table object from the database.</span>
 
@@ -802,7 +786,7 @@
         <span class="n">out</span> <span class="o">=</span> <span class="n">sqlalchemy</span><span class="o">.</span><span class="n">Table</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_metadata</span><span class="p">,</span> <span class="n">autoload_with</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_connection</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">out</span></div>
 
-<div class="viewcode-block" id="Database._list_to_columns"><a class="viewcode-back" href="../../reference/database.html#msdss_base_database.core.Database._list_to_columns">[docs]</a>    <span class="k">def</span> <span class="nf">_list_to_columns</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">clist</span><span class="p">):</span>
+<div class="viewcode-block" id="Database._list_to_columns"><a class="viewcode-back" href="../../reference/core.html#msdss_base_database.core.Database._list_to_columns">[docs]</a>    <span class="k">def</span> <span class="nf">_list_to_columns</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">clist</span><span class="p">):</span>
         <span class="sd">"""</span>
 <span class="sd">        Converts a list of dict or list to ``sqlalchemy`` columns.</span>
 
@@ -863,7 +847,7 @@
         <span class="n">out</span> <span class="o">=</span> <span class="p">[</span><span class="n">sqlalchemy</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="o">*</span><span class="n">c</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="k">else</span> <span class="n">sqlalchemy</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="o">**</span><span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">clist</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">out</span></div>
 
-<div class="viewcode-block" id="Database._write_data"><a class="viewcode-back" href="../../reference/database.html#msdss_base_database.core.Database._write_data">[docs]</a>    <span class="k">def</span> <span class="nf">_write_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">schema</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">if_exists</span><span class="o">=</span><span class="s1">'append'</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="Database._write_data"><a class="viewcode-back" href="../../reference/core.html#msdss_base_database.core.Database._write_data">[docs]</a>    <span class="k">def</span> <span class="nf">_write_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">schema</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">if_exists</span><span class="o">=</span><span class="s1">'append'</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">"""</span>
 <span class="sd">        Write data to the database.</span>
 <span class="sd">        </span>
@@ -910,7 +894,7 @@
         <span class="n">data</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="k">else</span> <span class="n">data</span>
         <span class="n">data</span><span class="o">.</span><span class="n">to_sql</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="n">con</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_connection</span><span class="p">,</span> <span class="n">schema</span> <span class="o">=</span> <span class="n">schema</span><span class="p">,</span> <span class="n">if_exists</span> <span class="o">=</span> <span class="n">if_exists</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="n">index</span><span class="p">)</span></div>
     
-<div class="viewcode-block" id="Database.create_table"><a class="viewcode-back" href="../../reference/database.html#msdss_base_database.core.Database.create_table">[docs]</a>    <span class="k">def</span> <span class="nf">create_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">columns</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="Database.create_table"><a class="viewcode-back" href="../../reference/core.html#msdss_base_database.core.Database.create_table">[docs]</a>    <span class="k">def</span> <span class="nf">create_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">columns</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">"""</span>
 <span class="sd">        Create a table in the database.</span>
 <span class="sd">        </span>
@@ -962,7 +946,7 @@
         <span class="n">tb</span> <span class="o">=</span> <span class="n">sqlalchemy</span><span class="o">.</span><span class="n">Table</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_metadata</span><span class="p">,</span> <span class="o">*</span><span class="n">columns</span><span class="p">,</span> <span class="n">extend_existing</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="n">tb</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_connection</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Database.delete"><a class="viewcode-back" href="../../reference/database.html#msdss_base_database.core.Database.delete">[docs]</a>    <span class="k">def</span> <span class="nf">delete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">where</span><span class="p">,</span> <span class="n">where_boolean</span><span class="o">=</span><span class="s1">'AND'</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="Database.delete"><a class="viewcode-back" href="../../reference/core.html#msdss_base_database.core.Database.delete">[docs]</a>    <span class="k">def</span> <span class="nf">delete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">where</span><span class="p">,</span> <span class="n">where_boolean</span><span class="o">=</span><span class="s1">'AND'</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">"""</span>
 <span class="sd">        Remove rows from a table in the database.</span>
 
@@ -1049,7 +1033,7 @@
         <span class="n">sql</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_query</span><span class="p">(</span><span class="n">table</span><span class="o">=</span><span class="n">table</span><span class="p">,</span> <span class="n">where</span><span class="o">=</span><span class="n">where</span><span class="p">,</span> <span class="n">where_boolean</span><span class="o">=</span><span class="n">where_boolean</span><span class="p">,</span> <span class="n">delete</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="n">cursor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_execute_query</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Database.drop_table"><a class="viewcode-back" href="../../reference/database.html#msdss_base_database.core.Database.drop_table">[docs]</a>    <span class="k">def</span> <span class="nf">drop_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="Database.drop_table"><a class="viewcode-back" href="../../reference/core.html#msdss_base_database.core.Database.drop_table">[docs]</a>    <span class="k">def</span> <span class="nf">drop_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">"""</span>
 <span class="sd">        Remove a table from the database.</span>
 
@@ -1095,7 +1079,7 @@
         <span class="n">tb</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_table</span><span class="p">(</span><span class="n">table</span><span class="p">)</span>
         <span class="n">tb</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Database.has_table"><a class="viewcode-back" href="../../reference/database.html#msdss_base_database.core.Database.has_table">[docs]</a>    <span class="k">def</span> <span class="nf">has_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="Database.has_table"><a class="viewcode-back" href="../../reference/core.html#msdss_base_database.core.Database.has_table">[docs]</a>    <span class="k">def</span> <span class="nf">has_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">"""</span>
 <span class="sd">        Check if a table exists.</span>
 
@@ -1145,7 +1129,7 @@
         <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_inspector</span><span class="o">.</span><span class="n">has_table</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">out</span></div>
 
-<div class="viewcode-block" id="Database.insert"><a class="viewcode-back" href="../../reference/database.html#msdss_base_database.core.Database.insert">[docs]</a>    <span class="k">def</span> <span class="nf">insert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="Database.insert"><a class="viewcode-back" href="../../reference/core.html#msdss_base_database.core.Database.insert">[docs]</a>    <span class="k">def</span> <span class="nf">insert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">"""</span>
 <span class="sd">        Insert additional data to the database.</span>
 <span class="sd">        </span>
@@ -1212,7 +1196,7 @@
 <span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_write_data</span><span class="p">(</span><span class="n">table</span><span class="o">=</span><span class="n">table</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">if_exists</span><span class="o">=</span><span class="s1">'append'</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
     
-<div class="viewcode-block" id="Database.select"><a class="viewcode-back" href="../../reference/database.html#msdss_base_database.core.Database.select">[docs]</a>    <span class="k">def</span> <span class="nf">select</span><span class="p">(</span>
+<div class="viewcode-block" id="Database.select"><a class="viewcode-back" href="../../reference/core.html#msdss_base_database.core.Database.select">[docs]</a>    <span class="k">def</span> <span class="nf">select</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">table</span><span class="p">,</span>
         <span class="n">select</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -1370,7 +1354,7 @@
         <span class="n">out</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span><span class="n">sql</span> <span class="o">=</span> <span class="n">sql</span><span class="p">,</span> <span class="n">con</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_connection</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">out</span></div>
 
-<div class="viewcode-block" id="Database.update"><a class="viewcode-back" href="../../reference/database.html#msdss_base_database.core.Database.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">where</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="Database.update"><a class="viewcode-back" href="../../reference/core.html#msdss_base_database.core.Database.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">where</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">"""</span>
 <span class="sd">        Update a table from the database.</span>
 <span class="sd">        </span>
