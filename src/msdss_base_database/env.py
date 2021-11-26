@@ -1,6 +1,6 @@
 from msdss_base_dotenv import DotEnv
 
-from .defaults import DEFAULT_DOTENV_KWARGS
+from .defaults import *
 
 class DatabaseDotEnv(DotEnv):
     """
@@ -50,33 +50,60 @@ class DatabaseDotEnv(DotEnv):
         from msdss_base_database.env import DatabaseDotEnv
 
         # Create the default database env
-        dbenv = DatabaseDotEnv()
-        dbenv.clear()
+        env = DatabaseDotEnv(env_file='./.env', key_path='./.env.key')
+
+        # Save default database env
+        env.save()
+
+        # Load default database env
+        env.load()
+
+        # See defaults
+        print('default_env:\\n')
+        for k, name in env.mappings.items():
+            value = str(env.get(k))
+            print(f'{name}: {value}')
+
+        # Remove all env files
+        env.clear()
 
         # Create database env with diff host, port, and database var names
-        # Also set defaults
-        dbenv2 = DatabaseDotEnv(
+        # Also set diff defaults
+        new_env = DatabaseDotEnv(
             host='MSDSS_DATABASE_HOST_B',
             port='MSDSS_DATABASE_PORT_B',
             database='MSDSS_DATABASE_DATABASE_B',
             defaults = dict(
                 host='localhost',
-                database='msdss'
+                database='msdss2'
             )
         )
 
         # Set MSDSS_DATABASE_PORT_B
-        dbenv2.set('port', '5432')
+        new_env.set('port', '5432')
 
-        # Get the value for MSDSS_DATABASE_PORT_B env var
-        port = dbenv2.get('port')
-        print(port)
+        # Set MSDSS_DATABASE_HOST_B, but delete it afterwards
+        new_env.set('host', 'invalid-host')
+        new_env.delete('host')
 
-        # Delete the value at MSDSS_DATABASE_PORT_B
-        dbenv2.delete('port')
+        # Check if MSDSS_DATABASE_HOST_B is set
+        host_is_set = new_env.is_set('host')
 
-        # Clear the database env files
-        dbenv2.clear()
+        # See new env
+        print('\\nnew_env:\\n')
+        for k, name in new_env.mappings.items():
+            value = str(new_env.get(k))
+            print(f'{name}: {value}')
+        print('host_is_set: ' + str(host_is_set))
+
+        # Save new env in a file
+        new_env.save()
+
+        # Load the new env
+        new_env.load()
+
+        # Remove the new env files
+        new_env.clear()
     """
     def __init__(
         self,
@@ -91,4 +118,5 @@ class DatabaseDotEnv(DotEnv):
         defaults=DEFAULT_DOTENV_KWARGS['defaults']):
         kwargs = locals()
         del kwargs['self']
+        del kwargs['__class__']
         super().__init__(**kwargs)

@@ -26,7 +26,7 @@ In Python, use the package via :class:`msdss_base_database.core.Database` method
    from msdss_base_database import Database
 
    # Initiate a connection, assuming env vars set
-   db = Database(env=True)
+   db = Database()
 
    # Check if the table exists and drop if it does
    if db.has_table("test_table"):

@@ -1,9 +1,8 @@
-import os
 import sqlalchemy
 
-from msdss_base_database.defaults import DEFAULT_DOTENV_KWARGS
-
+from .defaults import *
 from .env import DatabaseDotEnv
+
 
 def get_database_url(
     driver=DEFAULT_DOTENV_KWARGS['defaults']['driver'],
@@ -12,7 +11,8 @@ def get_database_url(
     host=DEFAULT_DOTENV_KWARGS['defaults']['host'],
     port=DEFAULT_DOTENV_KWARGS['defaults']['port'],
     database=DEFAULT_DOTENV_KWARGS['defaults']['database'],
-    env=False,
+    load_env=False,
+    env=DatabaseDotEnv(),
     *args, **kwargs):
     """
     Form database connection url from parameters or an environmental variables file.
@@ -31,11 +31,11 @@ def get_database_url(
         Port number of the connection.
     database : str
         Database name of the connection.
-    env : :class:`msdss_base_database.env.DatabaseDotEnv` or bool
-        An object to manage environment variables. These environment variables will overwrite the parameters above if they exist.
-        
-        * If ``True``, a default :class:`msdss_base_database.env.DatabaseDotEnv` will be created and used
-        * If ``False``, environment variables will not be used for the parameters above
+    load_env : bool
+        Whether to load the environmental variables using parameter ``env`` or not. The environment will only be loaded if the ``env_file`` exists.
+    env : :class:`msdss_base_database.env.DatabaseDotEnv`
+        An object to set environment variables related to database configuration.
+        These environment variables will overwrite the parameters above if they exist.
 
         By default, the parameters above are assigned to each of the environment variables below:
 
@@ -78,8 +78,8 @@ def get_database_url(
     """
     
     # (get_database_url_env) Load env if it exists
-    env = DatabaseDotEnv() if env == True else env
-    if env:
+    if env.exists() and load_env:
+        env.load()
         driver = env.get('driver', driver)
         user = env.get('user', user)
         password = env.get('password', password)

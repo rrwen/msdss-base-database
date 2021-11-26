@@ -16,3 +16,4 @@ DEFAULT_DOTENV_KWARGS = dict(
         database='msdss'
     )
 )
+DEFAULT_SUPPORTED_OPERATORS = ['=', '!=', '>', '>=', '>', '<', '<=', 'LIKE', 'NOTLIKE', 'ILIKE', 'NOTILIKE', 'CONTAINS', 'STARTSWITH', 'ENDSWITH']

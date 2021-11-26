@@ -46,7 +46,7 @@
   
   
   
-    <title>msdss_base_database.tools &#8212; 0.1.0</title>
+    <title>msdss_base_database.tools &#8212; 0.1.1</title>
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/material.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
@@ -87,11 +87,11 @@
   <nav class="md-header-nav md-grid">
     <div class="md-flex navheader">
       <div class="md-flex__cell md-flex__cell--shrink">
-        <a href="../../index.html" title="0.1.0"
+        <a href="../../index.html" title="0.1.1"
            class="md-header-nav__button md-logo">
           
               <img src="../../_static/logo.svg" height="26"
-                   alt="0.1.0 logo">
+                   alt="0.1.1 logo">
           
         </a>
       </div>
@@ -174,7 +174,7 @@
   <nav class="md-tabs" data-md-component="tabs">
     <div class="md-tabs__inner md-grid">
       <ul class="md-tabs__list">
-          <li class="md-tabs__item"><a href="../../index.html" class="md-tabs__link">0.1.0</a></li>
+          <li class="md-tabs__item"><a href="../../index.html" class="md-tabs__link">0.1.1</a></li>
           <li class="md-tabs__item"><a href="../index.html" class="md-tabs__link">Module code</a></li>
       </ul>
     </div>
@@ -187,13 +187,13 @@
               <div class="md-sidebar__inner">
                 <nav class="md-nav md-nav--primary" data-md-level="0">
   <label class="md-nav__title md-nav__title--site" for="__drawer">
-    <a href="../../index.html" title="0.1.0" class="md-nav__button md-logo">
+    <a href="../../index.html" title="0.1.1" class="md-nav__button md-logo">
       
         <img src="../../_static/logo.svg" alt=" logo" width="48" height="48">
       
     </a>
     <a href="../../index.html"
-       title="0.1.0">msdss-base-database</a>
+       title="0.1.1">msdss-base-database</a>
   </label>
     <div class="md-nav__source">
       <a href="https://github.com/rrwen/msdss-base-database/" title="Go to repository" class="md-source" data-md-source="github">
@@ -238,7 +238,7 @@
     <li class="md-nav__item">
     
     
-      <a href="../../reference/reference.html" class="md-nav__link">API Reference</a>
+      <a href="../../reference/index.html" class="md-nav__link">API Reference</a>
       
     
     </li>
@@ -269,12 +269,11 @@
           <article class="md-content__inner md-typeset" role="main">
             
   <h1 id="modules-msdss-base-database-tools--page-root">Source code for msdss_base_database.tools</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">sqlalchemy</span>
+<span></span><span class="kn">import</span> <span class="nn">sqlalchemy</span>
 
-<span class="kn">from</span> <span class="nn">msdss_base_database.defaults</span> <span class="kn">import</span> <span class="n">DEFAULT_DOTENV_KWARGS</span>
-
+<span class="kn">from</span> <span class="nn">.defaults</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">.env</span> <span class="kn">import</span> <span class="n">DatabaseDotEnv</span>
+
 
 <div class="viewcode-block" id="get_database_url"><a class="viewcode-back" href="../../reference/tools.html#msdss_base_database.tools.get_database_url">[docs]</a><span class="k">def</span> <span class="nf">get_database_url</span><span class="p">(</span>
     <span class="n">driver</span><span class="o">=</span><span class="n">DEFAULT_DOTENV_KWARGS</span><span class="p">[</span><span class="s1">'defaults'</span><span class="p">][</span><span class="s1">'driver'</span><span class="p">],</span>
@@ -283,7 +282,8 @@
     <span class="n">host</span><span class="o">=</span><span class="n">DEFAULT_DOTENV_KWARGS</span><span class="p">[</span><span class="s1">'defaults'</span><span class="p">][</span><span class="s1">'host'</span><span class="p">],</span>
     <span class="n">port</span><span class="o">=</span><span class="n">DEFAULT_DOTENV_KWARGS</span><span class="p">[</span><span class="s1">'defaults'</span><span class="p">][</span><span class="s1">'port'</span><span class="p">],</span>
     <span class="n">database</span><span class="o">=</span><span class="n">DEFAULT_DOTENV_KWARGS</span><span class="p">[</span><span class="s1">'defaults'</span><span class="p">][</span><span class="s1">'database'</span><span class="p">],</span>
-    <span class="n">env</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">load_env</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">env</span><span class="o">=</span><span class="n">DatabaseDotEnv</span><span class="p">(),</span>
     <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">"""</span>
 <span class="sd">    Form database connection url from parameters or an environmental variables file.</span>
@@ -302,11 +302,11 @@
 <span class="sd">        Port number of the connection.</span>
 <span class="sd">    database : str</span>
 <span class="sd">        Database name of the connection.</span>
-<span class="sd">    env : :class:`msdss_base_database.env.DatabaseDotEnv` or bool</span>
-<span class="sd">        An object to manage environment variables. These environment variables will overwrite the parameters above if they exist.</span>
-<span class="sd">        </span>
-<span class="sd">        * If ``True``, a default :class:`msdss_base_database.env.DatabaseDotEnv` will be created and used</span>
-<span class="sd">        * If ``False``, environment variables will not be used for the parameters above</span>
+<span class="sd">    load_env : bool</span>
+<span class="sd">        Whether to load the environmental variables using parameter ``env`` or not.</span>
+<span class="sd">    env : :class:`msdss_base_database.env.DatabaseDotEnv`</span>
+<span class="sd">        An object to set environment variables related to database configuration.</span>
+<span class="sd">        These environment variables will overwrite the parameters above if they exist.</span>
 
 <span class="sd">        By default, the parameters above are assigned to each of the environment variables below:</span>
 
@@ -315,9 +315,9 @@
 
 <span class="sd">            from msdss_base_database.defaults import DEFAULT_DOTENV_KWARGS</span>
 <span class="sd">            defaults = {k:v for k, v in DEFAULT_DOTENV_KWARGS.items() if k not in ['defaults', 'env_file', 'key_path']}</span>
-<span class="sd">            print('param,env_var')</span>
+<span class="sd">            print('&lt;parameter&gt; = &lt;environment variable&gt;\\n')</span>
 <span class="sd">            for k, v in defaults.items():</span>
-<span class="sd">                print(k + ',' + v)</span>
+<span class="sd">                print(k + ' = ' + v)</span>
 
 <span class="sd">    *args, **kwargs</span>
 <span class="sd">        Additional arguments passed to :class:`sqlalchemy:sqlalchemy.engine.URL.create`.</span>
@@ -349,8 +349,8 @@
 <span class="sd">    """</span>
     
     <span class="c1"># (get_database_url_env) Load env if it exists</span>
-    <span class="n">env</span> <span class="o">=</span> <span class="n">DatabaseDotEnv</span><span class="p">()</span> <span class="k">if</span> <span class="n">env</span> <span class="o">==</span> <span class="kc">True</span> <span class="k">else</span> <span class="n">env</span>
-    <span class="k">if</span> <span class="n">env</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">env</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span> <span class="ow">and</span> <span class="n">load_env</span><span class="p">:</span>
+        <span class="n">env</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
         <span class="n">driver</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'driver'</span><span class="p">,</span> <span class="n">driver</span><span class="p">)</span>
         <span class="n">user</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'user'</span><span class="p">,</span> <span class="n">user</span><span class="p">)</span>
         <span class="n">password</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'password'</span><span class="p">,</span> <span class="n">password</span><span class="p">)</span>

@@ -1,10 +1,9 @@
 import pandas
 import sqlalchemy
 
-from . import tools
-from .defaults import DEFAULT_DOTENV_KWARGS
-
-SUPPORTED_OPERATORS = ['=', '!=', '>', '>=', '>', '<', '<=', 'LIKE', 'NOTLIKE', 'ILIKE', 'NOTILIKE', 'CONTAINS', 'STARTSWITH', 'ENDSWITH']
+from .defaults import *
+from .env import *
+from .tools import *
 
 class Database:
     """
@@ -24,11 +23,11 @@ class Database:
         Port number of the connection.
     database : str
         Database name of the connection.
+    load_env : bool
+        Whether to load the environmental variables using parameter ``env`` or not.  The environment will only be loaded if the ``env_file`` exists.
     env : :class:`msdss_base_database.env.DatabaseDotEnv` or bool
-        An object to manage environment variables. These environment variables will overwrite the parameters above if they exist.
-        
-        * If ``True``, a default :class:`msdss_base_database.env.DatabaseDotEnv` will be created and used
-        * If ``False``, environment variables will not be used for the parameters above
+        An object to set environment variables related to database configuration.
+        These environment variables will overwrite the parameters above if they exist.
 
         By default, the parameters above are assigned to each of the environment variables below:
 
@@ -61,17 +60,10 @@ class Database:
     -------
     .. jupyter-execute::
 
-        from msdss_base_database.core import Database
+        from msdss_base_database import Database
 
         # Initiate a connection with the default test user and database
-        db = Database(
-            driver="postgresql",
-            user="msdss",
-            password="msdss123",
-            host="localhost",
-            port="5432",
-            database="msdss"
-        )
+        db = Database()
 
         # Check if the table exists and drop if it does
         if db.has_table("test_table"):
@@ -137,17 +129,19 @@ class Database:
         host=DEFAULT_DOTENV_KWARGS['defaults']['host'],
         port=DEFAULT_DOTENV_KWARGS['defaults']['port'],
         database=DEFAULT_DOTENV_KWARGS['defaults']['database'],
-        env=False,
+        load_env=True,
+        env=DatabaseDotEnv(),
         *args, **kwargs):
         
         # (Database_connect_str) Build connection str from parameters
-        connection_str = tools.get_database_url(
+        connection_str = get_database_url(
             driver=driver,
             user=user,
             password=password,
             host=host,
             port=port,
             database=database,
+            load_env=load_env,
             env=env
         )
 
@@ -189,8 +183,8 @@ class Database:
                 .. jupyter-execute::
                     :hide-code:
 
-                    from msdss_base_database import SUPPORTED_OPERATORS
-                    for operator in SUPPORTED_OPERATORS:
+                    from msdss_base_database.defaults import DEFAULT_SUPPORTED_OPERATORS
+                    for operator in DEFAULT_SUPPORTED_OPERATORS:
                         print(operator)
                         
             * Values can be any single value such as ``int`` or ``str``
@@ -694,8 +688,8 @@ class Database:
                 .. jupyter-execute::
                     :hide-code:
 
-                    from msdss_base_database import SUPPORTED_OPERATORS
-                    for operator in SUPPORTED_OPERATORS:
+                    from msdss_base_database.defaults import DEFAULT_SUPPORTED_OPERATORS
+                    for operator in DEFAULT_SUPPORTED_OPERATORS:
                         print(operator)
                         
             * Values can be any single value such as ``int`` or ``str``
@@ -955,8 +949,8 @@ class Database:
                 .. jupyter-execute::
                     :hide-code:
 
-                    from msdss_base_database import SUPPORTED_OPERATORS
-                    for operator in SUPPORTED_OPERATORS:
+                    from msdss_base_database.defaults import DEFAULT_SUPPORTED_OPERATORS
+                    for operator in DEFAULT_SUPPORTED_OPERATORS:
                         print(operator)
                         
             * Values can be any single value such as ``int`` or ``str``
@@ -1099,8 +1093,8 @@ class Database:
                 .. jupyter-execute::
                     :hide-code:
 
-                    from msdss_base_database import SUPPORTED_OPERATORS
-                    for operator in SUPPORTED_OPERATORS:
+                    from msdss_base_database.defaults import DEFAULT_SUPPORTED_OPERATORS
+                    for operator in DEFAULT_SUPPORTED_OPERATORS:
                         print(operator)
                         
             * Values can be any single value such as ``int`` or ``str``
