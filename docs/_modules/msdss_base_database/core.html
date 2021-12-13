@@ -46,7 +46,7 @@
   
   
   
-    <title>msdss_base_database.core &#8212; 0.1.2</title>
+    <title>msdss_base_database.core &#8212; 0.1.4</title>
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/material.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
@@ -87,11 +87,11 @@
   <nav class="md-header-nav md-grid">
     <div class="md-flex navheader">
       <div class="md-flex__cell md-flex__cell--shrink">
-        <a href="../../index.html" title="0.1.2"
+        <a href="../../index.html" title="0.1.4"
            class="md-header-nav__button md-logo">
           
               <img src="../../_static/logo.svg" height="26"
-                   alt="0.1.2 logo">
+                   alt="0.1.4 logo">
           
         </a>
       </div>
@@ -174,7 +174,7 @@
   <nav class="md-tabs" data-md-component="tabs">
     <div class="md-tabs__inner md-grid">
       <ul class="md-tabs__list">
-          <li class="md-tabs__item"><a href="../../index.html" class="md-tabs__link">0.1.2</a></li>
+          <li class="md-tabs__item"><a href="../../index.html" class="md-tabs__link">0.1.4</a></li>
           <li class="md-tabs__item"><a href="../index.html" class="md-tabs__link">Module code</a></li>
       </ul>
     </div>
@@ -187,13 +187,13 @@
               <div class="md-sidebar__inner">
                 <nav class="md-nav md-nav--primary" data-md-level="0">
   <label class="md-nav__title md-nav__title--site" for="__drawer">
-    <a href="../../index.html" title="0.1.2" class="md-nav__button md-logo">
+    <a href="../../index.html" title="0.1.4" class="md-nav__button md-logo">
       
         <img src="../../_static/logo.svg" alt=" logo" width="48" height="48">
       
     </a>
     <a href="../../index.html"
-       title="0.1.2">msdss-base-database</a>
+       title="0.1.4">msdss-base-database</a>
   </label>
     <div class="md-nav__source">
       <a href="https://github.com/rrwen/msdss-base-database/" title="Go to repository" class="md-source" data-md-source="github">
@@ -474,7 +474,7 @@
 <span class="sd">        group_by : str or list(str) or None</span>
 <span class="sd">            Single or list of column names to group by. This should be used with ``aggregate`` and ``aggregate_func``.</span>
 <span class="sd">        aggregate : str or list(str) or None</span>
-<span class="sd">            Single or list of column names to aggregate using the ``aggregate_func``. This should be used with ``group_by`` and ``aggregate_func``.</span>
+<span class="sd">            Single or list of column names to aggregate using the ``aggregate_func``. This should be used with ``aggregate_func``.</span>
 <span class="sd">        aggregate_func : str or list(str)</span>
 <span class="sd">            Function name (such as 'count' or 'sum') from :class:`sqlalchemy:sqlalchemy.sql.functions.Function` for aggregating records from each ``aggregate`` column.</span>
 <span class="sd">            If a list of str, then it must have the same number of elements as ``aggregate`` or else only the shortest length list will be used.</span>
@@ -595,11 +595,11 @@
         <span class="n">target</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_table</span><span class="p">(</span><span class="n">table</span><span class="p">)</span>
         
         <span class="c1"># (Database_build_query_select) Gather columns to select</span>
-        <span class="k">if</span> <span class="n">select</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'*'</span><span class="p">:</span> <span class="c1"># all cols</span>
-            <span class="n">select_columns</span> <span class="o">=</span> <span class="p">[</span><span class="n">target</span><span class="p">]</span>
-        <span class="k">elif</span> <span class="n">select</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">select</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span> <span class="c1"># no cols</span>
             <span class="n">select_columns</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">else</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">select</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'*'</span><span class="p">:</span> <span class="c1"># all cols</span>
+            <span class="n">select_columns</span> <span class="o">=</span> <span class="p">[</span><span class="n">target</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span> <span class="c1"># specified cols</span>
             <span class="n">select_columns</span> <span class="o">=</span> <span class="p">[</span><span class="n">target</span><span class="o">.</span><span class="n">c</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">select</span><span class="p">]</span>
         
         <span class="c1"># (Database_build_query_aggregate) Gather aggregation columns to select</span>
@@ -908,8 +908,63 @@
 <span class="sd">        """</span>
         <span class="n">data</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="k">else</span> <span class="n">data</span>
         <span class="n">data</span><span class="o">.</span><span class="n">to_sql</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="n">con</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_connection</span><span class="p">,</span> <span class="n">schema</span> <span class="o">=</span> <span class="n">schema</span><span class="p">,</span> <span class="n">if_exists</span> <span class="o">=</span> <span class="n">if_exists</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="n">index</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Database.columns"><a class="viewcode-back" href="../../reference/core.html#msdss_base_database.core.Database.columns">[docs]</a>    <span class="k">def</span> <span class="nf">columns</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">):</span>
+        <span class="sd">"""</span>
+<span class="sd">        Get number of columns for a table.</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        table : str</span>
+<span class="sd">            Name of the table to get columns for.</span>
+<span class="sd">        </span>
+<span class="sd">        Author</span>
+<span class="sd">        ------</span>
+<span class="sd">        Richard Wen &lt;rrwen.dev@gmail.com&gt;</span>
+<span class="sd">        </span>
+<span class="sd">        Example</span>
+<span class="sd">        -------</span>
+<span class="sd">        .. jupyter-execute::</span>
+
+<span class="sd">            from msdss_base_database import Database</span>
+<span class="sd">            </span>
+<span class="sd">            # Setup database</span>
+<span class="sd">            db = Database()</span>
+
+<span class="sd">            # Check if the table exists and drop if it does</span>
+<span class="sd">            if db.has_table("test_table"):</span>
+<span class="sd">                db.drop_table("test_table")</span>
+
+<span class="sd">            # Create sample table</span>
+<span class="sd">            columns = [</span>
+<span class="sd">                dict(name='id', type_='Integer', primary_key=True),</span>
+<span class="sd">                ('column_one', 'String'),</span>
+<span class="sd">                ('column_two', 'Integer')</span>
+<span class="sd">            ]</span>
+<span class="sd">            db.create_table('test_table', columns)</span>
+<span class="sd">            </span>
+<span class="sd">            # Write data to table</span>
+<span class="sd">            data = {</span>
+<span class="sd">                'id': [1, 2, 3],</span>
+<span class="sd">                'column_one': ['a', 'b', 'c'],</span>
+<span class="sd">                'column_two': [2, 4, 6]</span>
+<span class="sd">            }</span>
+<span class="sd">            db.insert('test_table', data)</span>
+<span class="sd">            df = db.select('test_table')</span>
+
+<span class="sd">            # Get number of rows in table</span>
+<span class="sd">            columns = db.columns('test_table')</span>
+
+<span class="sd">            # Display results</span>
+<span class="sd">            print('df:\\n')</span>
+<span class="sd">            print(df)</span>
+<span class="sd">            print(f'\\ncolumns: {columns}')</span>
+<span class="sd">        """</span>
+        <span class="n">table</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_table</span><span class="p">(</span><span class="n">table</span><span class="p">)</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">table</span><span class="o">.</span><span class="n">c</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">out</span></div>
     
-<div class="viewcode-block" id="Database.create_table"><a class="viewcode-back" href="../../reference/core.html#msdss_base_database.core.Database.create_table">[docs]</a>    <span class="k">def</span> <span class="nf">create_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">columns</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="Database.create_table"><a class="viewcode-back" href="../../reference/core.html#msdss_base_database.core.Database.create_table">[docs]</a>    <span class="k">def</span> <span class="nf">create_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">columns</span><span class="p">):</span>
         <span class="sd">"""</span>
 <span class="sd">        Create a table in the database.</span>
 <span class="sd">        </span>
@@ -923,9 +978,6 @@
 <span class="sd">            * Example list(dict): ``[dict(name='id', type_='Integer', autoincrement=True, primary_key=True), dict(name='col', type='String')]``</span>
 <span class="sd">            * Example list(list): ``[('id', 'Integer'), ('col', 'String')]``</span>
 
-<span class="sd">        *args, **kwargs</span>
-<span class="sd">            Additional arguments passed to :class:`msdss_base_database.core.Database._write` except that parameter ``if_exists`` is set to ``fail`` or ``replace`` only.</span>
-<span class="sd">        </span>
 <span class="sd">        Author</span>
 <span class="sd">        ------</span>
 <span class="sd">        Richard Wen &lt;rrwen.dev@gmail.com&gt;</span>
@@ -1211,6 +1263,61 @@
 <span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_write_data</span><span class="p">(</span><span class="n">table</span><span class="o">=</span><span class="n">table</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">if_exists</span><span class="o">=</span><span class="s1">'append'</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
     
+<div class="viewcode-block" id="Database.rows"><a class="viewcode-back" href="../../reference/core.html#msdss_base_database.core.Database.rows">[docs]</a>    <span class="k">def</span> <span class="nf">rows</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">):</span>
+        <span class="sd">"""</span>
+<span class="sd">        Get number of rows for a table.</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        table : str</span>
+<span class="sd">            Name of the table to get rows for.</span>
+<span class="sd">        </span>
+<span class="sd">        Author</span>
+<span class="sd">        ------</span>
+<span class="sd">        Richard Wen &lt;rrwen.dev@gmail.com&gt;</span>
+<span class="sd">        </span>
+<span class="sd">        Example</span>
+<span class="sd">        -------</span>
+<span class="sd">        .. jupyter-execute::</span>
+
+<span class="sd">            from msdss_base_database import Database</span>
+<span class="sd">            </span>
+<span class="sd">            # Setup database</span>
+<span class="sd">            db = Database()</span>
+
+<span class="sd">            # Check if the table exists and drop if it does</span>
+<span class="sd">            if db.has_table("test_table"):</span>
+<span class="sd">                db.drop_table("test_table")</span>
+
+<span class="sd">            # Create sample table</span>
+<span class="sd">            columns = [</span>
+<span class="sd">                dict(name='id', type_='Integer', primary_key=True),</span>
+<span class="sd">                ('column_one', 'String'),</span>
+<span class="sd">                ('column_two', 'Integer')</span>
+<span class="sd">            ]</span>
+<span class="sd">            db.create_table('test_table', columns)</span>
+<span class="sd">            </span>
+<span class="sd">            # Write data to table</span>
+<span class="sd">            data = {</span>
+<span class="sd">                'id': [1, 2, 3],</span>
+<span class="sd">                'column_one': ['a', 'b', 'c'],</span>
+<span class="sd">                'column_two': [2, 4, 6]</span>
+<span class="sd">            }</span>
+<span class="sd">            db.insert('test_table', data)</span>
+<span class="sd">            df = db.select('test_table')</span>
+
+<span class="sd">            # Get number of columns in table</span>
+<span class="sd">            rows = db.rows('test_table')</span>
+
+<span class="sd">            # Display results</span>
+<span class="sd">            print('df:\\n')</span>
+<span class="sd">            print(df)</span>
+<span class="sd">            print(f'\\nrows: {rows}')</span>
+<span class="sd">        """</span>
+        <span class="n">table</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_table</span><span class="p">(</span><span class="n">table</span><span class="p">)</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="n">sqlalchemy</span><span class="o">.</span><span class="n">select</span><span class="p">([</span><span class="n">sqlalchemy</span><span class="o">.</span><span class="n">func</span><span class="o">.</span><span class="n">count</span><span class="p">()])</span><span class="o">.</span><span class="n">select_from</span><span class="p">(</span><span class="n">table</span><span class="p">)</span><span class="o">.</span><span class="n">scalar</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">out</span></div>
+
 <div class="viewcode-block" id="Database.select"><a class="viewcode-back" href="../../reference/core.html#msdss_base_database.core.Database.select">[docs]</a>    <span class="k">def</span> <span class="nf">select</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">table</span><span class="p">,</span>
@@ -1232,8 +1339,12 @@
 <span class="sd">        ----------</span>
 <span class="sd">        table : str</span>
 <span class="sd">            Name of the database table to query from.</span>
-<span class="sd">        select : str or list(str or list:class:`sqlalchemy:sqlalchemy.schema.Column`) or None</span>
-<span class="sd">            List of column names or a single column name to filter or select from the table. If ``None`` then all columns will be selected.</span>
+<span class="sd">        select : str or list(str) or list(:class:`sqlalchemy:sqlalchemy.schema.Column`) or None</span>
+<span class="sd">            List of column names or a single column name to filter or select from the table.</span>
+<span class="sd">            </span>
+<span class="sd">            * If ``None``, columns will not be added to the select statement.</span>
+<span class="sd">            * If ``'*'``, then all columns will be selected</span>
+<span class="sd">            </span>
 <span class="sd">        where : list of list or list of tuple or None</span>
 <span class="sd">            list of where statements the form of ``['column_name', 'operator', value]`` to further filter individual values or rows.</span>
 <span class="sd">            </span>
@@ -1252,7 +1363,7 @@
 <span class="sd">        group_by : str or list(str) or None</span>
 <span class="sd">            Single or list of column names to group by. This should be used with ``aggregate`` and ``aggregate_func``.</span>
 <span class="sd">        aggregate : str or list(str) or None</span>
-<span class="sd">            Single or list of column names to aggregate using the ``aggregate_func``. This should be used with ``group_by`` and ``aggregate_func``.</span>
+<span class="sd">            Single or list of column names to aggregate using the ``aggregate_func``. This should be used with ``aggregate_func``.</span>
 <span class="sd">        aggregate_func : str or list(str)</span>
 <span class="sd">            Function name (such as 'count' or 'sum') from :class:`sqlalchemy:sqlalchemy.sql.functions.Function` for aggregating records from each ``aggregate`` column.</span>
 <span class="sd">            If a list of str, then it must have the same number of elements as ``aggregate`` or else only the shortest length list will be used.</span>

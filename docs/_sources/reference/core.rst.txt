@@ -33,6 +33,11 @@ _write_data
 
 .. automethod:: msdss_base_database.core.Database._write_data
 
+columns
+^^^^^^^
+
+.. automethod:: msdss_base_database.core.Database.columns
+
 create_table
 ^^^^^^^^^^^^
 
@@ -57,6 +62,11 @@ insert
 ^^^^^^
 
 .. automethod:: msdss_base_database.core.Database.insert
+
+rows
+^^^^
+
+.. automethod:: msdss_base_database.core.Database.rows
 
 select
 ^^^^^^

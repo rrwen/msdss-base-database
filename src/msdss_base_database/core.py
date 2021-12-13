@@ -203,7 +203,7 @@ class Database:
         group_by : str or list(str) or None
             Single or list of column names to group by. This should be used with ``aggregate`` and ``aggregate_func``.
         aggregate : str or list(str) or None
-            Single or list of column names to aggregate using the ``aggregate_func``. This should be used with ``group_by`` and ``aggregate_func``.
+            Single or list of column names to aggregate using the ``aggregate_func``. This should be used with ``aggregate_func``.
         aggregate_func : str or list(str)
             Function name (such as 'count' or 'sum') from :class:`sqlalchemy:sqlalchemy.sql.functions.Function` for aggregating records from each ``aggregate`` column.
             If a list of str, then it must have the same number of elements as ``aggregate`` or else only the shortest length list will be used.
@@ -324,11 +324,11 @@ class Database:
         target = self._get_table(table)
         
         # (Database_build_query_select) Gather columns to select
-        if select[0] == '*': # all cols
-            select_columns = [target]
-        elif select is None:
+        if select is None: # no cols
             select_columns = []
-        else:
+        elif select[0] == '*': # all cols
+            select_columns = [target]
+        else: # specified cols
             select_columns = [target.c[c] for c in select]
         
         # (Database_build_query_aggregate) Gather aggregation columns to select
@@ -637,8 +637,63 @@ class Database:
         """
         data = pandas.DataFrame(data, *args, **kwargs) if not isinstance(data, pandas.DataFrame) else data
         data.to_sql(table, con = self._connection, schema = schema, if_exists = if_exists, index = index)
+
+    def columns(self, table):
+        """
+        Get number of columns for a table.
+        
+        Parameters
+        ----------
+        table : str
+            Name of the table to get columns for.
+        
+        Author
+        ------
+        Richard Wen <rrwen.dev@gmail.com>
+        
+        Example
+        -------
+        .. jupyter-execute::
+
+            from msdss_base_database import Database
+            
+            # Setup database
+            db = Database()
+
+            # Check if the table exists and drop if it does
+            if db.has_table("test_table"):
+                db.drop_table("test_table")
+
+            # Create sample table
+            columns = [
+                dict(name='id', type_='Integer', primary_key=True),
+                ('column_one', 'String'),
+                ('column_two', 'Integer')
+            ]
+            db.create_table('test_table', columns)
+            
+            # Write data to table
+            data = {
+                'id': [1, 2, 3],
+                'column_one': ['a', 'b', 'c'],
+                'column_two': [2, 4, 6]
+            }
+            db.insert('test_table', data)
+            df = db.select('test_table')
+
+            # Get number of rows in table
+            columns = db.columns('test_table')
+
+            # Display results
+            print('df:\\n')
+            print(df)
+            print(f'\\ncolumns: {columns}')
+        """
+        table = self._get_table(table)
+        out = len(table.c)
+        return out
     
-    def create_table(self, table, columns, *args, **kwargs):
+    def create_table(self, table, columns):
         """
         Create a table in the database.
         
@@ -652,9 +707,6 @@ class Database:
             * Example list(dict): ``[dict(name='id', type_='Integer', autoincrement=True, primary_key=True), dict(name='col', type='String')]``
             * Example list(list): ``[('id', 'Integer'), ('col', 'String')]``
 
-        *args, **kwargs
-            Additional arguments passed to :class:`msdss_base_database.core.Database._write` except that parameter ``if_exists`` is set to ``fail`` or ``replace`` only.
-        
         Author
         ------
         Richard Wen <rrwen.dev@gmail.com>
@@ -940,6 +992,61 @@ class Database:
         """
         self._write_data(table=table, data=data, if_exists='append', *args, **kwargs)
     
+    def rows(self, table):
+        """
+        Get number of rows for a table.
+        
+        Parameters
+        ----------
+        table : str
+            Name of the table to get rows for.
+        
+        Author
+        ------
+        Richard Wen <rrwen.dev@gmail.com>
+        
+        Example
+        -------
+        .. jupyter-execute::
+
+            from msdss_base_database import Database
+            
+            # Setup database
+            db = Database()
+
+            # Check if the table exists and drop if it does
+            if db.has_table("test_table"):
+                db.drop_table("test_table")
+
+            # Create sample table
+            columns = [
+                dict(name='id', type_='Integer', primary_key=True),
+                ('column_one', 'String'),
+                ('column_two', 'Integer')
+            ]
+            db.create_table('test_table', columns)
+            
+            # Write data to table
+            data = {
+                'id': [1, 2, 3],
+                'column_one': ['a', 'b', 'c'],
+                'column_two': [2, 4, 6]
+            }
+            db.insert('test_table', data)
+            df = db.select('test_table')
+
+            # Get number of columns in table
+            rows = db.rows('test_table')
+
+            # Display results
+            print('df:\\n')
+            print(df)
+            print(f'\\nrows: {rows}')
+        """
+        table = self._get_table(table)
+        out = sqlalchemy.select([sqlalchemy.func.count()]).select_from(table).scalar()
+        return out
+
     def select(
         self,
         table,
@@ -961,8 +1068,12 @@ class Database:
         ----------
         table : str
             Name of the database table to query from.
-        select : str or list(str or list:class:`sqlalchemy:sqlalchemy.schema.Column`) or None
-            List of column names or a single column name to filter or select from the table. If ``None`` then all columns will be selected.
+        select : str or list(str) or list(:class:`sqlalchemy:sqlalchemy.schema.Column`) or None
+            List of column names or a single column name to filter or select from the table.
+            
+            * If ``None``, columns will not be added to the select statement.
+            * If ``'*'``, then all columns will be selected
+            
         where : list of list or list of tuple or None
             list of where statements the form of ``['column_name', 'operator', value]`` to further filter individual values or rows.
             
@@ -981,7 +1092,7 @@ class Database:
         group_by : str or list(str) or None
             Single or list of column names to group by. This should be used with ``aggregate`` and ``aggregate_func``.
         aggregate : str or list(str) or None
-            Single or list of column names to aggregate using the ``aggregate_func``. This should be used with ``group_by`` and ``aggregate_func``.
+            Single or list of column names to aggregate using the ``aggregate_func``. This should be used with ``aggregate_func``.
         aggregate_func : str or list(str)
             Function name (such as 'count' or 'sum') from :class:`sqlalchemy:sqlalchemy.sql.functions.Function` for aggregating records from each ``aggregate`` column.
             If a list of str, then it must have the same number of elements as ``aggregate`` or else only the shortest length list will be used.
