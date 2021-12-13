@@ -158,7 +158,7 @@ class Database:
     def _build_query(
         self,
         table,
-        select=None,
+        select='*',
         where=None,
         group_by=None,
         aggregate=None,
@@ -180,7 +180,11 @@ class Database:
         table : str
             Name of the database table.
         select : str or list(str) or list(:class:`sqlalchemy:sqlalchemy.schema.Column`) or None
-            List of column names or a single column name to filter or select from the table. If ``None`` then all columns will be selected.
+            List of column names or a single column name to filter or select from the table.
+            
+            * If ``None``, columns will not be added to the select statement.
+            * If ``'*'``, then all columns will be selected
+        
         where : list of list or list of tuple or None
             list of where statements the form of ``['column_name', 'operator', value]`` to further filter individual values or rows.
 
@@ -320,7 +324,12 @@ class Database:
         target = self._get_table(table)
         
         # (Database_build_query_select) Gather columns to select
-        select_columns =  [target] if select is None else [target.c[c] for c in select]
+        if select[0] == '*': # all cols
+            select_columns = [target]
+        elif select is None:
+            select_columns = []
+        else:
+            select_columns = [target.c[c] for c in select]
         
         # (Database_build_query_aggregate) Gather aggregation columns to select
         if aggregate is not None:
@@ -934,16 +943,16 @@ class Database:
     def select(
         self,
         table,
-        select = None,
-        where = None,
-        group_by = None,
-        aggregate = None,
-        aggregate_func = 'count',
-        order_by = None,
-        order_by_sort = 'asc',
-        limit = None,
-        offset = None,
-        where_boolean = 'AND',
+        select='*',
+        where=None,
+        group_by=None,
+        aggregate=None,
+        aggregate_func='count',
+        order_by=None,
+        order_by_sort='asc',
+        limit=None,
+        offset=None,
+        where_boolean='AND',
         *args, **kwargs):
         """
         Query data from a table in the database.

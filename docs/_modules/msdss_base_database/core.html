@@ -429,7 +429,7 @@
 <div class="viewcode-block" id="Database._build_query"><a class="viewcode-back" href="../../reference/core.html#msdss_base_database.core.Database._build_query">[docs]</a>    <span class="k">def</span> <span class="nf">_build_query</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">table</span><span class="p">,</span>
-        <span class="n">select</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">select</span><span class="o">=</span><span class="s1">'*'</span><span class="p">,</span>
         <span class="n">where</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">group_by</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">aggregate</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -451,7 +451,11 @@
 <span class="sd">        table : str</span>
 <span class="sd">            Name of the database table.</span>
 <span class="sd">        select : str or list(str) or list(:class:`sqlalchemy:sqlalchemy.schema.Column`) or None</span>
-<span class="sd">            List of column names or a single column name to filter or select from the table. If ``None`` then all columns will be selected.</span>
+<span class="sd">            List of column names or a single column name to filter or select from the table.</span>
+<span class="sd">            </span>
+<span class="sd">            * If ``None``, columns will not be added to the select statement.</span>
+<span class="sd">            * If ``'*'``, then all columns will be selected</span>
+<span class="sd">        </span>
 <span class="sd">        where : list of list or list of tuple or None</span>
 <span class="sd">            list of where statements the form of ``['column_name', 'operator', value]`` to further filter individual values or rows.</span>
 
@@ -591,7 +595,12 @@
         <span class="n">target</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_table</span><span class="p">(</span><span class="n">table</span><span class="p">)</span>
         
         <span class="c1"># (Database_build_query_select) Gather columns to select</span>
-        <span class="n">select_columns</span> <span class="o">=</span>  <span class="p">[</span><span class="n">target</span><span class="p">]</span> <span class="k">if</span> <span class="n">select</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">[</span><span class="n">target</span><span class="o">.</span><span class="n">c</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">select</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">select</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'*'</span><span class="p">:</span> <span class="c1"># all cols</span>
+            <span class="n">select_columns</span> <span class="o">=</span> <span class="p">[</span><span class="n">target</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="n">select</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">select_columns</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">select_columns</span> <span class="o">=</span> <span class="p">[</span><span class="n">target</span><span class="o">.</span><span class="n">c</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">select</span><span class="p">]</span>
         
         <span class="c1"># (Database_build_query_aggregate) Gather aggregation columns to select</span>
         <span class="k">if</span> <span class="n">aggregate</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -1205,16 +1214,16 @@
 <div class="viewcode-block" id="Database.select"><a class="viewcode-back" href="../../reference/core.html#msdss_base_database.core.Database.select">[docs]</a>    <span class="k">def</span> <span class="nf">select</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">table</span><span class="p">,</span>
-        <span class="n">select</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">where</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">group_by</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">aggregate</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">aggregate_func</span> <span class="o">=</span> <span class="s1">'count'</span><span class="p">,</span>
-        <span class="n">order_by</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">order_by_sort</span> <span class="o">=</span> <span class="s1">'asc'</span><span class="p">,</span>
-        <span class="n">limit</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">offset</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">where_boolean</span> <span class="o">=</span> <span class="s1">'AND'</span><span class="p">,</span>
+        <span class="n">select</span><span class="o">=</span><span class="s1">'*'</span><span class="p">,</span>
+        <span class="n">where</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">group_by</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">aggregate</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">aggregate_func</span><span class="o">=</span><span class="s1">'count'</span><span class="p">,</span>
+        <span class="n">order_by</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">order_by_sort</span><span class="o">=</span><span class="s1">'asc'</span><span class="p">,</span>
+        <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">offset</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">where_boolean</span><span class="o">=</span><span class="s1">'AND'</span><span class="p">,</span>
         <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">"""</span>
 <span class="sd">        Query data from a table in the database.</span>
