@@ -88,6 +88,9 @@ class Database:
         # Read the table to a pandas dataframe
         df = db.select('test_table')
 
+        # Skip a row
+        df_skip = db.select('test_table', offset=1)
+
         # Insert values into the table
         new = {
             'id': [5, 6, 7],
@@ -114,6 +117,8 @@ class Database:
         # Display results
         print('df:\\n')
         print(df)
+        print('\\ndf_skip:\\n')
+        print(df_skip)
         print('\\ndf_insert:\\n')
         print(df_insert)
         print('\\ndf_delete:\\n')
@@ -161,6 +166,7 @@ class Database:
         order_by=None,
         order_by_sort='asc',
         limit=None,
+        offset=None,
         where_boolean='AND',
         update=False,
         delete=False,
@@ -204,6 +210,8 @@ class Database:
             If a list of str, then it must have the same number of elements as ``order_by`` or else only the shortest length list will be used.
         limit : int or None
             Integer number to limit the number of rows returned.
+        offset : int or None
+            Number of rows to skip for the query.
         where_boolean : str
             One of ``AND`` or ``OR`` to combine ``where`` statements with. Defaults to ``AND`` if not one of ``AND`` or ``OR``.
         update : bool
@@ -396,6 +404,10 @@ class Database:
             else:
                 order_by_columns = [getattr(c, order_by_sort)() for c in order_by_columns]
             out = out.order_by(*order_by_columns)
+
+        # (Database_build_query_offset) Add offset statement
+        if offset is not None:
+            out = out.offset(offset)
             
         # (Database_build_query_limit) Add limit statement
         if limit is not None:
@@ -405,7 +417,7 @@ class Database:
         if values is not None and update:
             out = out.values(**values)
             
-        # (Database_build_query_return) Return the sqlachemy query
+        # (Database_build_query_return) Return the sqlalchemy query
         return out
 
     def _execute_query(self, sql, *args, **kwargs):
@@ -930,6 +942,7 @@ class Database:
         order_by = None,
         order_by_sort = 'asc',
         limit = None,
+        offset = None,
         where_boolean = 'AND',
         *args, **kwargs):
         """
@@ -970,6 +983,8 @@ class Database:
             If a list of str, then it must have the same number of elements as ``order_by`` or else only the shortest length list will be used.
         limit : int or None
             Integer number to limit the number of rows returned.
+        offset : int or None
+            Number of rows to skip for the query.
         where_boolean : str
             One of ``AND`` or ``OR`` to combine ``where`` statements with. Defaults to ``AND`` if not one of ``AND`` or ``OR``.
         *args, **kwargs
@@ -1072,6 +1087,7 @@ class Database:
             order_by=order_by,
             order_by_sort=order_by_sort,
             limit=limit,
+            offset=offset,
             where_boolean=where_boolean
         )
         out = pandas.read_sql(sql = sql, con = self._connection, *args, **kwargs)
